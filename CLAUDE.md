@@ -13,6 +13,7 @@ Blygger is an AI-native decentralized public writing medium — fragments + thre
 | [`docs/ygg-initial-spec.md`](docs/ygg-initial-spec.md) | Frozen v0 concept spec — never edit (deliberately keeps the historical `ygg` name + filename, banner note added session 6); open for public comment (issue #1) |
 | [`RENAME.md`](RENAME.md) | Brand-rename record (session 6, `ygg`→`blygger`) + checklist for what's outside the `BRAND` constant |
 | [`docs/roadmap.md`](docs/roadmap.md) | Full roadmap v0.1 → post-1.0, with model-routing annotations — the **protocol version ladder** |
+| [`docs/fable-brief.md`](docs/fable-brief.md) | **The standing agenda for the next Fable pass** (written session 26). Partitioned: **Part 1** triage that unblocks the Opus queue (write surface, `[[id]]` disclosure, staleness scope — only 3 questions block Opus, and only ~4 work items); **Part 2** the 0.3 freeze (citation's human half, then `protocol-v0.3.md`); **Part 3** four items explicitly parked for 0.4. Rewrite it each Fable round — it is where a Fable session starts |
 | [`docs/roadmap-tracks.md`](docs/roadmap-tracks.md) | **Program roadmap, session 26 (2026-09-28)** — four tracks across four repos (core protocol / reference client / registry & discovery / dev community), with the live ecosystem census that forced them: 11 blygs, 7 client implementations, 4 nodes still on protocol 0.2. Carries **item 1.8**, the ⚠️⚠️ FABLE question of whether a blyg has a specified *write* surface, raised by Venkat session 26. Read this for sequencing; read `roadmap.md` for what each protocol version means |
 | [`docs/v0.1-plan.md`](docs/v0.1-plan.md) | Implementation plan for v0.1 "Seed" — built and deployed |
 | [`docs/v0.2-plan.md`](docs/v0.2-plan.md) | Implementation plan for v0.2 "Roots" (subscribe side): resolution algorithm, importer state machine, blogroll, hoppers, L0 wrapper; decision record for locked decisions #17–#18. **Implemented + deployed to both live nodes session 13 (2026-08-10)** — all 14 tasks, `worker/src/importer/`; real cross-node pub-sub verified |
@@ -90,6 +91,7 @@ Coding sessions are expected to run on **Sonnet or Opus** working from the writt
 2. Read the **latest DEVLOG.md entry** (especially *Open threads* and *State after*) and skim the current plan doc's task list.
 3. Determine session number (last entry + 1).
 4. Check model routing: if today's intended work hits a ⚠️ FABLE item and you aren't Fable, flag it now.
+   **If you ARE Fable, read [`docs/fable-brief.md`](docs/fable-brief.md) first** — it is the standing agenda, partitioned into Opus-unblocking triage and the 0.3 freeze, and it names what not to open.
 5. Give Venkat a one-line orientation: session number, where things stand, proposed focus.
 6. **Raise the carry-overs below, if any are still listed.** Venkat asked (2026-09-25) to be reminded of these at session start rather than having to remember them.
 
@@ -97,8 +99,8 @@ Coding sessions are expected to run on **Sonnet or Opus** working from the writt
 
 Delete an entry once it is done or Venkat says to drop it. An empty list means say nothing.
 
-- **⚠️ Webmention hardening is now live-deployment work, not preparation** (`docs/self-host-plan.md` §9.1). The gate fired 2026-09-25: three third-party nodes run the reference client with an unhardened endpoint, and blygger.com publishes their origins, so a stranger can find them from a public page. Their operators did not choose to run an endpoint — they followed a start page. This is the one item with other people's deployments exposed, so it should be raised first.
-- **Decide the repo split before writing issue templates** (TODO → Post-launch). Whether protocol and reference-client feedback separate into two repos, or one repo with enforced labels, determines what the templates can ask. Real bug reports are arriving in the meantime, so the cost of deciding late is a queue nobody can route.
+- **⚠️ Webmention hardening is still open, and is live-deployment work** (`docs/self-host-plan.md` §9.1; roadmap-tracks **2.5**). Narrowed and confirmed session 26 by reading every live manifest: **exactly three third-party nodes** advertise an endpoint — `jd-blyg.exe.xyz`, `blyg.aneeshsathe.com`, `blyg.bricolage.io` — because only `blygger-studio` nodes advertise one and the six independent clients do not. Their operators followed a start page rather than choosing to run an endpoint, and blygger.com publishes their origins. **Still the only item on any track where the exposure is on machines that are not ours.** ~1 hour, all local, blocked by nothing — including nothing in the Fable round.
+- **The next session should be Fable.** The agenda is [`docs/fable-brief.md`](docs/fable-brief.md); the Opus queue is deliberately parked behind it (Venkat, session 26). Part 1 is the triage that unblocks Opus — the write surface (1.8), `[[id]]` disclosure, and confirming the staleness scope boundary. Part 2 is the 0.3 freeze.
 - **Deploys authenticate with `wrangler login`, not the registry tokens** (`docs/deploy-protocol.md` § Authentication). Both `CLOUDFLARE_API_TOKEN`s are single-account and the personal one has no D1 scope, so `deploy:all`'s preflight cannot run from either. Unset `CLOUDFLARE_API_TOKEN` — an env token silently overrides the OAuth session. Mention only when a deploy is likely that session.
 
 
@@ -152,6 +154,16 @@ never spoke to). All three are approved and listed on blygger.com. Every item be
 exists because the project stopped being two nodes Venkat controls.
 
 - [ ] **HIGH — packaged distribution + a version-alert path for existing blygs.**
+  **Alert half designed and half-built, session 26:** Venkat's call is
+  **directory-side, off the wire** — blygger.com's resolver already collects every
+  node's `generator`, so version data exists with nobody opting in, and the wire
+  learns nothing about client versions (#18d is about protocol version). The
+  mechanism is proven: `blygger.org/ecosystem/` already prints *"5 of 5 live nodes
+  run an older build"* from a live census, via `generator_aliases` in
+  `ecosystem/projects.toml`. What remains is the directory-side surface itself
+  (`roadmap-tracks.md` **3.1**: known-latest table, per-listing notice,
+  `/updates.xml`) and the **distribution** half — `npm run upgrade` plus a release
+  channel (**2.3**). Neither is started.
   Distribution is `docs/self-host-plan.md` (§4 template, §5 update path, already titled
   "the part the record has never answered"); the alert half is genuinely new and is not
   in that plan. Note what already exists to build on: every manifest carries
