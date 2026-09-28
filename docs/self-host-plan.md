@@ -255,6 +255,52 @@ Three gaps, all cheap, none urgent while the network is two nodes nobody has hea
 ~1 hour, all local, no protocol surface. **Do it before task 1 of §8**, because after
 that the instances are other people's and their defaults are whatever we shipped.
 
+### ✅ Done — session 27 (2026-09-28), `blygger-studio` 0.4.1
+
+All three gaps closed; 512 tests, `tsc` clean; **no migration** — every cap counts
+columns that already exist, so a third-party node upgrades by redeploying with no
+database step. What differed from the plan above, and why:
+
+1. **Registrable-domain cap at 120/hour, alongside the per-host 60** rather than
+   instead of it. `registrableDomain()` is a documented heuristic — last two
+   labels, or three under a curated list of multi-label suffixes covering both
+   registry suffixes (`co.uk`) and hosting platforms where a subdomain is a whole
+   different operator (`pages.dev`, `workers.dev`, `exe.xyz`). Not the Public
+   Suffix List: ~230KB shipped in a Worker and kept current, to serve one rate
+   limit. The heuristic's failure direction is over-collection — an unlisted
+   hosting suffix groups independent sites — which is exactly why the domain cap
+   sits above the per-host cap and why the per-host cap was kept.
+2. **The global cap counts accepted claims per hour (300), not outstanding
+   pending verifications.** The wording above says "pending verifications"; the
+   harm it names is two outbound fetches *per accepted claim* on the deployer's
+   account, and pending rows drain in seconds, so a cap on concurrent pending
+   work bounds no hourly bill. Capping acceptances is what bounds the stated
+   cost. **The cost of this cap is real and was accepted:** once it binds,
+   legitimate new claims are refused for the rest of the window, which is why the
+   429 now carries `Retry-After: 3600` — and why our own sender's existing
+   "retry on 429, fail on other 4xx" behaviour matters more than it did.
+3. **`failed` rows are pruned after 30 days on the cron**, not on the request
+   path: a POST must not pay for housekeeping, and a flood is when it would.
+   `gone` and `pending` are kept — `gone` is a relationship remembered on purpose,
+   and no view reads `failed` at all.
+
+**Flag for the 0.3 freeze.** `protocol-v0.3.md` §15.3 step 2 recommends "more than
+60 mentions from one source host in an hour. Cheap, and enough to keep a queue
+from filling." It is RECOMMENDED, so a stricter receiver stays conformant and
+nothing here violates the draft — but that second sentence is now known to be
+false, and we are the ones who know it: per-host counting is defeated outright by
+wildcard DNS, and no per-source limit bounds an endpoint's total cost. Worth
+either softening the claim or naming the two additional caps as recommended
+practice, since six other implementations will read that line as advice.
+
+**Still open after this: propagation.** The hardening does nothing for the three
+third-party nodes until they redeploy, and nothing yet tells them to. Session 27
+built the parts that make a notice possible — a tagged release with a changelog
+(`blygger-studio` 0.4.1), an upgrade procedure written for a hand-stood node, and
+an optional operator contact on new directory submissions (`blygger-com`
+migration 0002) — but for the three nodes that exist *now* there is no contact on
+file, so the first notice goes out by hand. The general fix is Track 3.1.
+
 Venkat's standing ruling on the policy question this sits next to (session 23): the
 endpoint stays **open to all origins** — requiring a real blyg publishing a real
 structurally-verified stub is the spam control, and restricting it to subscribed
