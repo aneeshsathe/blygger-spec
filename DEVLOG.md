@@ -129,16 +129,34 @@ semantics to a user: named for what it does, beside copy-permalink, never a peer
 `stub ↗`, never called respond. Answered within the hour, which is what the parallel
 arrangement is for.
 
+**10. A backlog, and the first public proposal adopted (#51).** Venkat asked where
+unscheduled ideas such as encryption live; the answer was three places that had drifted
+apart, so `docs/backlog.md` now consolidates them with what would schedule each, and the
+ritual files ideas there. He also asked about the open issue on the repo:
+blygger-spec#2, by cyberscribe, proposing that the manifest locate the rest of the
+surface so WordPress and managed hosts can publish natively. The case is stronger than
+the issue states — extension-based static handling intercepts `.json` before any CMS
+routes it, so the largest CMS on the web could not conform. What #14's fixed-filename
+rule actually protects is finding the manifest from a bare origin, which covers
+`blyg.json` only; the ban on trusting `feed`/`items` values never did work. Adopted in a
+reshaped form: authoritative `feed`/`items`, `item`/`pin` URI templates with today's
+paths as defaults, discovery through the *existing* `rel="blyg"` link (fetch it; a
+manifest is a manifest, else append the filename) rather than a new rel and media type,
+identity as the manifest URL minus its last segment, `page` allowed absolute. A 0.4
+construct by #43, because a reader that ignores the keys 404s. The gate is the right
+kind: a client we did not write publishing through templates, and ours reading it. The
+README's dead workers.dev links (issue #3) were fixed in passing.
+
 **State after**
 
-- `protocol-v0.3.md`: published living text, three revisions today, snapshot
+- `protocol-v0.3.md`: published living text, four revisions today, snapshot
   `2026-09-28` (the morning's state; the §16 revision is not snapshotted). `cited`,
   `[[id]]`, `generator_url` normative. §16 now carries: `changelog[].generated` (ruled,
   unbuilt), the write surface (never normative), remote generation sources (0.4, ruled
   in full), partial transclusion (ruled, a 0.3 revision once built), and the closures.
 - `blygger.org/spec/`: 0.3 living, 0.2 and 0.1 superseded with banners, 0.3 snapshot
   listed. `/start/` links 0.3.
-- Decisions #43–#50; `v0.4-plan.md`; `opus-brief.md`; roadmap-tracks 1.1, 1.3, 4.4 done
+- Decisions #43–#51; `v0.4-plan.md` (with §7 implementation plan); `backlog.md`; `opus-brief.md`; roadmap-tracks 1.1, 1.3, 4.4 done
   or defined, 1.4's Fable half ruled; `roadmap.md` v0.4 re-scoped.
 - Gates: G1 ✅ G2 ✅ G4 ✅. G3, G5, G6 open; none blocks anything.
 
