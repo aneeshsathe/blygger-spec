@@ -94,4 +94,5 @@ do not redesign. Priorities follow `roadmap-tracks.md`.
 Studio backlog ticks with what was built and what it found; `CHANGELOG.md` entries
 stating `Migrations:`; tagged releases; both nodes deployed and verified; your
 `(parallel, Opus)` devlog entry; and anything a build found that the spec should say,
-as an open thread — not as a spec edit.
+as an open thread — not as a spec edit. Ideas you have that are neither ruled nor scheduled
+go in that open-threads list too; the next Fable pass files them in `docs/backlog.md`.

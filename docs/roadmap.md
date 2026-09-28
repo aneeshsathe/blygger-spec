@@ -271,6 +271,10 @@ work."
 
 ## Post-1.0
 
+> **Consolidated session 28 (2026-09-28) into [`backlog.md`](backlog.md)** — the one
+> place for ideas not scheduled for a numbered version, with what would schedule each.
+> The list below is kept as the historical record and is no longer maintained here.
+
 In rough priority order; each gets its own plan when it comes up.
 
 - **L3 privacy** — encrypted/permissioned feeds: shared-key access to private items, key rotation/revocation, roadmap-aware of FOAF-visibility and ZK approaches. **⚠️ FABLE, entirely** — crypto design; also revisits the deferred "privileged group" feature properly.

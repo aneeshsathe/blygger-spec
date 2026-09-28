@@ -123,7 +123,7 @@ Blygger Studio is a Cloudflare Worker (with D1 for the database, R2 for media), 
 
 This split is also the multi-tenancy escape hatch: the core spec is single-*publisher* (one origin, one accountable client), not single-author — an overloaded studio can publish one conformant feed per user, or a single multiplayer feed with per-item bylines (identity is an opaque, client-asserted pass-through, never part of the protocol).
 
-**Live test instance** (task 11, session 10, 2026-08-06): [`blyg.vgr-702.workers.dev/blyg/`](https://blyg.vgr-702.workers.dev/blyg/) — a workers.dev reference deploy, feed at [`/blyg/feed.xml`](https://blyg.vgr-702.workers.dev/blyg/feed.xml). This is a rehearsal instance for the two-node deploy (`venkateshrao.com/blyg/` + `protocol-institute.com/blyg/`), not the permanent home.
+**Live reference nodes:** [`venkateshrao.com/blyg/`](https://venkateshrao.com/blyg/) (feed at [`/blyg/feed.xml`](https://venkateshrao.com/blyg/feed.xml)) and [`blyg.protocol-institute.org/`](https://blyg.protocol-institute.org/) (feed at [`/feed.xml`](https://blyg.protocol-institute.org/feed.xml)) — two independent deployments of [`blygger-studio`](https://github.com/blygger/blygger-studio), mounted at a path and at a root respectively. The original `workers.dev` rehearsal instance (session 10) was retired when these went live; [blygger.com](https://blygger.com) lists every known blyg.
 
 ## Which version to implement
 

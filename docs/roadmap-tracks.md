@@ -348,6 +348,8 @@ half of a citation, and that evidence is still arriving.
 
 ## Open questions
 
+> Also tracked, with the rest of the unscheduled ideas, in [`backlog.md`](backlog.md) §3 (session 28).
+
 - **What does the spec repo own after the split?** Normative text, the conformance suite
   (1.4), the decision log (1.5), notes. Proposed: `worker/` leaves entirely, and the
   spec repo gains `conformance/` as the thing that replaces "read our implementation".
