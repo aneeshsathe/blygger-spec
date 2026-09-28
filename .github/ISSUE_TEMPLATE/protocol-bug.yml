@@ -1,0 +1,61 @@
+name: Protocol defect or ambiguity
+description: The spec is wrong, contradictory, silent on something an implementer must decide, or two clients read it differently.
+labels: ["protocol"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **This repo is normative text only** — the wire format and what a conformant blyg
+        must do. Our Worker client lives at
+        [blygger-studio](https://github.com/blygger/blygger-studio).
+
+        The useful test: **would another client have to change too?** If yes, it is the
+        protocol and belongs here. If you're unsure, file here — we would much rather
+        move a misfiled issue than never see it.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of problem
+      options:
+        - The spec says something wrong or self-contradictory
+        - The spec is silent — I had to invent something to implement it
+        - Two clients read the same clause differently
+        - The spec is clear but I think the decision is wrong
+        - A typo, broken link, or editorial fix
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Which spec version
+      description: The `blyg` value your client implements, e.g. `0.3`. Four live nodes are on 0.2 and seven on 0.3, so this matters.
+      placeholder: "0.3"
+    validations:
+      required: true
+  - type: input
+    id: section
+    attributes:
+      label: Which section
+      placeholder: "protocol-v0.3.md §2.3.3, or 'transclusion resolution'"
+    validations:
+      required: false
+  - type: textarea
+    id: detail
+    attributes:
+      label: What the spec says, and what it should say
+      description: >-
+        If two clients disagree, naming both and what each does is the single most useful
+        thing you can include — cross-client disagreement is the evidence the spec is
+        actually tested by.
+    validations:
+      required: true
+  - type: input
+    id: implementation
+    attributes:
+      label: Your implementation
+      description: >-
+        Your `generator` string, or your blyg's origin so we can read its manifest. Six
+        independent implementations exist and we know the names of only some of them.
+      placeholder: "my-blyg/0.1.0, or https://example.com/blyg/"
+    validations:
+      required: false

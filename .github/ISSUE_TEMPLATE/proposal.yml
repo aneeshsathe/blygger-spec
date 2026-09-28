@@ -1,0 +1,53 @@
+name: Protocol proposal
+description: A change or addition to the wire format, or a new capability.
+labels: ["protocol", "proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Read this first, it will save you time.** Blygger is pre-1.0 and every version
+        below 1.0 is a working draft, so the wire *can* change — but the project has a
+        strong and deliberate bias against adding to it. Two rules that have killed more
+        proposals than anything else:
+
+        - **No metrics.** No counts, no follower numbers, no engagement signals. The
+          public-responses list deliberately shows a citation trail and never a number,
+          because a number is the one thing on the page a stranger could move.
+        - **Identity is not in the protocol** (decision #11), on purpose. Identity is an
+          opaque, client-asserted pass-through.
+
+        Proposals that route around either of those are not likely to land, though a
+        well-argued case against a locked decision is still welcome — several have won.
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What can't be done today. Please describe the problem before the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: The proposal
+      description: What you'd add or change on the wire, concretely.
+    validations:
+      required: true
+  - type: textarea
+    id: clientside
+    attributes:
+      label: Why this can't just be a client feature
+      description: >-
+        The most common outcome for a proposal is "you can already do that in your own
+        client without the protocol knowing". If the protocol genuinely has to change,
+        say why — usually because two clients must agree on something.
+    validations:
+      required: true
+  - type: textarea
+    id: compat
+    attributes:
+      label: What happens to nodes that don't implement it
+      description: >-
+        Readers must accept any 0.x value and ignore constructs they don't know, so
+        additive-and-optional is the shape most likely to be accepted.
+    validations:
+      required: false

@@ -1,0 +1,14 @@
+blank_issues_enabled: true
+contact_links:
+  - name: A bug in Blygger Studio (our Cloudflare Worker client)
+    url: https://github.com/blygger/blygger-studio/issues/new/choose
+    about: >-
+      If you are running our client and something misbehaves, file it there. Rule of
+      thumb: if no other client would have to change, it is a client bug, not a
+      protocol one.
+  - name: Get your client, tool or mod listed
+    url: https://github.com/blygger/blygger-org/issues/new/choose
+    about: Built something that speaks Blygger? Submit it for the ecosystem directory.
+  - name: Comments on the frozen v0 concept spec
+    url: https://github.com/blygger/blygger-spec/issues/1
+    about: The original concept document has a standing thread — add to it rather than opening a new issue.

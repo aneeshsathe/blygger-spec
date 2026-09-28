@@ -1,5 +1,10 @@
 # Deploy protocol
 
+
+> **Paths moved at session 26 (2026-09-28).** The reference client left this repo for
+> [`blygger/blygger-studio`](https://github.com/blygger/blygger-studio); every `worker/…`
+> path below is now at that repo's root. The protocol described here is unchanged.
+
 **Status:** built and in use (session 17, 2026-09-12). Operational tooling, not protocol surface — nothing here is normative for the spec.
 
 One command pushes the current codebase to every live deployment this repo is responsible for, each against its own Cloudflare account, with a gate before and verification after.
@@ -23,11 +28,11 @@ Deploying by hand also meant the two nodes could silently drift apart: nothing e
 
 | File | Role |
 |---|---|
-| [`worker/deploy-targets.json`](../worker/deploy-targets.json) | The manifest — every live deployment, its account, public base URL, credential pointers, and verification checks |
-| [`worker/scripts/deploy-all.ts`](../worker/scripts/deploy-all.ts) | The driver (CLI, `node --experimental-strip-types`, no dependencies) |
-| [`worker/scripts/deploy-lib.ts`](../worker/scripts/deploy-lib.ts) | Pure helpers — cross-check, JSONC parse, migration reading, verification |
-| [`worker/test/deploy-manifest.test.ts`](../worker/test/deploy-manifest.test.ts) | Tests the safety-critical parts against the **real committed files** |
-| `worker/wrangler.jsonc` | Per-env `account_id` pins (added session 17) |
+| `blygger-studio/deploy-targets.json` | The manifest — every live deployment, its account, public base URL, credential pointers, and verification checks |
+| `blygger-studio/scripts/deploy-all.ts` | The driver (CLI, `node --experimental-strip-types`, no dependencies) |
+| `blygger-studio/scripts/deploy-lib.ts` | Pure helpers — cross-check, JSONC parse, migration reading, verification |
+| `blygger-studio/test/deploy-manifest.test.ts` | Tests the safety-critical parts against the **real committed files** |
+| `blygger-studio/wrangler.jsonc` | Per-env `account_id` pins (added session 17) |
 
 ## Secrets: pointers only, never values
 

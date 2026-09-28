@@ -112,7 +112,11 @@ Three compatibility rules keep the client ecology forgiving:
 
 ## Reference implementation
 
-A Cloudflare Worker (with D1 for the database, R2 for media), split into two halves:
+**Lives in its own repo:** [`blygger/blygger-studio`](https://github.com/blygger/blygger-studio) — split out of this one at session 26 (2026-09-28), and named `blyg-ref` before that.
+
+It is **one client, not the protocol.** As of 2026-09-28 seven client implementations publish live blygs and six of them are not ours, which is why the split happened: a stranger filing "transclusion is broken" may mean the spec or may mean our Worker, and one repo could not tell those apart.
+
+Blygger Studio is a Cloudflare Worker (with D1 for the database, R2 for media), split into two halves:
 
 - **Studio** (private, owner-only): composing, hoppers, subscriptions, signals, AI calls. Implementation-defined — the protocol doesn't constrain it.
 - **Page** (public): the `/blyg` artifact above, servable by the worker directly or exportable to any static host.
@@ -123,13 +127,26 @@ This split is also the multi-tenancy escape hatch: the core spec is single-*publ
 
 ## Repo layout
 
+This repo is **normative text and project record only** — no implementation.
+
 ```
 docs/ygg-initial-spec.md   the v0 concept spec, verbatim — open for comments
-docs/roadmap.md            full roadmap v0.1 → post-1.0
-docs/v0.1-plan.md          implementation plan for v0.1 "Seed"
-DEVLOG.md                  per-session development log
+docs/protocol-v0.2.md      the normative spec (0.1 is SUPERSEDED)
+docs/roadmap.md            protocol version ladder, v0.1 → post-1.0
+docs/roadmap-tracks.md     program roadmap: four tracks across four repos
+docs/v0.3-plan.md          implementation plan for v0.3 "Trunk"
+DEVLOG.md                  per-session development log, for the whole program
 CLAUDE.md                  agent instructions: session rituals, model routing
+.github/ISSUE_TEMPLATE/    protocol defects and proposals (client bugs go elsewhere)
 ```
+
+The other three repos in the `blygger` org:
+
+| Repo | Role |
+|---|---|
+| [`blygger-studio`](https://github.com/blygger/blygger-studio) | The reference client — the Cloudflare Worker |
+| [`blygger-com`](https://github.com/blygger/blygger-com) | [blygger.com](https://blygger.com) — the blyg directory |
+| [`blygger-org`](https://github.com/blygger/blygger-org) | [blygger.org](https://blygger.org) — published spec, notes, getting started |
 
 ## License
 

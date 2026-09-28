@@ -2,7 +2,9 @@
 
 > Environment rules, keys & safety policies: see [`Code/CLAUDE.md`](../CLAUDE.md), `warnings.md`, `warnings-node.md`, `warnings-keys.md`, `security-policy.md` at the `Code/` level.
 
-Blygger is an AI-native decentralized public writing medium — fragments + threads + TK-transclusion over static files + RSS. Public repo: `blygger/blygger-spec` (branch `main`), part of the `blygger` GitHub org alongside the `blygger-org` and `blygger-com` site repos (session 6 rename + scaffolding — see `../CLAUDE.md`). This folder is the **protocol + reference implementation** project. Venkat's *personal blyg deployment* will live separately in `Publishing/` once the reference client exists.
+Blygger is an AI-native decentralized public writing medium — fragments + threads + TK-transclusion over static files + RSS. Public repo: `blygger/blygger-spec` (branch `main`), part of the `blygger` GitHub org alongside the `blygger-org` and `blygger-com` site repos (session 6 rename + scaffolding — see `../CLAUDE.md`). This folder is the **protocol** project — normative text, plan docs, and the program's devlog. The reference client moved out at session 26 (2026-09-28) and is now [`blygger/blygger-studio`](https://github.com/blygger/blygger-studio), checked out at [`../blygger-studio/`](../blygger-studio/); `worker/` no longer exists here. Venkat's *personal blyg deployment* will live separately in `Publishing/`.
+
+**Four repos, four tracks.** The program roadmap is [`docs/roadmap-tracks.md`](docs/roadmap-tracks.md) — core protocol (here), reference client (`blygger-studio`), registry/discovery (`blygger-com`), developer community (`blygger-org`). This repo keeps the session ritual and the single `DEVLOG.md` for all four.
 
 ## Document map
 
@@ -10,7 +12,8 @@ Blygger is an AI-native decentralized public writing medium — fragments + thre
 |---|---|
 | [`docs/ygg-initial-spec.md`](docs/ygg-initial-spec.md) | Frozen v0 concept spec — never edit (deliberately keeps the historical `ygg` name + filename, banner note added session 6); open for public comment (issue #1) |
 | [`RENAME.md`](RENAME.md) | Brand-rename record (session 6, `ygg`→`blygger`) + checklist for what's outside the `BRAND` constant |
-| [`docs/roadmap.md`](docs/roadmap.md) | Full roadmap v0.1 → post-1.0, with model-routing annotations |
+| [`docs/roadmap.md`](docs/roadmap.md) | Full roadmap v0.1 → post-1.0, with model-routing annotations — the **protocol version ladder** |
+| [`docs/roadmap-tracks.md`](docs/roadmap-tracks.md) | **Program roadmap, session 26 (2026-09-28)** — four tracks across four repos (core protocol / reference client / registry & discovery / dev community), with the live ecosystem census that forced them: 11 blygs, 7 client implementations, 4 nodes still on protocol 0.2. Carries **item 1.8**, the ⚠️⚠️ FABLE question of whether a blyg has a specified *write* surface, raised by Venkat session 26. Read this for sequencing; read `roadmap.md` for what each protocol version means |
 | [`docs/v0.1-plan.md`](docs/v0.1-plan.md) | Implementation plan for v0.1 "Seed" — built and deployed |
 | [`docs/v0.2-plan.md`](docs/v0.2-plan.md) | Implementation plan for v0.2 "Roots" (subscribe side): resolution algorithm, importer state machine, blogroll, hoppers, L0 wrapper; decision record for locked decisions #17–#18. **Implemented + deployed to both live nodes session 13 (2026-08-10)** — all 14 tasks, `worker/src/importer/`; real cross-node pub-sub verified |
 | [`docs/wireframes/`](docs/wireframes/) | HTML mockups, rev 3 (public, studio, edit, thread, thread-edit) — gate for tasks 9/15 |
@@ -159,19 +162,29 @@ exists because the project stopped being two nodes Venkat controls.
   about client versions and should probably continue not to** (#18d is about protocol
   version, not implementation version) — so this likely belongs to the client and the
   directory, not the spec.
-- [ ] **HIGH — an issue-tracker mechanism.** Issues are enabled on
-  `blygger/blygger-spec` and there is exactly one (#1, comments on the frozen v0 spec).
-  There are no templates, no labels, and no `.github/`. Real bug reports are now
-  arriving from people who are not Venkat, so the gap is triage structure, not the
-  tracker itself. Blocked-adjacent on the item below: a template that cannot ask "is
-  this the protocol or the client?" will collect a pile nobody can route.
-- [ ] **HIGH — separate protocol feedback from reference-client feedback.** One repo
-  currently holds both: `docs/` is the protocol, `worker/` is one implementation of it.
-  That was right while the only implementer was us, and stops being right the moment a
-  stranger files "transclusion is broken" meaning "your Worker has a bug". Options, none
-  chosen: split into two repos; keep one repo with enforced issue labels + `CODEOWNERS`;
-  or move `worker/` out and leave the spec repo normative-only. **Decide this before the
-  issue templates, not after** — the templates encode whichever answer wins.
+- [x] **HIGH — an issue-tracker mechanism** — **done session 26 (2026-09-28).**
+  `.github/ISSUE_TEMPLATE/` in both repos, written *after* the split so the templates
+  could encode the answer. Here: `protocol-bug.yml` (defect/ambiguity, asking which spec
+  version and which implementation — 4 live nodes are on 0.2 and 7 on 0.3) and
+  `proposal.yml`, which states the no-metrics and no-identity rules up front because
+  those two kill more proposals than anything else. In `blygger-studio`: `bug.yml` and
+  `feature.yml`. Every `config.yml` cross-links the others, so the routing question is
+  answered where a stranger will actually see it — the rule of thumb given is "would
+  another client have to change too?", with an explicit invitation to misfile rather
+  than not file. `blygger-studio`'s bug template also asks **whether the client has been
+  modified**, which is the only channel we have: our repos have zero GitHub forks, so
+  every local copy is otherwise invisible.
+- [x] **HIGH — separate protocol feedback from reference-client feedback** —
+  **decided and executed session 26 (2026-09-28), Venkat: two repos.** `worker/` left
+  this repo entirely for `blygger/blygger-studio`, via `git subtree split` so all 59
+  commits of its history came along; this repo is normative-only. The client was renamed
+  from `blyg-ref` to **`blygger-studio`** in the same move — `blyg-ref` described a role
+  at a time when it was the only client, and seven implementations now publish live
+  blygs. `CLIENT` in the client's `types.ts` is the single source of truth for its name
+  and version, decoupled from `BRAND` (the protocol's vocabulary, which a client does
+  not own) and from `PROTOCOL_VERSION`. Client went to 0.4.0 while the wire stays 0.3 —
+  the first release where those numbers differ, which is the point of separating them.
+  Verified before the spec repo was touched: 508 tests green and `tsc` clean standalone.
 - [ ] **Log protocol decisions somewhere the public can read them.** The
   "Locked decisions" list above is agent-facing and lives in a file nobody outside this
   checkout reads; `docs/proposals/` and `docs/notes/` hold the reasoning but are not
