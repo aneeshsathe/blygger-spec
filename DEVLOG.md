@@ -9,7 +9,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 ## Session 28 — 2026-09-28 — 0.3 frozen and published; 0.4 defined
 
-**Model:** Fable 5.1 · **Time:** ~14:33– PT (in progress) · **Committed:** yes (blygger-spec, blygger-org, blygger-studio) · **Deployed:** blygger.org ×3 (0.3 published, snapshot, §16 revision)
+**Model:** Fable 5.1 · **Time:** ~14:33–16:05 PT · **Committed:** yes (blygger-spec, blygger-org, blygger-studio) · **Deployed:** blygger.org ×6 (0.3 published, snapshot, four §16 revisions)
 
 **What & why**
 
@@ -158,11 +158,26 @@ README's dead workers.dev links (issue #3) were fixed in passing.
   listed. `/start/` links 0.3.
 - Decisions #43–#51; `v0.4-plan.md` (with §7 implementation plan); `backlog.md`; `opus-brief.md`; roadmap-tracks 1.1, 1.3, 4.4 done
   or defined, 1.4's Fable half ruled; `roadmap.md` v0.4 re-scoped.
-- Gates: G1 ✅ G2 ✅ G4 ✅. G3, G5, G6 open; none blocks anything.
+- Gates: G1 ✅ G2 ✅ G4 ✅. `fable-brief.md` rewritten as a gate table: G3, G5, G6
+  carried; **G7** partial transclusion (promote into 0.3), **G8** remote generation
+  sources (open `protocol-v0.4.md`), **G9** a templated third-party blyg (promote §16.6e).
+- `v0.4-plan.md` §7: implementation plan (R1–R8, P1–P9, M1–M4) written against
+  blygger-studio `f28c054`; no migrations for the first two, one for the third.
+- `docs/backlog.md` and `docs/opus-brief.md` exist; the ritual and doc map know them.
+- Parallel Opus session, same afternoon: shipped the `[[` picker in all three composers,
+  the reader-side copy-`[[id]]` (#50, built within the hour of the ruling), a
+  draft-kind switch, and four usability fixes — see its own entry above when it lands.
+- One mislabeled commit in this repo (`7fc1e9c`, message says "Backlog", contains the
+  #49/#50 decision entries) from a shell whose working directory reset between calls;
+  corrected in the next commit's message. Absolute paths thereafter.
 
 **Open threads**
 
-- **Partial transclusion** (#49) enters §10 as a 0.3 revision when built and exercised.
+- **Partial transclusion** (#49) enters §10 as a 0.3 revision when built and exercised (G7).
+- **Issue #2 reply drafted, not posted** — Venkat's voice on the public repo; **issue #3
+  fixed, not closed.** Both in the carry-overs.
+- **The 0.4 document opens at G8**, and §16.6e (#51) becomes normative only at G9, which
+  depends on a client we do not write.
 - **The 0.4 document is not drafted, by rule** (#43); it opens when remote generation
   sources are built and exercised across both nodes.
 - `changelog[].generated` enters §5.2 as a 0.3 revision when 2.12 ships (gate G6).

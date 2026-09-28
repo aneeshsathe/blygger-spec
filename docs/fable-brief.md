@@ -1,89 +1,76 @@
 # Fable brief — the standing agenda for the next Fable pass
 
-**This round's product:** define protocol 0.4 — *if its gates are open.* Otherwise, nothing.
-**Written:** session 27 (2026-09-28), by Fable 5.1, at the close of the round that
-discharged the session-26 brief in full.
+**This round's product:** promote what Opus has built and exercised since session 28,
+and open `protocol-v0.4.md` when its first construct is live — *if the gates are open.*
+Otherwise, nothing.
+**Written:** session 28 (2026-09-28), by Fable 5.1, at the close of the round that froze
+and published 0.3 and defined 0.4.
 **Rewrite this file each Fable round.** It is the one place a Fable session starts.
 
-> **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#30–#42**
-> (the session-27 rulings) → [`v0.3-plan.md`](v0.3-plan.md) §8c (their reasoning) →
-> [`protocol-v0.3.md`](protocol-v0.3.md) **§16** (what is ruled-but-unbuilt, deferred, and
-> reserved — the 0.4 agenda is literally that section) →
-> [`roadmap.md`](roadmap.md) § "v0.4 — Canopy".
+> **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#43–#51**
+> (the session-28 rulings) → [`v0.4-plan.md`](v0.4-plan.md) (the 0.4 definition, its
+> reasoning, and §7 the implementation plan Opus is building from) →
+> [`protocol-v0.3.md`](protocol-v0.3.md) **§16** (ruled shapes awaiting builds) →
+> [`backlog.md`](backlog.md) (ideas that are neither ruled nor scheduled) →
+> [`opus-brief.md`](opus-brief.md) (what the parallel Opus queue is doing).
 
 ## What the last round settled, so it is not reopened
 
-Session 27 ruled every open protocol question there was: the citation's human half (#30,
-`cited`), the write surface (#31, never normative; companion note later), `[[id]]` (#32,
-a wire-silent link), staleness (#33, direct only), client source discovery (#34),
-identity practice (#35), groups (#36), imported generation (#37, un-deferred), agents
-(#38), the reference agent and its contract (#39), changelog notes and version narratives (#40), discovery via references (#41), publication guidance (#42), and the 0.4 deferrals with their
-shapes where a shape could be fixed. It drafted `protocol-v0.3.md` under **strict #21** —
-built surface only. There is no Part 1 this time: **nothing in the Opus queue waits on
-Fable.**
+Session 28 froze 0.3 (`cited`, `[[id]]`, `generator_url` promoted; published; first
+snapshot) and defined 0.4 by a rule rather than a list: the **version boundary rule**
+(#43 — a revision adds what readers ignore safely; a new version is needed when a reader
+or receiver must change what it does). Ruled: remote generation sources with a fourth
+mention relation `source` (#44); transitive staleness does not exist (#45); no title
+field (#46); pinned-content feed entries and a responses surface declined (#47); the
+conformance partition (#48); partial quotation as a partial transclusion that is a **0.3
+revision** (#49 — the rule corrected its own author's example); the reader-side `[[id]]`
+affordance (#50); and, from a public proposal, the manifest-located surface (#51).
+**There are no open protocol questions.** Partial quotation's authoring case was
+answered in session.
 
-## The gate, and why this round may be a no-op
+## The gates
 
-**#21 is the whole agenda.** A construct enters normative prose after it is built and
-exercised. The next Fable round therefore has work to do only once Opus has shipped, and
-the two nodes have exercised, what session 27 ruled:
+**#21 is the whole agenda.** Each row opens when Opus's devlog entry says the exercise
+ran on both nodes with ids recorded.
 
 | Gate | What must be true | Then Fable does |
 |---|---|---|
-| **G1** | ✅ **TRUE — 2026-09-28, blygger-studio 0.6.0, exercised across both live nodes.** `cited` is emitted inside `stub_of`, remote `transclusions[]` and `forked_from` on live and pinned documents and retained verbatim on import. Live evidence: `blyg.protocol-institute.org/t/4egjmrk5mmcvn15b92hnfgnksw/` renders *from Venkatesh Rao's Blyg* out of the frozen citation, not a live join (that join was the stale-byline bug); `venkateshrao.com`'s import of that document kept the `cited` object byte-for-byte; and the stub at `/t/4666gydgmyfd664wge0nq0af2v/` sent a cross-node Webmention that **verified on the bare reference** with the citation ignored, which is the rule §16.1 most needed testing. | Promote spec §16.1 into §5.9 as normative text. Small. |
-| **G2** | ✅ **TRUE — same release and exercise.** `[[id]]` renders as an absolute anchor to the target's page, resolves by the directive's order, fails the publish when unresolvable, and is silent on the wire — no reference, no mention, no class. The document above carries one; `venkateshrao.com` imported it and the anchor survived intact into its reading view, with no import error. | Promote §16.2 into §10.1. Small. |
-| **G3** | The studio's token auth exists and **at least one third-party tool** authenticates with a scoped token instead of the owner password | Review **`tn-4` — the write surface** (non-normative, #31), which Opus drafts from the build; Fable only checks it against #31's direction. |
-| **G4** | Track 4.4 has published 0.3 and flipped 0.2 | Nothing — but do not draft a 0.4 document while 0.3 is unpublished; two living drafts is one too many. **Sequencing note (Opus, session 27):** G1 and G2 went true *before* the publish, so the promotion above should land in the living text first and the first 0.3 snapshot should be cut after it. A snapshot taken today would freeze §16 calling two built constructs unbuilt, and #42 makes snapshots the thing implementers pin to. |
-| **G5** | The reference agent (2.10) has run against a live node for long enough to have refreshed a snapshot, answered a mention, and authored under its own byline | Review `tn-5` for anything that turned out to want a construct — the refresh scope on the re-bake identity (#38) is the likely candidate. |
-| **G6** | The studio emits `changelog[].generated` and the history view has been used across two nodes | Promote §16.6c into §5.2. Small. Decide then whether pinned-event feed entries should carry pinned content (§16.6c's parked candidate). |
+| **G3** | The studio's token auth exists (`v0.4`-adjacent, roadmap-tracks 2.9) and **at least one third-party tool** authenticates with a scoped token | Review **`tn-4` — the write surface** (non-normative, #31), which Opus drafts from the build. |
+| **G5** | The reference agent (2.10) has run against a live node long enough to refresh a snapshot, answer a mention, and author under its own byline | Review `tn-5` for anything that wants a construct — the refresh scope on the re-bake identity (#38, backlog §1) is the candidate. |
+| **G6** | The studio emits `changelog[].generated` and the history view has been used across two nodes (2.12) | Promote §16.6c into §5.2 — a 0.3 revision. Small. |
+| **G7** | **Partial transclusion** built (`v0.4-plan.md` §7.3, P1–P9) and exercised: a PI stub quoting one paragraph of a venkateshrao thread, verified `stub` on the far side, `blyg-partial` surviving import, a wrong quote refused at publish | Promote §16.4's partial half into §10.1–§10.3 as a **0.3 revision**; add `blyg-partial` to `css-contract.md` §1; note the build's P4 call (plain text vs inline HTML) as the rule. |
+| **G8** | **Remote generation sources** built (§7.2, R1–R8) and exercised: a PI scope drawing on a venkateshrao item, `generated[].sources[]` with `origin`+`cited`, the mention **verified as `source`** on the far side, provenance intact on import | **Open `protocol-v0.4.md`**: a standalone superset of the 0.3 text, 0.3 section numbers preserved, §16.3 promoted into §5.7 and §15.4 (relation set gains `source`), §16.6e carried as a ruled shape until G9. Register 0.4 in `sync_spec.py`, flip 0.3 to `("SUPERSEDED", "0.4")`, publish, cut the first snapshot the same day — in that order (#42). Rewrite this brief. |
+| **G9** | A client **not written by this project** publishes through `item`/`pin` templates (the WordPress case, blygger-spec#2) and the studio (§7.5, M1–M4) has subscribed to it, transcluded from it, and sent it a mention that verified | Promote §16.6e into §4, §6.1, §12.1 step 4, §12.2 and §5.8 of the living document (0.4 if G8 has opened it; otherwise it waits, because it is a 0.4 construct by #43). |
 
-If none of G1–G6 is true when a Fable session opens, **say so in one line and stop.**
-Do not fill the round with re-derivations. A recorded "nothing to do" is the correct
-product.
+If none of G3–G9 is true when a Fable session opens, **say so in one line and stop.**
 
-## Part 2 — the 0.4 definition (roadmap-tracks 1.3), when G4 is true
+## Sequencing notes
 
-v0.4 is "Canopy — AI arrives" in `roadmap.md`, and most of it is studio-side with no
-wire change. The wire questions it owns are exactly `protocol-v0.3.md` §16.3–§16.5,
-listed there with what is already decided:
-
-1. **Remote generation sources** (§16.3) — the *shape* is fixed (the §5.9 reference,
-   `origin` omitted for own-origin). The open question is disclosure: when a generator is
-   fed a stranger's words, is that a `source` or a quotation? #20's quote-vs-source line,
-   now cross-origin. This is the one most likely to be worth pulling into a 0.3 revision
-   if TK-from-remote gets built first — but it cannot be built until the wire can say it,
-   so Fable moves first here. That is the one place this round may legitimately write
-   before a build, and it should say so when it does.
-2. **Partial quotation** (§16.4) — selector + faithfulness guarantee. Largest. Do not
-   design it without a concrete authoring need on the table; ask Venkat what the actual
-   quoting case was.
-3. ~~Imported generated text~~ — resolved by #37; nothing for 0.4.
-4. **Titles** (§16.4) — items are titleless by design. Default answer is still no; if
-   Venkat wants it, it is a wire field and a feed-derivation change together.
-5. **Transitive staleness** (§16.5) — may be nothing. Decide *whether it exists* before
-   deciding anything else about it.
-6. **Two parked feed/surface candidates** (§16.6c, §16.6d) — pinned-event feed entries
-   carrying pinned content, and an optional per-item curated responses surface. Both
-   leak nothing and both change a rule every reader relies on today; decide each on a
-   measured need, not on tidiness.
-
-Also for 0.4, from the tracks page: **1.4 conformance suite** — the Fable half is only
-"which clauses are normative vs advisory"; that partition is now mostly legible from the
-0.3 text's MUST/SHOULD/MAY, so this may be a short ruling. And the **technical notes** (1.6): `tn-2`–`tn-5` are Opus-written from #35–#39; Fable
-reviews each against its decision and nothing more — the field is empty (every client
-emits only `name`+`url`), so the notes exist to converge it, not to referee a dispute.
+- **G7 before G8** is the order §7.4 asks Opus to build in; G7 lands in 0.3 as a
+  revision, G8 opens 0.4. If both arrive together, do the G7 promotion into the 0.3 text
+  first and then draft 0.4 from that, so the 0.4 document inherits partial transclusion
+  as normative rather than as a §16 item.
+- **G9 depends on someone else.** If the proposer confirms on issue #2 that the
+  WordPress side is being built, the studio's reader side (§7.5) should land before it
+  ships, so the first templated blyg has a reader on day one. Raise this with Venkat if
+  the issue goes quiet.
+- **The snapshot policy stands:** revisions land in the living text and are not
+  snapshotted; a snapshot is cut at publication of a new version and thereafter as a
+  deliberate act when a third party needs the text to hold still.
 
 ## Do not open
 
 - **#11 identity, #12 metrics** — load-bearing refusals.
-- **A normative write API** — #31 closed it, permanently, with the static-client
-  argument. The companion note is the only vehicle.
-- **A fourth mention relation** — #32 closed it; links are silent.
+- **A normative write API** (#31), **a mention relation for links** (#32), **a title
+  field** (#46), **transitive staleness** (#45), **a maintenance flag** (#34).
+- **The two declined candidates** (#47) unless the trigger named in `backlog.md` §1
+  occurs.
 - **`![[id@vN]]`** — still reserved, still no need.
+- **A second discovery vocabulary** for manifests (`rel="alternate"` + a media type) —
+  #51 chose to extend the existing link instead.
 
 ## Hand back
 
-Per item: the ruling, the reasoning, and whether it lands in a 0.3 revision or 0.4.
-Record in `v0.3-plan.md` (a §8d, if the questions are still 0.3-adjacent) or a new
-`v0.4-plan.md`, continue `CLAUDE.md`'s locked decisions from **#42**, append the DEVLOG
-entry, and rewrite this brief.
+Per gate: what was promoted, into which section, in which document. Continue `CLAUDE.md`'s
+locked decisions from **#51**, record reasoning in `v0.4-plan.md` (§8 if needed), append
+the DEVLOG entry, file any new ideas in `backlog.md`, and rewrite this brief.
