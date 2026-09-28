@@ -293,6 +293,30 @@ wildcard DNS, and no per-source limit bounds an endpoint's total cost. Worth
 either softening the claim or naming the two additional caps as recommended
 practice, since six other implementations will read that line as advice.
 
+### Also session 27: the endpoint became optional in the client (0.5.0)
+
+Found while writing the operator notice, and it changed what the notice could
+offer. 0.3 **§15 is OPTIONAL at every level** and §15.1 advertises an endpoint
+"only when mentions are accepted" — but `blygger-studio` served it
+unconditionally, so a node stood up from the start page got an unauthenticated
+public POST surface whether its operator wanted one or not. The intent was in the
+code and unreachable: `buildManifest` takes a `webmention: false` option that no
+caller has ever passed.
+
+`accept_mentions` is now a setting, default on. Off withdraws the endpoint rather
+than guarding it — no manifest key, no `rel="webmention"` element or header, 404
+on POST — and sending is unaffected. A **setting rather than an `Env` var** for a
+reason specific to these deployments: a re-clone upgrade ports `wrangler.jsonc`
+by hand, and a D1 row is never in that path, so the switch cannot be the thing an
+upgrade silently resets.
+
+**This does not touch Venkat's session-23 ruling above.** That ruling is about
+*which origins* an endpoint accepts — open to all, with structural verification
+as the spam control, because restricting it to subscribed origins would end the
+property the design exists for. Whether to run an endpoint at all is a different
+question, it belongs to whoever pays for the deployment, and the spec always said
+so.
+
 **Still open after this: propagation.** The hardening does nothing for the three
 third-party nodes until they redeploy, and nothing yet tells them to. Session 27
 built the parts that make a notice possible — a tagged release with a changelog
