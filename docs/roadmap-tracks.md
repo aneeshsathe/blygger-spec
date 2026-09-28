@@ -97,7 +97,7 @@ live nodes, it has to mean something anyone can run.
 
 | # | Item | Notes |
 |---|---|---|
-| 1.1 | ~~**⚠️ FABLE — finalize v0.3**~~ (`protocol-v0.3.md`, Phase B task 18) | **Drafted session 27 (2026-09-28, Fable 5.1)** under strict #21: built surface only, session-27 rulings in its §16. 0.2 is superseded in the text; the live flip is **4.4**, Opus, unstarted. |
+| 1.1 | ~~**⚠️ FABLE — finalize v0.3**~~ (`protocol-v0.3.md`, Phase B task 18) | **Drafted session 27 (2026-09-28, Fable 5.1)** under strict #21: built surface only, session-27 rulings in its §16. **Published session 28 (2026-09-28, Fable 5.1)** at `blygger.org/spec/0.3/` with `cited`, `[[id]]` and `generator_url` promoted to normative text (G1/G2 true in the gate table); first snapshot `2026-09-28` cut the same day; 0.2 SUPERSEDED live. |
 | 1.2 | ~~**⚠️ FABLE — should a citation's human half be on the wire?**~~ | **Ruled session 27: yes, additive and optional — decision #30** (`cited` inside any reference; `v0.3-plan.md` §8c). Normative once blygger-studio emits it — that emission is now a Track 2 task. |
 | 1.3 | **⚠️ FABLE — define v0.4** (`roadmap.md` "Canopy — AI arrives") | Gate: 1.1 lands first. |
 | 1.4 | **A conformance suite anyone can run** | New, and the biggest gap this session found. Six implementations, no shared definition of conformant, and 4 of 11 nodes on 0.2. Shape: a published fixture set + a checker that takes an origin and reports per-clause pass/fail per version. `blyg-ref` becomes the label it asserts against. Partly Fable (what is normative vs. advisory), mostly not (the runner). |
@@ -153,7 +153,7 @@ live nodes, it has to mean something anyone can run.
 | 4.1 | ✅ **Ecosystem directory — built and live session 26** at [blygger.org/ecosystem/](https://blygger.org/ecosystem/). 11 entries; `sync_ecosystem.py` + `ecosystem/projects.toml`; census-primary discovery; `generator_aliases` so a renamed client's own nodes aren't credited to a stranger. Already prints the update signal: *"5 of 5 live nodes run an older build"*. | ✅ done |
 | 4.2 | ✅ **Submission path — done session 26.** `blygger-org/.github/ISSUE_TEMPLATE/project.yml`, linked from `/start/` and from the ecosystem page. Asks for category (client/tool/integration/mod) and a *distinctive* `generator`, and says why we must be told: a tool or mod is invisible to the census. | ✅ done |
 | 4.3 | ✅ **Publish the split — done session 26, deployed.** `/start/` rewritten: client links and the `wrangler.jsonc` path moved to `blygger-studio`, the "exactly one reference implementation" paragraph replaced with the seven-client reality, and the remaining gap restated as a local-first client plus a conformance checker. Frozen `/spec/` snapshots deliberately untouched. | ✅ done |
-| 4.4 | **Publish `protocol-v0.3.md`** at `blygger.org/spec/0.3/`; 0.2 flips to SUPERSEDED. `spec-publishing-plan.md` §6. | Gated on 1.1 |
+| 4.4 | ✅ **Published session 28 (2026-09-28).** `sync_spec.py` registers 0.3 as living and flips 0.2 to `("SUPERSEDED", "0.3")`; snapshot `2026-09-28` paired with tag `spec/0.3/2026-09-28`; `/start/` links 0.3 and carries the implement-the-living-text sentence (#42); the index's reference-implementation line now points at `blygger-studio` releases. | ✅ done |
 | 4.5 | **Publish the decision log** (Track 1.5) and `tn-2` (1.6). | Gated |
 | 4.6 | **A conformance page** — what `blyg 0.3` requires, and the checker from 1.4 as something an implementer can point at. | Gated on 1.4 |
 

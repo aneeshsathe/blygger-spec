@@ -143,8 +143,11 @@ DEVLOG → Fable pass → spec revision, at any spec version below 1.0.
 > **Ruled session 27 (2026-09-28, Fable 5.1): yes, additive and optional — decision #30**,
 > and `protocol-v0.3.md` drafted the same session (Phase B task 18) under strict #21:
 > built surface only, with `cited` and `[[id]]` (#32) described in its §16 until the
-> reference client emits them. What remains of v0.3 is Phase B tasks 12–16 and the
-> live publish (roadmap-tracks 4.4).
+> reference client emits them. **Published 2026-09-28 (session 28, Fable 5.1)** at
+> `blygger.org/spec/0.3/`, with `cited`, `[[id]]` and `generator_url` promoted to
+> normative text once blygger-studio 0.6.0 had emitted them across both nodes; first
+> snapshot the same day; 0.2 SUPERSEDED live. What remains of v0.3 is Phase B tasks
+> 12–16, all client work.
 
 **Protocol deliverables (L2):**
 - Stub metadata (marks a thread as a stub of a target item)
