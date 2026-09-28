@@ -5,7 +5,7 @@
 discharged the session-26 brief in full.
 **Rewrite this file each Fable round.** It is the one place a Fable session starts.
 
-> **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#30–#39**
+> **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#30–#40**
 > (the session-27 rulings) → [`v0.3-plan.md`](v0.3-plan.md) §8c (their reasoning) →
 > [`protocol-v0.3.md`](protocol-v0.3.md) **§16** (what is ruled-but-unbuilt, deferred, and
 > reserved — the 0.4 agenda is literally that section) →
@@ -17,7 +17,7 @@ Session 27 ruled every open protocol question there was: the citation's human ha
 `cited`), the write surface (#31, never normative; companion note later), `[[id]]` (#32,
 a wire-silent link), staleness (#33, direct only), client source discovery (#34),
 identity practice (#35), groups (#36), imported generation (#37, un-deferred), agents
-(#38), the reference agent and its contract (#39), and the 0.4 deferrals with their
+(#38), the reference agent and its contract (#39), changelog notes and version narratives (#40), and the 0.4 deferrals with their
 shapes where a shape could be fixed. It drafted `protocol-v0.3.md` under **strict #21** —
 built surface only. There is no Part 1 this time: **nothing in the Opus queue waits on
 Fable.**
@@ -35,8 +35,9 @@ the two nodes have exercised, what session 27 ruled:
 | **G3** | The studio's token auth exists and **at least one third-party tool** authenticates with a scoped token instead of the owner password | Review **`tn-4` — the write surface** (non-normative, #31), which Opus drafts from the build; Fable only checks it against #31's direction. |
 | **G4** | Track 4.4 has published 0.3 and flipped 0.2 | Nothing — but do not draft a 0.4 document while 0.3 is unpublished; two living drafts is one too many. |
 | **G5** | The reference agent (2.10) has run against a live node for long enough to have refreshed a snapshot, answered a mention, and authored under its own byline | Review `tn-5` for anything that turned out to want a construct — the refresh scope on the re-bake identity (#38) is the likely candidate. |
+| **G6** | The studio emits `changelog[].generated` and the history view has been used across two nodes | Promote §16.6c into §5.2. Small. Decide then whether pinned-event feed entries should carry pinned content (§16.6c's parked candidate). |
 
-If none of G1–G5 is true when a Fable session opens, **say so in one line and stop.**
+If none of G1–G6 is true when a Fable session opens, **say so in one line and stop.**
 Do not fill the round with re-derivations. A recorded "nothing to do" is the correct
 product.
 
@@ -80,5 +81,5 @@ emits only `name`+`url`), so the notes exist to converge it, not to referee a di
 
 Per item: the ruling, the reasoning, and whether it lands in a 0.3 revision or 0.4.
 Record in `v0.3-plan.md` (a §8d, if the questions are still 0.3-adjacent) or a new
-`v0.4-plan.md`, continue `CLAUDE.md`'s locked decisions from **#39**, append the DEVLOG
+`v0.4-plan.md`, continue `CLAUDE.md`'s locked decisions from **#40**, append the DEVLOG
 entry, and rewrite this brief.

@@ -313,6 +313,14 @@ Threads additionally carry `transclusions` (§10.3) and MAY carry `stub_of`
   content is withheld — the publisher's history stays private by default —
   unless a version is pinned (§8). The `changelog` is metadata (version, time,
   optional note, optional `"pinned": true`), never diffs or content.
+  **A note describes a change; it never reproduces withheld content.** A
+  note that quotes the prior version's text is a diff by another name and
+  leaks exactly what withholding protects, so where the prior version is
+  unpinned a note MUST NOT reproduce it. Between two pinned versions nothing
+  is withheld — any reader can fetch both files — and a note may be as full
+  as the author likes. Notes are the publisher's description, and like the
+  feed `<title>` derived from them (§7) they may be machine-written; a
+  disclosure member for that case is ruled and described in §16.6c.
 - `updated` MUST equal the latest changelog entry's `at`. All timestamps are
   self-asserted by the origin; readers order events per their own policy
   (§13.7).
@@ -1686,6 +1694,30 @@ are recorded here so that the absence is legible as a decision:
   is how a client can tell a re-bake from an edit without any construct. An
   agent's byline SHOULD name an operator; that convention lives in the
   identity note. A blyg is two-author only when an agent signs items.
+
+### 16.6c Generated changelog notes (ruled; next revision)
+
+**Ruled 2026-09-28: a changelog entry MAY carry `"generated": true`**, meaning the
+publisher's studio wrote the note (from the local diff between versions) rather
+than the author. Self-asserted and unverifiable like `generated[]` (§5.7 rule 6);
+absent means only "not stated"; readers MUST NOT gate on it. It exists because a
+note is prose readers read and is the source of the feed `<title>`, so a client
+reconstructing an item's history from its notes should be able to tell the
+author's words from a machine's summary. The depth rule of §5.2 binds generated
+notes exactly as it binds authored ones. Enters §5.2 once a client emits it.
+
+```json
+{ "version": 3, "at": "2026-07-18T09:30:00Z",
+  "note": "Sharpened the second paragraph's claim; no change to the examples.",
+  "generated": true }
+```
+
+*Not opened, recorded as a 0.4 candidate:* feed entries for **pinned** publish
+events carrying that pinned version's content rather than the latest, which §7
+currently forbids for all entries. Pinned content is public, so it would leak
+nothing, and it would make the duplicate entries a plain RSS reader shows
+truthful to their events; against it, the §7 rule is simple and every reader
+relies on it today.
 
 ### 16.7 Reserved
 
