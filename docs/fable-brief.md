@@ -5,7 +5,7 @@
 discharged the session-26 brief in full.
 **Rewrite this file each Fable round.** It is the one place a Fable session starts.
 
-> **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#30–#41**
+> **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#30–#42**
 > (the session-27 rulings) → [`v0.3-plan.md`](v0.3-plan.md) §8c (their reasoning) →
 > [`protocol-v0.3.md`](protocol-v0.3.md) **§16** (what is ruled-but-unbuilt, deferred, and
 > reserved — the 0.4 agenda is literally that section) →
@@ -17,7 +17,7 @@ Session 27 ruled every open protocol question there was: the citation's human ha
 `cited`), the write surface (#31, never normative; companion note later), `[[id]]` (#32,
 a wire-silent link), staleness (#33, direct only), client source discovery (#34),
 identity practice (#35), groups (#36), imported generation (#37, un-deferred), agents
-(#38), the reference agent and its contract (#39), changelog notes and version narratives (#40), discovery via references (#41), and the 0.4 deferrals with their
+(#38), the reference agent and its contract (#39), changelog notes and version narratives (#40), discovery via references (#41), publication guidance (#42), and the 0.4 deferrals with their
 shapes where a shape could be fixed. It drafted `protocol-v0.3.md` under **strict #21** —
 built surface only. There is no Part 1 this time: **nothing in the Opus queue waits on
 Fable.**
@@ -85,5 +85,5 @@ emits only `name`+`url`), so the notes exist to converge it, not to referee a di
 
 Per item: the ruling, the reasoning, and whether it lands in a 0.3 revision or 0.4.
 Record in `v0.3-plan.md` (a §8d, if the questions are still 0.3-adjacent) or a new
-`v0.4-plan.md`, continue `CLAUDE.md`'s locked decisions from **#41**, append the DEVLOG
+`v0.4-plan.md`, continue `CLAUDE.md`'s locked decisions from **#42**, append the DEVLOG
 entry, and rewrite this brief.

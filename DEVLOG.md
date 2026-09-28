@@ -9,7 +9,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 ## Session 27 — 2026-09-28 — The Fable round: every open protocol question ruled, 0.3 drafted under strict #21
 
-**Model:** Fable 5.1 · **Time:** ~11:02–12:25 PT · **Committed:** yes (blygger-spec, blygger-studio) · **Deployed:** nothing — 0.3 is drafted, not published
+**Model:** Fable 5.1 · **Time:** ~11:02–12:40 PT · **Committed:** yes (blygger-spec, blygger-studio) · **Deployed:** nothing — 0.3 is drafted, not published
 
 **What & why**
 
@@ -181,6 +181,18 @@ you read, is closed by #28 on purpose. The addition that would open it is record
 0.4 candidate and not taken. One caution was checked rather than assumed: the importer's
 sanitizer is allowlist-by-removal and keeps `data-blyg-*`, so the chain survives import.
 
+**16. Which version to implement (decision #42).** Venkat read the 0.2/0.3 mix in the wild
+as people choosing between the site and the unfrozen repo. The census says otherwise:
+there was no 0.3 text anywhere until this session — the reference client shipped 0.3 on
+2026-09-16 and the spec caught up today — so the 0.3 third parties built from the plan
+doc and our code, and the 0.2 ones built from the spec and are conformant. Guidance now
+lives in the spec header, the README, the plan doc's banner, and the site index prose:
+implement the published living text, pin to a dated snapshot, never the plan docs or the
+client. The decision underneath is a process one: #21 keeps prose behind the build, but
+the *shape* of anything ruled goes into the living document's §16 at ruling time, so the
+spec is the first place a shape is visible. Also corrected a stale note: a 0.2 snapshot
+from 2026-09-16 exists; the doc map said none had been cut.
+
 **Technical notes queued for Opus** (roadmap-tracks 1.6): `tn-3` groups and aggregation,
 writable now; `tn-2` identity, as a proposal draft first; `tn-4` write surface and `tn-5`
 agent contract, after their builds; `tn-6` version histories after the note generator.
@@ -192,7 +204,7 @@ history view.
 - `docs/protocol-v0.3.md` drafted, DRAFT status, **not published**. `protocol-v0.2.md`
   superseded in the text; the live flip is Track 4.4 (register 0.3 in `sync_spec.py`,
   flip 0.2), Opus, ~30 min, listed as a carry-over.
-- Decisions **#30–#41** in `CLAUDE.md`; full reasoning in `v0.3-plan.md` **§8c**; every
+- Decisions **#30–#42** in `CLAUDE.md`; full reasoning in `v0.3-plan.md` **§8c**; every
   §8/§8b question marked ruled. roadmap-tracks 1.1, 1.2, 1.8, 1.9 struck through with
   their outcomes; 2.9 unblocked; the write-surface open question answered.
 - blygger-studio `CLAUDE.md`: gating passages rewritten to say what is now buildable, and
@@ -207,7 +219,8 @@ history view.
   people's machines exposed. Deliberately untouched this session per Venkat; it is the
   next Opus session's first item.
 - **0.3 is unpublished.** Until 4.4 runs, `blygger.org/spec/` presents 0.2 as the living
-  document, which stopped being true this session.
+  document, which stopped being true this session. 4.4 should also cut the first 0.3
+  snapshot and add the one-sentence guidance to `/start/` (#42).
 - **`tn-2` numbering collision:** roadmap-tracks 1.6 reserved `tn-2` for identity
   practice and #31 wants a note for the write surface. Whichever is written first takes
   the number; the brief says so.

@@ -125,6 +125,18 @@ This split is also the multi-tenancy escape hatch: the core spec is single-*publ
 
 **Live test instance** (task 11, session 10, 2026-08-06): [`blyg.vgr-702.workers.dev/blyg/`](https://blyg.vgr-702.workers.dev/blyg/) — a workers.dev reference deploy, feed at [`/blyg/feed.xml`](https://blyg.vgr-702.workers.dev/blyg/feed.xml). This is a rehearsal instance for the two-node deploy (`venkateshrao.com/blyg/` + `protocol-institute.com/blyg/`), not the permanent home.
 
+## Which version to implement
+
+Build against the highest-numbered document at **[blygger.org/spec/](https://blygger.org/spec/)**
+— the living one. Pin to a dated snapshot (`/spec/{version}/{date}/`) when you need
+the text to hold still; each snapshot links a diff to the previous one. The `docs/`
+copy on `main` is the same text and may run a few days ahead of the site. **The plan
+documents and the reference client's source are not the spec** — they have carried wire
+shapes before the spec did, and that gap is now closed by listing ruled-but-unbuilt
+shapes in the living document's final section, labelled not-yet-normative. Pre-1.0,
+every version is a draft and makes no wire promise; a superseded version stays
+conformant and merely lacks the newer constructs, because levels are strict supersets.
+
 ## Repo layout
 
 This repo is **normative text and project record only** — no implementation.

@@ -38,6 +38,39 @@ not an oversight.
 - **License:** CC-BY-4.0
 <!-- spec-links:end -->
 
+**Which version to implement.** Implement against the highest-numbered
+document published at `https://blygger.org/spec/` — that is the living one,
+and this is it. The three places a version of this text can be found are
+not interchangeable:
+
+- **`blygger.org/spec/{version}/`** is the published living text. It changes
+  when testing changes it, and each change is listed in the revision history
+  at the end of this document.
+- **`blygger.org/spec/{version}/{date}/`** is a dated snapshot, with a diff
+  link to the previous one. **Cite and pin to a snapshot** when you need the
+  text not to move under you; then read the diffs to move forward.
+- **`docs/protocol-v{version}.md` on the repository's `main` branch** is the
+  source of the published text and may run ahead of the site by hours or
+  days. It is the same document, not a different version.
+
+**What is not the spec:** the plan documents (`docs/v0.3-plan.md` and its
+siblings) and the reference client's source. Both have carried wire shapes
+before this text did — the 0.3 constructs shipped in the reference client
+twelve days before this document existed — and several independent clients
+were built from them in that window. That was a lag in this project's
+process, not a stable arrangement. From this version on, a construct that
+has been *ruled* but not yet built appears in §16 of the living document
+with its exact shape and an explicit "not yet normative" label, so that the
+spec is always the first place a shape is visible.
+
+**The risk of the living text** is that it moves: pre-1.0, every version is
+a draft and no wire promise is made (§3.1's version key is informative for
+the same reason). **The risk of a superseded text** is only that it is
+incomplete: levels are strict supersets and every 0.2 document is a valid
+0.3 document, so a client built to 0.2 remains conformant and simply does
+not emit or understand the 0.3 constructs. Declare what you implement in
+the `blyg` key, and readers will treat the rest under the ignore rules.
+
 The key words MUST, MUST NOT, SHOULD, SHOULD NOT, RECOMMENDED, MAY are to be
 interpreted as described in RFC 2119.
 
@@ -1751,3 +1784,17 @@ authors; AI constructs on the wire beyond the passive provenance of §5.7;
 version-significance markup (the counter stays bare; the pin is the
 significance primitive); content-addressed identity; metrics of any kind;
 a fourth mention relation for links; and a normative write API.
+
+## 17. Revision history (non-normative)
+
+One line per published change to this document, newest first. Snapshots are
+cut at `blygger.org/spec/0.3/{date}/` and each carries a diff link to the one
+before it.
+
+- **2026-09-28** — Initial draft (session 27). Supersedes 0.2. Adds §3.2,
+  §5.6 (lineage defined), §5.8 `page`, §5.9 the reference shape, §10
+  rewritten for cross-client transclusion and nesting, §10.6 stubs, §15
+  Webmention, §16 ruled/deferred/reserved constructs (`cited`, `[[id]]`,
+  `generator_url`, generated changelog notes, the write surface, identity,
+  groups, agents, discovery), §5.2 note-depth rule, §5.7 rule 7 on imported
+  generation. Not yet published at the time of writing.
