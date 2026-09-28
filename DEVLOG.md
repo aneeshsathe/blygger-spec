@@ -102,22 +102,49 @@ code repos and writes exactly two things into `blygger-spec`: its own devlog ent
 its own ticks). The remote-sources build task is in the studio backlog with its fixed
 shape.
 
+**8. Partial quotation, ruled once the case was on the table (#49) — and the rule from
+§3 gave an answer I did not expect.** Venkat's case is the blogging norm: link an item
+and quote a suitable block as the inspiration, with extensive quotation being commentary
+or fork territory. That makes three registers of borrowing, two of which the protocol
+had, so the missing rung reuses the whole form with a selector rather than adding a
+construct: a directive immediately followed by a markdown blockquote, whose text must be
+a substring of the target snapshot's text content at publish; a W3C text-quote
+`selector` on the `transclusions[]` entry that verification ignores; a `blyg-partial`
+class beside `blyg-transclusion`; no cap; `transclusion` relation and the same staleness
+check. Plain-web `{url}` targets get an ordinary blockquote and nothing else, because
+there is no versioned document to check against. The surprise: an hour earlier I had
+named "a selector a reader must honour" as the paradigm of a new-version construct, and
+by #43's own test it is a *revision* — readers never resolve, they display baked HTML,
+and one that ignores `selector` changes nothing it does. So 0.4 opens on remote
+generation sources alone, and partial transclusion ships into the living text as soon
+as it is built. Recorded as a correction to #43's example, because a rule that only
+confirms expectations is not doing any work.
+
+**9. Raised from the parallel Opus session (#50): does a reader "link this" button
+recreate the sibling #27 retired?** No. #27 forbade a *response* affordance that does
+not declare itself; #32 made `[[id]]` declare nothing, so a link button is a different
+act, citing without responding, and refusing it would leave a grammar construct
+unreachable from where authors meet items. The condition is about shape, since shape is
+semantics to a user: named for what it does, beside copy-permalink, never a peer of
+`stub ↗`, never called respond. Answered within the hour, which is what the parallel
+arrangement is for.
+
 **State after**
 
-- `protocol-v0.3.md`: published living text, two revisions today, snapshot
+- `protocol-v0.3.md`: published living text, three revisions today, snapshot
   `2026-09-28` (the morning's state; the §16 revision is not snapshotted). `cited`,
   `[[id]]`, `generator_url` normative. §16 now carries: `changelog[].generated` (ruled,
   unbuilt), the write surface (never normative), remote generation sources (0.4, ruled
-  in full), partial quotation (0.4, open), and the closures.
+  in full), partial transclusion (ruled, a 0.3 revision once built), and the closures.
 - `blygger.org/spec/`: 0.3 living, 0.2 and 0.1 superseded with banners, 0.3 snapshot
   listed. `/start/` links 0.3.
-- Decisions #43–#48; `v0.4-plan.md`; `opus-brief.md`; roadmap-tracks 1.1, 1.3, 4.4 done
+- Decisions #43–#50; `v0.4-plan.md`; `opus-brief.md`; roadmap-tracks 1.1, 1.3, 4.4 done
   or defined, 1.4's Fable half ruled; `roadmap.md` v0.4 re-scoped.
 - Gates: G1 ✅ G2 ✅ G4 ✅. G3, G5, G6 open; none blocks anything.
 
 **Open threads**
 
-- **Partial quotation** awaits Venkat's authoring case (`v0.4-plan.md` §3).
+- **Partial transclusion** (#49) enters §10 as a 0.3 revision when built and exercised.
 - **The 0.4 document is not drafted, by rule** (#43); it opens when remote generation
   sources are built and exercised across both nodes.
 - `changelog[].generated` enters §5.2 as a 0.3 revision when 2.12 ships (gate G6).

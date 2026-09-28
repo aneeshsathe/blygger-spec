@@ -180,8 +180,9 @@ DEVLOG → Fable pass → spec revision, at any spec version below 1.0.
 > **Session-28 definition (2026-09-28, Fable 5.1 — decisions #43–#48, plan
 > [`v0.4-plan.md`](v0.4-plan.md)):** 0.4 *does* touch the wire, in one place:
 > generation across origins — `generated[].sources[]` gains `origin`, and a
-> remote source sends a mention with a fourth relation, `source` (#44). Partial
-> quotation joins it if Venkat's authoring case warrants a selector. Closed:
+> remote source sends a mention with a fourth relation, `source` (#44) — and only
+> that: partial quotation (#49) is a partial transclusion with a text-quote selector
+> and a 0.3 revision by #43, so it does not wait for 0.4. Closed:
 > staleness over the DAG does not exist (#45), no title field (#46), the two
 > parked feed/surface candidates (#47). Everything else in the paragraph below
 > is client work under Track 2 and needs no protocol text. The 0.4 document opens
