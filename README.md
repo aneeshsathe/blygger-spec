@@ -131,7 +131,7 @@ This repo is **normative text and project record only** — no implementation.
 
 ```
 docs/ygg-initial-spec.md   the v0 concept spec, verbatim — open for comments
-docs/protocol-v0.2.md      the normative spec (0.1 is SUPERSEDED)
+docs/protocol-v0.3.md      the normative spec, living draft (0.1 and 0.2 are SUPERSEDED)
 docs/roadmap.md            protocol version ladder, v0.1 → post-1.0
 docs/roadmap-tracks.md     program roadmap: four tracks across four repos
 docs/v0.3-plan.md          implementation plan for v0.3 "Trunk"

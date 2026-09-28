@@ -97,15 +97,15 @@ live nodes, it has to mean something anyone can run.
 
 | # | Item | Notes |
 |---|---|---|
-| 1.1 | **⚠️ FABLE — finalize v0.3** (`protocol-v0.3.md`, Phase B task 18) | The complete 0.3 surface is built and live-tested; 0.2 flips to SUPERSEDED per #23. Blocked on 1.2. |
-| 1.2 | **⚠️ FABLE — should a citation's human half be on the wire?** | Three readings in [`v0.3-plan.md`](v0.3-plan.md) §8. Governs stub citations *and* remote-transclusion bylines — one question. Now sharper: six clients must each invent the human half independently, which is an argument the §8 draft was written without. |
+| 1.1 | ~~**⚠️ FABLE — finalize v0.3**~~ (`protocol-v0.3.md`, Phase B task 18) | **Drafted session 27 (2026-09-28, Fable 5.1)** under strict #21: built surface only, session-27 rulings in its §16. 0.2 is superseded in the text; the live flip is **4.4**, Opus, unstarted. |
+| 1.2 | ~~**⚠️ FABLE — should a citation's human half be on the wire?**~~ | **Ruled session 27: yes, additive and optional — decision #30** (`cited` inside any reference; `v0.3-plan.md` §8c). Normative once blygger-studio emits it — that emission is now a Track 2 task. |
 | 1.3 | **⚠️ FABLE — define v0.4** (`roadmap.md` "Canopy — AI arrives") | Gate: 1.1 lands first. |
 | 1.4 | **A conformance suite anyone can run** | New, and the biggest gap this session found. Six implementations, no shared definition of conformant, and 4 of 11 nodes on 0.2. Shape: a published fixture set + a checker that takes an origin and reports per-clause pass/fail per version. `blyg-ref` becomes the label it asserts against. Partly Fable (what is normative vs. advisory), mostly not (the runner). |
 | 1.5 | **Public decision log** | "Locked decisions" is agent-facing in a file nobody outside the checkout reads. Wanted: what was decided and why, publicly. Publishing surface is Track 4. |
 | 1.6 | **⚠️ FABLE — `tn-2`: recommended practice for identity** | #11 keeps identity out of the spec, correctly. Six implementers now each invent something. Non-normative, cited, *a* way not *the* way — the `tn-1` genre. |
 | 1.7 | **A republish re-sends every reference** | §2.3.3 says unchanged references are not re-sent; `enqueueOutbound` resets every row to `pending`. Wants a stored target version. Harmless today. Spec-adjacent but the fix is in Track 2. |
-| 1.8 | **⚠️⚠️ FABLE — the authoring interface: a blyg as a publishing *target*** | Raised by Venkat, session 26. The largest unowned question on this page. Fable-gated on **two** counts from the routing rule — API-surface design *and* security/crypto. See §"A blyg as a publishing target" below. |
-| 1.9 | **⚠️ FABLE — six wire questions from the client issue list** | Triaged session 26 and written up in [`v0.3-plan.md`](v0.3-plan.md) §8b: whether `[[id]]` plain links exist and whether a link is disclosed/notifying (mention relations are exactly `stub\|transclusion\|fork`); whether a TK source may be remote (`ScopeProvenance.sources` has **no `origin`**, so the wire cannot express it); **partial quotation** (needs a selector + a faithfulness guarantee — probably the largest); `impyrt`, externally generated spans, and what `generated[]` is allowed to assert; and whether a leading `#` becomes a real title (items are deliberately titleless and `<title>` is a wire field). **Two were reported as bugs and are not bugs** — the client implements the spec in both cases. |
+| 1.8 | ~~**⚠️⚠️ FABLE — the authoring interface: a blyg as a publishing *target***~~ | **Ruled session 27 — decision #31:** never protocol-normative; a non-normative companion note (tn genre) after blygger-studio's surface is built with scoped, revocable bearer tokens and used by ≥1 third-party tool. Auth direction and the password-reset constraint are in `v0.3-plan.md` §8c. **2.9 is unblocked.** The write-up below stands as the evidence record. |
+| 1.9 | ~~**⚠️ FABLE — six wire questions from the client issue list**~~ — **all ruled session 27** (`v0.3-plan.md` §8c): `[[id]]` exists and is wire-silent (#32); remote TK sources wait for 0.4 with shape pre-committed; partial quotation, `impyrt`, titles deferred to 0.4; staleness direct-only (#33). Original triage: | Triaged session 26 and written up in [`v0.3-plan.md`](v0.3-plan.md) §8b: whether `[[id]]` plain links exist and whether a link is disclosed/notifying (mention relations are exactly `stub\|transclusion\|fork`); whether a TK source may be remote (`ScopeProvenance.sources` has **no `origin`**, so the wire cannot express it); **partial quotation** (needs a selector + a faithfulness guarantee — probably the largest); `impyrt`, externally generated spans, and what `generated[]` is allowed to assert; and whether a leading `#` becomes a real title (items are deliberately titleless and `<title>` is a wire field). **Two were reported as bugs and are not bugs** — the client implements the spec in both cases. |
 
 ## Track 2 — Reference client (`blygger-studio`)
 
@@ -122,7 +122,7 @@ live nodes, it has to mean something anyone can run.
 | 2.6 | **The studio backlog** — Venkat's session-26 issue list, triaged: 10 items in [`blygger-studio`](https://github.com/blygger/blygger-studio/blob/main/CLAUDE.md)'s CLAUDE.md backlog. Plus the carry-overs: subscription titles never refresh, 1.7's republish behaviour, the studio/public theme split. Two entries carry constraints rather than just descriptions — the password reset is sequenced **after 1.8**, and the timezone request localizes rendering only and must never reach the wire. | MEDIUM |
 | 2.7 | **v0.3 Phase B remainder** — tasks 12 (share), 13 (own items in hoppers), 14 (stub templates), 15 (threads tab), 16 (`stub_of` at import). | MEDIUM |
 | 2.8 | **Packaged distribution** — `self-host-plan.md` §4 template repo + `npm run init`. The start page already does this job informally and has produced three nodes, so the template is now an improvement, not a prerequisite. | MEDIUM |
-| 2.9 | **`/api` becomes a contract** — versioning, token auth, CORS, idempotency, and a written reference. Today it is 30 private endpoints behind one owner cookie. **Gated on 1.8**, which decides whether the contract is ours alone or the protocol's. | **HIGH once 1.8 lands** |
+| 2.9 | **`/api` becomes a contract** — versioning, token auth, CORS, idempotency, and a written reference. Today it is 30 private endpoints behind one owner cookie. ~~Gated on 1.8~~ **Unblocked session 27 (#31): the contract is ours alone.** Direction: bearer tokens with coarse scopes, owner-minted/revoked, root password never held by a tool, revoke-all on reset, CORS for token requests, `rel`-link discovery. | **HIGH** |
 
 ## Track 3 — Registry & discovery (blygger.com)
 
@@ -351,10 +351,10 @@ half of a citation, and that evidence is still arriving.
   wrong. Options: only track clients whose authors opt in; track from GitHub releases
   where a repo is known; or show the observed version without a latest-known comparison
   for third parties. Undecided.
-- **Does the write surface belong to v0.4?** 1.8 is a protocol question and v0.4 is the
-  next version to be defined, so the tidy answer is yes. Against it: v0.4 is "AI arrives"
-  in `roadmap.md`, and stapling an authoring API to it makes one version carry two
-  unrelated arguments. A `0.3.x` companion note may be the better home.
+- ~~**Does the write surface belong to v0.4?**~~ **Answered session 27 (#31): no.** It belongs
+  to no protocol version — a companion technical note, once built. (The argument that
+  stapling an authoring API to "AI arrives" would make one version carry two unrelated
+  arguments was right, and was only half of it: the surface is not the protocol's at all.)
 - **Does a mod get listed as itself, or as a version of `blygger-studio`?** Bears on
   2.4: if forks are listed, they have an incentive to stay discoverable, which is also
   how we learn the upgrade path is breaking them.

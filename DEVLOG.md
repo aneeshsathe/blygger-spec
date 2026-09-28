@@ -7,6 +7,125 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 27 — 2026-09-28 — The Fable round: every open protocol question ruled, 0.3 drafted under strict #21
+
+**Model:** Fable 5.1 · **Time:** ~11:02–11:35 PT · **Committed:** yes (blygger-spec, blygger-studio) · **Deployed:** nothing — 0.3 is drafted, not published
+
+**What & why**
+
+Venkat opened on Fable with one instruction — Fable-only work, leave webmention hardening
+for the next Opus session — and the session-26 brief set the agenda: three triage
+questions that blocked Opus, then the 0.3 freeze. All of it got ruled; the interesting
+part is where the rulings came out differently from how the questions were posed.
+
+**1. The write surface (T1 → decision #31): the protocol will never specify one.** The
+question arrived as "protocol-normative, companion note, or each client's business?" and
+the answer is the second, with the reason being the first invariant read carefully: the
+protocol governs the public artifact and the studio is unconstrained *by design* — that
+split is also the multi-tenancy escape hatch. A normative write API would make a
+folder-on-a-laptop client non-conformant for a reason unrelated to publishing, and that
+client is exactly the second implementation the 1.0 bar wants. So the roadmap's open
+question "does the write surface belong to 0.4?" is answered no: it belongs to no
+version. What Opus needed was narrower than the design and got ruled in full — bearer
+tokens with coarse verb scopes, owner-minted and revoked, the password demoted to a root
+credential no tool ever holds, revoke-all as the whole revocation story, password reset
+leaving tokens standing but forced to offer revoke-all, CORS for token requests, and
+endpoint discovery via an HTML `rel` link so the manifest stays clean. 2.9 is unblocked.
+
+**2. `[[id]]` (T2 → decision #32): it exists, and it is silent.** The brief was right that
+the decision was disclosure, not syntax. A transclusion is disclosed because it *copies*
+the target's words at a version, so there is something for the target to verify; a link
+asserts nothing on the target's behalf, so there is nothing. No `transclusions[]` entry,
+no fourth relation, no mention. The affordance this preserves — citing without notifying,
+in a medium where every other citation form notifies — is necessary rather than
+accidental, and the ruling says so, so nobody later "fixes" it.
+
+**3. Staleness (T3 → decision #33): confirmed, and sharper than asked.** Opus had assumed
+the simple check needs nothing from the protocol, which is right — every reference
+already carries the last version seen, and only the client's outbound-mention table
+lacks it, so T3 and 1.7 are one fix. The sharpening: under snapshot independence,
+staleness is *direct only*. If A bakes B and B's own source changes, A holds B's bytes at
+B's version, unchanged, so A is not stale until B republishes. "Staleness over the DAG"
+therefore lacks a definition, not an implementation, and 0.4 may find there is no such
+thing. Recorded in the 0.3 text at §10.4 so it is not rediscovered.
+
+**4. The citation's human half (F1 → decision #30): on the wire, additively.** The (a)
+reading — the wire should not let a publisher assert a title, author, or excerpt for an
+origin that never said them — is already breached by transclusion itself, which bakes
+the target's *entire* content into the quoter's document, self-asserted. A label is
+strictly weaker than the snapshot §10 already permits, and `author` inside it is #11's
+opaque pass-through. The argument that actually decided it: a citation is as-of-retrieval
+by nature, so the citing publisher's frozen label is *more* correct than a reader's later
+lookup of the live target, not a fallback for when the link dies. `cited` is the client's
+existing `StubCite` unchanged — `retrieved` required, the rest optional, the excerpt a
+capped caption so it cannot become a second quotation channel — and it goes on all three
+references, which also closes the session-23 stale-byline finding.
+
+**5. The sequencing call, which was Venkat's: strict #21.** The brief had framed F1 as
+"if additive, the 0.3 document must carry the member or it becomes a 0.4 change." That is
+not what #23 says — 0.3 is the *living* document and receives revisions — so the real
+choice was whether to write `cited` and `[[id]]` into normative text before any client
+emits them. Venkat chose strict #21: the 0.3 draft carries only the built surface, and
+the ruled-but-unbuilt constructs sit in its **§16 with their exact shapes**, entering the
+normative sections in the revision after blygger-studio ships them. Third-party clients
+see the shape immediately; the spec claims nothing untested; Opus builds against a
+written target. The cost is a few days of latency and nothing else.
+
+**6. `protocol-v0.3.md`, 1,628 lines.** A standalone superset of the 0.2 text with **0.2's
+section numbers preserved** — new material went into §3.2, §5.6, §5.8, §5.9, §10.6, §15
+and §16 rather than renumbering, because `css-contract.md`, the plan docs and the
+webmention code all cite 0.2 by section. What it adds beyond the four decision records:
+a `level`/`generator`-are-informative rule (§3.2, readers MUST NOT gate on either, and
+`generator` is asked for in `name/version` form because it is the census); the feed
+`<title>` derivation as prose, with items explicitly titleless (§5.3, §7); the reference
+shape named once (§5.9) so the four constructs can converge on it; the remote-TK-source
+restriction stated rather than implied (§5.7 rule 1) and a new rule 7 forbidding
+`generated[]` for text the publisher did not generate; the endcap keeping `page` and
+`forked_from` (§9); and a §14 that treats a Webmention endpoint as the fetch-on-demand
+surface it is. Three documentation lies from the brief are corrected: the reference
+implementation is `blygger/blygger-studio`, and the 0.1/0.2 texts that say `worker/` stay
+wrong on purpose because superseded specs take no revisions.
+
+**7. Found while drafting: the live nodes emit `"level": 1` at protocol 0.3.** Read off
+`blyg.protocol-institute.org/blyg.json`, not recalled. 0.3's §3 defines L2 as this
+specification, so `PROTOCOL_LEVEL` in the studio should be 2 — one line, filed in the
+studio backlog. Not a spec matter, since §3.2 forbids readers from caring, but it would
+have been embarrassing on a published page.
+
+**8. The brief was rewritten for a round that may be a no-op.** With every open protocol
+question ruled and nothing in the Opus queue waiting on Fable, the next Fable session has
+work only once four gates open — `cited` built and exercised cross-node, `[[id]]` built,
+token auth used by a third-party tool, 0.3 published. The brief says: if none is open,
+say so in one line and stop. The 0.4 agenda is, verbatim, `protocol-v0.3.md` §16.
+
+**State after**
+
+- `docs/protocol-v0.3.md` drafted, DRAFT status, **not published**. `protocol-v0.2.md`
+  superseded in the text; the live flip is Track 4.4 (register 0.3 in `sync_spec.py`,
+  flip 0.2), Opus, ~30 min, listed as a carry-over.
+- Decisions **#30–#33** in `CLAUDE.md`; full reasoning in `v0.3-plan.md` **§8c**; every
+  §8/§8b question marked ruled. roadmap-tracks 1.1, 1.2, 1.8, 1.9 struck through with
+  their outcomes; 2.9 unblocked; the write-surface open question answered.
+- blygger-studio `CLAUDE.md`: gating passages rewritten to say what is now buildable, and
+  a four-item block of wire-adjacent tasks — emit `cited`, render `[[id]]`,
+  `PROTOCOL_LEVEL` 2, store the target version per outbound mention — which are what
+  promote §16.1/§16.2 to normative.
+- `fable-brief.md` rewritten: gates G1–G4, then the 0.4 definition.
+
+**Open threads**
+
+- **Webmention hardening (2.5) is still open** and still the only item with other
+  people's machines exposed. Deliberately untouched this session per Venkat; it is the
+  next Opus session's first item.
+- **0.3 is unpublished.** Until 4.4 runs, `blygger.org/spec/` presents 0.2 as the living
+  document, which stopped being true this session.
+- **`tn-2` numbering collision:** roadmap-tracks 1.6 reserved `tn-2` for identity
+  practice and #31 wants a note for the write surface. Whichever is written first takes
+  the number; the brief says so.
+- **§8's implementation notes still cite `worker/src/…` paths.** Left as a historical
+  record; the current paths are `blygger-studio/src/…`.
+- **Session 24 still has no devlog entry** (noted sessions 25 and 26, unchanged).
+
 ## Session 26 — 2026-09-28 — The client gets its own repo and a name; four tracks; the ecosystem turns out to be nine projects
 
 **Model:** Opus 5 · **Time:** ~09:37–11:40 PT · **Committed:** yes (4 repos) · **Deployed:** blygger.org Pages (×2), blygger.com D1 (directory approvals)

@@ -139,6 +139,12 @@ DEVLOG → Fable pass → spec revision, at any spec version below 1.0.
 > which means another client reading our document cannot render what we render.
 > Written up with three readings in `v0.3-plan.md` §8; the same question governs
 > remote transclusion bylines. For the `protocol-v0.3.md` pass.
+>
+> **Ruled session 27 (2026-09-28, Fable 5.1): yes, additive and optional — decision #30**,
+> and `protocol-v0.3.md` drafted the same session (Phase B task 18) under strict #21:
+> built surface only, with `cited` and `[[id]]` (#32) described in its §16 until the
+> reference client emits them. What remains of v0.3 is Phase B tasks 12–16 and the
+> live publish (roadmap-tracks 4.4).
 
 **Protocol deliverables (L2):**
 - Stub metadata (marks a thread as a stub of a target item)
