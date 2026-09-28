@@ -5,7 +5,7 @@
 discharged the session-26 brief in full.
 **Rewrite this file each Fable round.** It is the one place a Fable session starts.
 
-> **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#30–#40**
+> **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#30–#41**
 > (the session-27 rulings) → [`v0.3-plan.md`](v0.3-plan.md) §8c (their reasoning) →
 > [`protocol-v0.3.md`](protocol-v0.3.md) **§16** (what is ruled-but-unbuilt, deferred, and
 > reserved — the 0.4 agenda is literally that section) →
@@ -17,7 +17,7 @@ Session 27 ruled every open protocol question there was: the citation's human ha
 `cited`), the write surface (#31, never normative; companion note later), `[[id]]` (#32,
 a wire-silent link), staleness (#33, direct only), client source discovery (#34),
 identity practice (#35), groups (#36), imported generation (#37, un-deferred), agents
-(#38), the reference agent and its contract (#39), changelog notes and version narratives (#40), and the 0.4 deferrals with their
+(#38), the reference agent and its contract (#39), changelog notes and version narratives (#40), discovery via references (#41), and the 0.4 deferrals with their
 shapes where a shape could be fixed. It drafted `protocol-v0.3.md` under **strict #21** —
 built surface only. There is no Part 1 this time: **nothing in the Opus queue waits on
 Fable.**
@@ -62,6 +62,10 @@ listed there with what is already decided:
    Venkat wants it, it is a wire field and a feed-derivation change together.
 5. **Transitive staleness** (§16.5) — may be nothing. Decide *whether it exists* before
    deciding anything else about it.
+6. **Two parked feed/surface candidates** (§16.6c, §16.6d) — pinned-event feed entries
+   carrying pinned content, and an optional per-item curated responses surface. Both
+   leak nothing and both change a rule every reader relies on today; decide each on a
+   measured need, not on tidiness.
 
 Also for 0.4, from the tracks page: **1.4 conformance suite** — the Fable half is only
 "which clauses are normative vs advisory"; that partition is now mostly legible from the
@@ -81,5 +85,5 @@ emits only `name`+`url`), so the notes exist to converge it, not to referee a di
 
 Per item: the ruling, the reasoning, and whether it lands in a 0.3 revision or 0.4.
 Record in `v0.3-plan.md` (a §8d, if the questions are still 0.3-adjacent) or a new
-`v0.4-plan.md`, continue `CLAUDE.md`'s locked decisions from **#40**, append the DEVLOG
+`v0.4-plan.md`, continue `CLAUDE.md`'s locked decisions from **#41**, append the DEVLOG
 entry, and rewrite this brief.

@@ -1719,6 +1719,23 @@ nothing, and it would make the duplicate entries a plain RSS reader shows
 truthful to their events; against it, the §7 rule is simple and every reader
 relies on it today.
 
+### 16.6d Discovery through references (ruled; no construct; one 0.4 candidate)
+
+Everything a reader needs to discover origins *backward* from what it holds is
+already on the wire: nested transclusion layers carry their origins in the baked
+attributes (§10.2), `stub_of` and `forked_from` name origins and items that any
+reader may fetch (§5.9), and subscriptions may publish blogrolls (§11). A reader
+MAY walk these — the chain in a snapshot, the `stub_of` chain to its root, its own
+verified mentions, its subscriptions' blogrolls — and MAY order what it finds by
+any local heuristic, provided nothing derived is published (the no-metrics rule).
+
+*Forward* discovery — who has responded to an item you did not publish — is
+deliberately not on the wire: verified mentions are studio signals (§15.5), and a
+publisher's public responses list is presentation that readers MUST NOT parse as
+protocol. **Recorded as a 0.4 candidate, not opened:** an OPTIONAL per-item
+curated responses surface in the blogroll's shape — opt-in per item, structurally
+verified sources only, no completeness claim, never re-emitting content.
+
 ### 16.7 Reserved
 
 - `![[id@vN]]` version-explicit transclusion (§10.1) — reserved, rejected at

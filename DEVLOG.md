@@ -9,7 +9,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 ## Session 27 — 2026-09-28 — The Fable round: every open protocol question ruled, 0.3 drafted under strict #21
 
-**Model:** Fable 5.1 · **Time:** ~11:02–12:20 PT · **Committed:** yes (blygger-spec, blygger-studio) · **Deployed:** nothing — 0.3 is drafted, not published
+**Model:** Fable 5.1 · **Time:** ~11:02–12:25 PT · **Committed:** yes (blygger-spec, blygger-studio) · **Deployed:** nothing — 0.3 is drafted, not published
 
 **What & why**
 
@@ -171,6 +171,16 @@ Also corrected a mental model: NetNewsWire showing N copies of the *latest* text
 working as designed, not a canonical-URL artefact. One idea parked rather than opened:
 pinned-event feed entries carrying pinned content, which would leak nothing.
 
+**15. Discovery through stub chains (decision #41).** People are already stubbing stubs
+and restubbing back and forth, and the reader shows one level. The answer was mostly "look
+in your own database": nesting is nested blockquotes with origins in the baked attributes,
+so the latest item of any chain carries every participant, offline. Four surfaces need no
+spec change — chain view, the `stub_of` walk to the root, the conversation around you,
+second-degree blogrolls — and the one direction that is closed, who responded to something
+you read, is closed by #28 on purpose. The addition that would open it is recorded as a
+0.4 candidate and not taken. One caution was checked rather than assumed: the importer's
+sanitizer is allowlist-by-removal and keeps `data-blyg-*`, so the chain survives import.
+
 **Technical notes queued for Opus** (roadmap-tracks 1.6): `tn-3` groups and aggregation,
 writable now; `tn-2` identity, as a proposal draft first; `tn-4` write surface and `tn-5`
 agent contract, after their builds; `tn-6` version histories after the note generator.
@@ -182,7 +192,7 @@ history view.
 - `docs/protocol-v0.3.md` drafted, DRAFT status, **not published**. `protocol-v0.2.md`
   superseded in the text; the live flip is Track 4.4 (register 0.3 in `sync_spec.py`,
   flip 0.2), Opus, ~30 min, listed as a carry-over.
-- Decisions **#30–#40** in `CLAUDE.md`; full reasoning in `v0.3-plan.md` **§8c**; every
+- Decisions **#30–#41** in `CLAUDE.md`; full reasoning in `v0.3-plan.md` **§8c**; every
   §8/§8b question marked ruled. roadmap-tracks 1.1, 1.2, 1.8, 1.9 struck through with
   their outcomes; 2.9 unblocked; the write-surface open question answered.
 - blygger-studio `CLAUDE.md`: gating passages rewritten to say what is now buildable, and
