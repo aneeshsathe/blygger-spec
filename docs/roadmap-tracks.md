@@ -113,8 +113,8 @@ live nodes, it has to mean something anyone can run.
 
 | # | Item | Priority |
 |---|---|---|
-| 2.1 | **Split the repo, with history.** `git subtree split` on `worker/`, new repo under the `blygger` org, rename to `blygger-studio`, CI + deploy config moved, `blygger-spec` left normative-only. `blygger-com`'s vendored resolver re-points its sync source. | **HIGH — blocks 2.2 and 4.3** |
-| 2.2 | **Issue scaffolding** (`.github/ISSUE_TEMPLATE/`) — bug, feature, and a client-vs-protocol router. Real reports are arriving now. | **HIGH** |
+| 2.1 | ✅ **Split the repo, with history — done session 26.** All 59 commits of `worker/` via `git subtree split`; `blygger/blygger-studio` created public; renamed via a new `CLIENT` constant decoupled from `BRAND`; both user agents re-derived (they had drifted to `blyg-ref/0.2` and `/0.3` on a 0.3.0 client); 508 tests + `tsc` verified standalone **before** the spec repo was touched. `blygger-com`'s `sync-vendor.sh` re-pointed. | ✅ done |
+| 2.2 | ✅ **Issue scaffolding — done session 26.** `bug.yml` + `feature.yml` here, `protocol-bug.yml` + `proposal.yml` in the spec repo, `project.yml` + `site.yml` in `.org`; every `config.yml` cross-links the others with the routing rule ("would another client have to change?") and invites misfiling over not filing. The bug form asks whether the client was modified — the only channel there is, given zero forks. | ✅ done |
 | 2.3 | **The update path.** `npm run upgrade` (already designed in `self-host-plan.md` §5, never built) + a release channel: tagged releases, `releases.json`, a changelog a stranger can read. Feeds Track 3's known-latest table. | **HIGH** |
 | 2.4 | **Fork-friendliness.** People are already modifying the client for custom needs — an MCP server bolted onto Studio is in the wild. An upgrade path must survive a fork: named extension points, a documented "what we will not rename", and an upgrade that rebases rather than overwrites. Design this *with* 2.3, not after. | **HIGH** |
 | 2.5 | **Webmention rate-limit hardening** (`self-host-plan.md` §9.1) | **HIGH — three third-party nodes exposed.** Registrable-domain cap, global hourly cap on pending verifications, prune `failed`. ~1h, all local. |
@@ -143,9 +143,9 @@ live nodes, it has to mean something anyone can run.
 
 | # | Item | Priority |
 |---|---|---|
-| 4.1 | **Ecosystem directory** — a maintained page of community-built artifacts, with **periodic checking and generated summaries** per Venkat. Design below. | **HIGH** |
-| 4.2 | **Submission path.** The site is static and cannot take a POST. Submission is a **GitHub issue form**, which makes Track 2.2's scaffolding do double duty: one mechanism, one queue, one place a stranger already is. | **HIGH** |
-| 4.3 | **Publish the split.** `/start/` and the spec pages point at `blygger-spec/worker/`; after 2.1 they point at `blygger-studio`. A start page that installs from a moved repo is the fastest way to break the thing that has produced every third-party node so far. | **HIGH — gated on 2.1** |
+| 4.1 | ✅ **Ecosystem directory — built and live session 26** at [blygger.org/ecosystem/](https://blygger.org/ecosystem/). 11 entries; `sync_ecosystem.py` + `ecosystem/projects.toml`; census-primary discovery; `generator_aliases` so a renamed client's own nodes aren't credited to a stranger. Already prints the update signal: *"5 of 5 live nodes run an older build"*. | ✅ done |
+| 4.2 | ✅ **Submission path — done session 26.** `blygger-org/.github/ISSUE_TEMPLATE/project.yml`, linked from `/start/` and from the ecosystem page. Asks for category (client/tool/integration/mod) and a *distinctive* `generator`, and says why we must be told: a tool or mod is invisible to the census. | ✅ done |
+| 4.3 | ✅ **Publish the split — done session 26, deployed.** `/start/` rewritten: client links and the `wrangler.jsonc` path moved to `blygger-studio`, the "exactly one reference implementation" paragraph replaced with the seven-client reality, and the remaining gap restated as a local-first client plus a conformance checker. Frozen `/spec/` snapshots deliberately untouched. | ✅ done |
 | 4.4 | **Publish `protocol-v0.3.md`** at `blygger.org/spec/0.3/`; 0.2 flips to SUPERSEDED. `spec-publishing-plan.md` §6. | Gated on 1.1 |
 | 4.5 | **Publish the decision log** (Track 1.5) and `tn-2` (1.6). | Gated |
 | 4.6 | **A conformance page** — what `blyg 0.3` requires, and the checker from 1.4 as something an implementer can point at. | Gated on 1.4 |
@@ -291,6 +291,20 @@ do meanwhile is stop making it worse: 2.9 is written to be gated, and the split 
 not touch `/api` semantics.
 
 ---
+
+## Session 26 status
+
+Done and live: **2.1, 2.2, 4.1, 4.2, 4.3**, plus the directory queue (9 of 10 pending
+submissions approved after live revalidation; one held with its reason recorded) and
+a small pre-existing fix in `blygger-com` — the directory had been announcing itself to
+strangers' servers as `blyg-ref/0.2`, a two-version-stale blyg client, when it is a
+directory.
+
+Still open and unstarted: **2.3** (update path / `npm run upgrade` + release channel),
+**2.4** (fork-friendliness — documented in the client's README and asked about in its
+bug template, but not engineered), **2.5** (webmention hardening — still the only item
+with other people's deployments exposed), **3.1/3.2** (the directory-side alert and the
+health cron), **3.3–3.6**, **2.6–2.9**, and all of Track 1.
 
 ## Sequencing
 
