@@ -21,13 +21,15 @@ stubs (§10.6), lineage (§5.6), the `page` field (§5.8), and Webmention with
 structural verification (§15). Version 0.2 stops receiving revisions when this
 document is published, and stays citable with its snapshots intact.
 
-**What this document does not add, deliberately.** Every 0.3 construct below
-was built and exercised between two independent deployments before it was
-written down here. Constructs that have been *decided* but not yet built —
-the `cited` object, the `[[id]]` internal link — are described in §16 with
-their ruled shapes and enter this document's normative text in a later
-revision, once a client emits them. That sequencing is the project's rule,
-not an oversight.
+**What this document does not add, deliberately.** Every normative construct
+below was built and exercised between two independent deployments before it
+was written down here — including `cited` (§5.9), `[[id]]` (§10.1) and
+`generator_url` (§6.1), which were ruled on 2026-09-28, built the same day,
+and promoted from §16 into the normative text once both live nodes had
+exercised them across origins. Constructs that have been *decided* but not
+yet built are described in §16 with their ruled shapes and enter the
+normative text in a later revision, once a client emits them. That
+sequencing is the project's rule, not an oversight.
 
 <!-- spec-links:begin -->
 - **This version:** `https://blygger.org/spec/0.3/`
@@ -207,12 +209,13 @@ whatever they find. Vocabulary evolves inside one namespace under those
 ignore rules; a breaking change, if one ever happens, gets a major version
 bump and its own migration story — never this mechanism.
 
-### 3.2 The `level` and `generator` keys are informative
+### 3.2 The `level`, `generator` and `generator_url` keys are informative
 
 The manifest's `level` (§6.1) is the conformance level the publisher claims,
-and `generator` is the name and version of the software that produced the
-blyg. Both are self-descriptions. **Readers MUST NOT gate any behaviour on
-either key** — not parsing, not feature selection, not trust. A reader
+`generator` is the name and version of the software that produced the blyg,
+and `generator_url` is where that software's source or home page lives. All
+three are self-descriptions. **Readers MUST NOT gate any behaviour on any of
+them** — not parsing, not feature selection, not trust. A reader
 decides what a document contains by reading the document, under the
 ignore-unknown rules; a reader that would render, verify, or import
 differently because of a `generator` string is treating an unverified label
@@ -569,12 +572,55 @@ all three use one shape:
   a reference has gone stale: fetch `{origin}items/{id}.json` and compare.
   No protocol construct beyond this is needed for direct staleness, and none
   is defined.
-- A reference is a machine-readable identity, and only that. It carries no
-  words — no title, no author name, no excerpt — at this version. The
-  human half of a citation is composed by each client from what it knows,
-  which means a reader of a document whose target has since disappeared has
-  an identity and no words. That gap has been ruled on and its fix has a
-  shape (`cited`, §16.1); it enters this document once a client emits it.
+- The three members above are the whole of a reference's **machine-readable
+  identity**, and they are the only members anything in this protocol
+  verifies or compares. A reference MAY additionally carry the human half of
+  a citation, `cited`, defined next — and nothing else.
+
+**The human half of a citation — `cited` (new in 0.3).** A reference names a
+version and carries no words, so a reader of a document whose target has
+since disappeared would hold an identity and nothing to show. A reference
+MAY therefore carry an OPTIONAL `cited` object: the label the citing
+publisher saw when it made the reference.
+
+```json
+"stub_of": { "origin": "https://blyg.protocol-institute.org/",
+             "id": "1vgtgz0gq5b2c9k7d3m8r4n6xy", "version": 1,
+             "cited": { "source": "Protocol Institute Blyg",
+                        "author": "Editor",
+                        "excerpt": "Stigmergy is what a protocol looks like from inside…",
+                        "url": "https://blyg.protocol-institute.org/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/",
+                        "retrieved": "2026-09-16T20:11:00Z" } }
+```
+
+- `retrieved` is REQUIRED whenever `cited` is present — a citation without a
+  date is not a citation. `source` (the target blyg's title as seen),
+  `author` (the target's own `author.name`, passed through under §5.5),
+  `excerpt` (a short caption; publishers SHOULD cap it near 200 characters)
+  and `url` (the target's page as it stood) are OPTIONAL.
+- It is **self-asserted and never authoritative**, like every other
+  provenance member in this protocol, and it is **frozen at the moment the
+  reference was made** — publish time for a transclusion, which is
+  re-resolved at every publish (§10.2); creation time for `stub_of` and
+  `forked_from`. That is what makes it a citation rather than a lookup.
+- **Verification ignores it.** Mention verification (§15.4) reads the three
+  identity members alone and MUST NOT consult `cited`. Readers MUST NOT
+  present it as verified or as the target's current state, MUST NOT bake it
+  into `content_html`, and a reader that ignores it entirely remains
+  conformant. Importers retain it verbatim as part of the document.
+- **The excerpt is a caption, not a quotation.** Verbatim quotation of
+  another item is exclusively transclusion (§10); the length cap is what
+  keeps `cited` from becoming a second quotation channel.
+- The same object is permitted in `forked_from`, `stub_of` and every
+  `transclusions[]` entry, and pinned version files (§8) carry each
+  reference's `cited` as they carry the reference itself.
+
+Why it is on the wire at all: a transclusion already bakes the target's
+*entire* content into the quoter's document, self-asserted, so a label is
+strictly weaker than what §10 permits; and a citation is as-of-retrieval by
+nature, so the citing publisher's frozen label is *more* faithful to what
+was cited than a reader's later lookup of the live target — not a fallback
+for when the link dies.
 
 ## 6. Manifest and archive index
 
@@ -584,7 +630,8 @@ all three use one shape:
 {
   "blyg": "0.3",
   "level": 2,
-  "generator": "blygger-studio/0.4.0",
+  "generator": "blygger-studio/0.6.0",
+  "generator_url": "https://github.com/blygger/blygger-studio",
   "site": "https://example.com/blyg/",
   "title": "Venkat's blyg",
   "author": { "name": "Venkatesh Rao", "bio": "…", "avatar": "media/avatar.png",
@@ -608,7 +655,20 @@ blogroll (§11). The `webmention` key (new in 0.3) is OPTIONAL: the URL of the
 publisher's Webmention endpoint, origin-relative allowed, present only when
 the publisher receives mentions (§15.1); a static export omits it. The `site`
 value is self-asserted and display-advisory only; it never establishes
-identity (§12.2). `level` and `generator` are informative (§3.2). A `generator_url` key naming the client's source has been ruled and is described in §16.6a.
+identity (§12.2). `level` and `generator` are informative (§3.2), and so is
+**`generator_url`** (new in 0.3): OPTIONAL, one absolute URL to the client
+software's canonical source repository or home page, baked in by the
+client's author beside `generator` (the precedent is Atom's generator
+`uri`). Publishers SHOULD emit it; readers MUST NOT gate on it; its absence
+means only that nothing was stated. It is a SHOULD and will never be a MUST —
+a required field that readers may not act on would be a conformance rule
+serving a directory's convenience, and most existing clients would fail it
+for a reason unrelated to publishing. **There is deliberately no
+maintained/unmaintained declaration**: the software that would need to say
+"I am unmaintained" is exactly the software nobody is updating, so
+maintenance status is a fact for directories to observe, never for the wire
+to assert. A registry MAY require a client source as a condition of
+*listing*; that is its business, not conformance.
 
 ### 6.2 Archive index — `items/index.json`
 
@@ -877,9 +937,18 @@ fetch.
   spelling in the grammar, and none is planned. That is what lets a thread be
   moved, mirrored, or re-hosted without rewriting its source; which origin a
   directive resolved to is recorded in provenance (§10.3), not in the text.
-- The unprefixed form `[[id]]` is **not defined at 0.3**: it is inert text
-  here. Its meaning as a plain internal link has been ruled (§16.2) and
-  enters this document once a client renders it.
+- The unprefixed inline form `[[` + id + `]]`, anywhere in `content_md`, is
+  a **plain internal link** (new in 0.3). It resolves at publish time by the
+  same order as a directive (§10.2) and renders in `content_html` as an
+  ordinary anchor whose `href` is the **absolute** URL of the target's page
+  (§5.8) — absolute because `content_html` travels to subscribers (§7); the
+  anchor text is presentation. It is **silent on the wire**: no
+  `transclusions[]` entry (§10.3), no mention (§15), no relation (§15.4) —
+  a link asserts nothing on the target's behalf, so there is nothing for the
+  target to verify. An unresolvable link is a publish error, like an
+  unresolvable directive. This deliberately preserves the one way to cite
+  without notifying: in a medium where every other citation form notifies,
+  that affordance is necessary, not accidental.
 
 ### 10.2 Publish-time resolution
 
@@ -977,7 +1046,8 @@ version:
   self-asserted `site`.
 - Fragments omit the key entirely; threads always carry it (a withdrawn
   thread's endcap carries `[]`). Generation sources are disclosed separately
-  and never appear here (§5.7).
+  and never appear here (§5.7), and a plain internal link (§10.1) produces
+  no entry: only copied words are disclosed.
 - A remote entry is a **remote reference** and SHOULD send a mention to its
   origin (§15.2), whose relation is `transclusion`.
 - Readers at L2 MUST scope a transclusion's `id` to its `origin` when
@@ -1501,7 +1571,16 @@ The endpoint contract is the W3C's: `POST`, body
    exists, the claim is bad. A withdrawn target is accepted (people may
    respond to a withdrawal).
 2. **Rate limit → 429.** RECOMMENDED: more than 60 mentions from one source
-   host in an hour. Cheap, and enough to keep a queue from filling.
+   host in an hour. Cheap — but not, on its own, enough to bound the queue:
+   a sender that controls a wildcard DNS zone has unlimited hosts, and every
+   accepted claim costs the receiver up to two fetches at URLs the sender
+   chose (§15.4). Receivers SHOULD therefore also cap by a coarser grouping
+   of the source (the reference client groups by registrable domain, at a
+   looser limit than the per-host one, because the grouping is a heuristic
+   that can over-collect) and cap total accepted claims per hour regardless
+   of source. A claim refused by any cap is 429 and is never queued. The
+   numbers are the receiver's; the shape — per source, per source group,
+   global — is the recommendation.
 3. **Accept → 202**, record the `(source, target)` pair as pending, and
    verify asynchronously. W3C permits synchronous 200 or 201; 202 is the
    honest answer since verification fetches the network. A re-sent pair
@@ -1531,7 +1610,8 @@ receiver's protection, not a nicety (§14).
    origin string against the receiver's own identity origin, normalized. The
    receiver is the only party that can say whether a version is pinned, so
    the fork check consults its own pins and fails a claim naming an unpinned
-   version, at no extra fetch.
+   version, at no extra fetch. Every comparison here reads a reference's
+   identity members only; a `cited` object (§5.9) is ignored.
 5. Success → **verified**, recording the source item's `id`, `origin`,
    `version`, `kind`, the relation, the source `author` (pass-through, §5.5),
    and the source page URL. **No content is stored** — a verified mention is
@@ -1545,7 +1625,7 @@ receiver's protection, not a nicety (§14).
 
 The relation set is exactly `stub`, `transclusion`, `fork` — one per wire
 construct that names a target — and nothing else. A plain link is not a
-relation (§16.2).
+relation (§10.1).
 
 ### 15.5 What a verified mention is, and is not
 
@@ -1586,60 +1666,27 @@ This section records what has been decided but not yet built (and so is
 not yet normative text — the project's rule is that testing precedes
 prose), what has been explicitly deferred to a later version, and what is
 reserved. Implementations should leave room accordingly. Decision records
-are in `blygger-spec`'s `CLAUDE.md` and `docs/v0.3-plan.md`.
+are in `blygger-spec`'s `CLAUDE.md` and `docs/v0.3-plan.md`. A subsection
+that has since been promoted into the normative text keeps its number here
+as a pointer, so that citations of it made before the promotion still
+resolve.
 
-### 16.1 The human half of a citation — `cited` (ruled; next revision)
+### 16.1 The human half of a citation — `cited` (promoted to §5.9, 2026-09-28)
 
-A reference (§5.9) carries identity and no words, so a reader whose target
-has disappeared has nothing to show. **Ruled 2026-09-28: the human half goes
-on the wire, additively and optionally**, as a `cited` object that MAY
-appear inside any reference — `stub_of`, `transclusions[]`, `forked_from` —
-with this shape:
+Ruled 2026-09-28, emitted by blygger-studio 0.6.0 the same day on all three
+reference kinds, exercised across both live nodes (a remote transclusion
+carrying `cited` was imported byte-for-byte by the other node; a cross-origin
+stub's mention verified on the bare reference with the citation ignored), and
+promoted into §5.9 in the first published revision. The normative text is
+there; this number is kept only so that earlier citations of §16.1 resolve.
 
-```json
-"stub_of": { "origin": "https://blyg.protocol-institute.org/",
-             "id": "1vgtgz0gq5b2c9k7d3m8r4n6xy", "version": 1,
-             "cited": { "source": "Protocol Institute Blyg",
-                        "author": "Editor",
-                        "excerpt": "Stigmergy is what a protocol looks like from inside…",
-                        "url": "https://blyg.protocol-institute.org/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/",
-                        "retrieved": "2026-09-16T20:11:00Z" } }
-```
+### 16.2 Plain internal links — `[[id]]` (promoted to §10.1, 2026-09-28)
 
-`retrieved` will be REQUIRED (a citation without a date is not a citation);
-`source` (the target blyg's title as seen), `author` (the target's own
-`author.name`, passed through), `excerpt` (a short caption, RECOMMENDED cap
-200 characters), and `url` (the target page as it stood) OPTIONAL. Rules, in
-the voice of §5.7: self-asserted and never authoritative; frozen at the
-moment the reference was made, which is what makes it a citation rather
-than a lookup; never consulted by mention verification (§15.4), which reads
-the reference alone; never rendered into `content_html`; readers MUST NOT
-present it as verified or as the target's current state, and readers that
-ignore it entirely remain conformant. The excerpt is a caption, not a
-quotation — the cap is what keeps it from becoming a second transclusion
-channel.
-
-Why on the wire: a transclusion already bakes the target's *entire* content
-into the quoter's document, self-asserted; a label is strictly weaker than
-what §10 already permits. Why now: six independent client implementations
-exist, two of them at 0.3, and each must otherwise invent its own label
-cache or show a reader an identity with no words. Why not yet normative: no
-client emits it. It enters §5.9 in the revision after the reference client
-does.
-
-### 16.2 Plain internal links — `[[id]]` (ruled; next revision)
-
-**Ruled 2026-09-28: `[[id]]` is a plain internal link, and it is silent on
-the wire.** An inline `[[` + id + `]]` in `content_md` resolves at publish
-time by the same order as a transclusion directive (§10.2) and renders as an
-ordinary anchor to the target's page (§5.8); the anchor text is
-presentation. It produces **no** `transclusions[]` entry, **no** mention,
-and **no** new relation — a link asserts nothing on the target's behalf, so
-there is nothing for the target to verify. An unresolvable link is a publish
-error, like an unresolvable directive. This deliberately preserves the one
-way to cite without notifying: in a medium where every other citation form
-notifies, that affordance is necessary, not accidental. Until a client
-renders it, `[[id]]` is inert text (§10.1).
+Ruled 2026-09-28, rendered by blygger-studio 0.6.0 the same day, exercised
+across both live nodes (an inline link survived import into the other node's
+reading view intact, with no import error and no mention sent), and promoted
+into §10.1 in the first published revision, which replaced the sentence
+declaring `[[id]]` undefined. The normative text is there.
 
 ### 16.3 Remote generation sources (deferred to 0.4; shape decided)
 
@@ -1685,26 +1732,12 @@ third-party tool. Tools discover a write endpoint through an HTML `rel` link
 on the studio's page, never through the manifest; the manifest is wire and
 stays clean.
 
-### 16.6a Client source discovery — `generator_url` (ruled; next revision)
+### 16.6a Client source discovery — `generator_url` (promoted to §6.1, 2026-09-28)
 
-**Ruled 2026-09-28: the manifest MAY carry `generator_url`** — one absolute URL to
-the client software's canonical source repository or home page, baked in by the
-client's author beside `generator` (the precedent is Atom's generator `uri`):
-
-```json
-"generator": "blygger-studio/0.4.0",
-"generator_url": "https://github.com/blygger/blygger-studio"
-```
-
-Publishers SHOULD emit it; readers MUST NOT gate on it (§3.2); its absence means
-only that nothing was stated. It is a SHOULD and will never be a MUST: a required
-field that readers may not act on would be a conformance rule serving a directory's
-convenience, and most existing clients would fail it for a reason unrelated to
-publishing. **There is deliberately no maintained/unmaintained declaration**: the
-software that would need to say "I am unmaintained" is exactly the software nobody
-is updating, so maintenance status is a fact for directories to observe, never for
-the wire to assert. A registry MAY require a client source as a condition of
-*listing*; that is its business, not conformance. Enters §6.1 once a client emits it.
+Ruled 2026-09-28, emitted by blygger-studio 0.6.0 the same day on both live
+nodes, and promoted into §6.1 (with §3.2 extended to cover it) in the first
+published revision. The normative text — SHOULD emit, MUST NOT gate, no
+maintenance declaration ever — is there.
 
 ### 16.6b Identity, groups, and agents (ruled; technical notes, never protocol)
 
@@ -1791,10 +1824,20 @@ One line per published change to this document, newest first. Snapshots are
 cut at `blygger.org/spec/0.3/{date}/` and each carries a diff link to the one
 before it.
 
+- **2026-09-28 (published)** — First published revision; first snapshot cut
+  the same day. Promotes `cited` (§16.1 → §5.9), `[[id]]` (§16.2 → §10.1)
+  and `generator_url` (§16.6a → §6.1, with §3.2 extended) into normative
+  text after blygger-studio 0.6.0 emitted them and both live nodes exercised
+  them across origins; §10.1 no longer calls `[[id]]` undefined; §10.3 and
+  §15.4 say links produce no provenance and no relation; §15.3's per-host
+  rate limit is no longer described as sufficient on its own, after the
+  reference client's hardening showed it was not; §15.4 says verification
+  ignores `cited`. Version 0.2 is SUPERSEDED as of this publication.
 - **2026-09-28** — Initial draft (session 27). Supersedes 0.2. Adds §3.2,
   §5.6 (lineage defined), §5.8 `page`, §5.9 the reference shape, §10
   rewritten for cross-client transclusion and nesting, §10.6 stubs, §15
   Webmention, §16 ruled/deferred/reserved constructs (`cited`, `[[id]]`,
   `generator_url`, generated changelog notes, the write surface, identity,
   groups, agents, discovery), §5.2 note-depth rule, §5.7 rule 7 on imported
-  generation. Not yet published at the time of writing.
+  generation. Not published as a page; superseded by the revision above the
+  same day.
