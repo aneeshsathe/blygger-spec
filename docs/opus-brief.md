@@ -64,11 +64,13 @@ do not redesign. Priorities follow `roadmap-tracks.md`.
    is what lets Fable promote spec §16.6c into §5.2 — record in your devlog when both
    nodes have exercised it (gate G6).
 6. **Remote generation sources** (#44, the first 0.4 construct — full shape in the studio
-   backlog and spec §16.3). Buildable now; the shape will not change and nothing else is
+   backlog and spec §16.3; **implementation plan: `v0.4-plan.md` §7.2**, tasks R1–R8 with
+   acceptance checks). Buildable now; the shape will not change and nothing else is
    sequenced with it. Exercise it across both live nodes: that exercise is what opens
    the 0.4 document.
 7. **Partial transclusion** (#49, spec §16.4; a 0.3 revision once built — full shape in
-   the studio backlog). Directive plus attached blockquote in the grammar; substring
+   the studio backlog; **implementation plan: `v0.4-plan.md` §7.3**, tasks P1–P9). Do this
+   one *before* item 6 — §7.4 says why. Directive plus attached blockquote in the grammar; substring
    check against the snapshot's text content at publish; `selector` on the
    `transclusions[]` entry; `blyg-partial` beside `blyg-transclusion` in the bake;
    select-to-quote in the reading view; the stub action prefills it for long targets.
