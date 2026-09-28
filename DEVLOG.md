@@ -98,6 +98,20 @@ work only once four gates open — `cited` built and exercised cross-node, `[[id
 token auth used by a third-party tool, 0.3 published. The brief says: if none is open,
 say so in one line and stop. The 0.4 agenda is, verbatim, `protocol-v0.3.md` §16.
 
+**9. Raised after the round closed — client source discovery (decision #34).** Venkat
+asked whether the spec should require a client's origin URL or an "unmaintained"
+declaration, since the census could locate source for only two of seven clients. Ruled
+as an optional `generator_url` (SHOULD, never MUST) and no maintenance flag at all. The
+decisive argument against the flag: the software that would have to say "I am
+unmaintained" is by definition the software nobody updates, so that status is the
+directory's to observe, not the wire's to assert. Against MUST: it would break five of
+seven live clients for a non-publishing reason, readers may not act on it anyway (§3.2),
+and it gains nothing over SHOULD because client authors *are* the spec's readers. The
+hard requirement belongs to the registry at listing time. Venkat's framing: a nice-to-have
+for discovery. Filed in the studio backlog beside the level fix. (An Opus session was
+running in parallel on webmention hardening and the client's distribution model; nothing
+here touches its files.)
+
 **State after**
 
 - `docs/protocol-v0.3.md` drafted, DRAFT status, **not published**. `protocol-v0.2.md`

@@ -551,7 +551,7 @@ blogroll (§11). The `webmention` key (new in 0.3) is OPTIONAL: the URL of the
 publisher's Webmention endpoint, origin-relative allowed, present only when
 the publisher receives mentions (§15.1); a static export omits it. The `site`
 value is self-asserted and display-advisory only; it never establishes
-identity (§12.2). `level` and `generator` are informative (§3.2).
+identity (§12.2). `level` and `generator` are informative (§3.2). A `generator_url` key naming the client's source has been ruled and is described in §16.6a.
 
 ### 6.2 Archive index — `items/index.json`
 
@@ -1610,6 +1610,27 @@ with per-tool, scoped, revocable credentials and used by at least one
 third-party tool. Tools discover a write endpoint through an HTML `rel` link
 on the studio's page, never through the manifest; the manifest is wire and
 stays clean.
+
+### 16.6a Client source discovery — `generator_url` (ruled; next revision)
+
+**Ruled 2026-09-28: the manifest MAY carry `generator_url`** — one absolute URL to
+the client software's canonical source repository or home page, baked in by the
+client's author beside `generator` (the precedent is Atom's generator `uri`):
+
+```json
+"generator": "blygger-studio/0.4.0",
+"generator_url": "https://github.com/blygger/blygger-studio"
+```
+
+Publishers SHOULD emit it; readers MUST NOT gate on it (§3.2); its absence means
+only that nothing was stated. It is a SHOULD and will never be a MUST: a required
+field that readers may not act on would be a conformance rule serving a directory's
+convenience, and most existing clients would fail it for a reason unrelated to
+publishing. **There is deliberately no maintained/unmaintained declaration**: the
+software that would need to say "I am unmaintained" is exactly the software nobody
+is updating, so maintenance status is a fact for directories to observe, never for
+the wire to assert. A registry MAY require a client source as a condition of
+*listing*; that is its business, not conformance. Enters §6.1 once a client emits it.
 
 ### 16.7 Reserved
 
