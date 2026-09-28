@@ -9,7 +9,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 ## Session 27 — 2026-09-28 — The Fable round: every open protocol question ruled, 0.3 drafted under strict #21
 
-**Model:** Fable 5.1 · **Time:** ~11:02–11:35 PT · **Committed:** yes (blygger-spec, blygger-studio) · **Deployed:** nothing — 0.3 is drafted, not published
+**Model:** Fable 5.1 · **Time:** ~11:02–12:05 PT · **Committed:** yes (blygger-spec, blygger-studio) · **Deployed:** nothing — 0.3 is drafted, not published
 
 **What & why**
 
@@ -112,12 +112,64 @@ for discovery. Filed in the studio backlog beside the level fix. (An Opus sessio
 running in parallel on webmention hardening and the client's distribution model; nothing
 here touches its files.)
 
+**10. Identity, measured before argued (decision #35).** Venkat wanted technical
+recommendations — OAuth, wallets — rather than pure agnosticism. Before answering I read
+every live manifest and one item per blyg: all eleven, across all seven clients, emit
+exactly `name` and `url` in `author`. Nobody has invented an authorspace grammar. The
+roadmap's premise that six implementers were each inventing something was false, and the
+thing they converged on unprompted is a URL. So the recommended practice's spine is the
+fourth invariant extended to people — a person is a URL they control — with two proofs,
+a reciprocal link and a signature over the `content_hash` the protocol already computes.
+Every identity provider maps onto those rather than competing with them. #11 stands.
+Proposal first, note after a client builds it.
+
+**11. Groups, agents, and the line that turned out to matter (decisions #36, #38).** Two
+early-user proposals for multi-author blygs both decomposed into existing constructs:
+"separate folders" is N origins under a house blogroll, or one origin with bylines, and
+the test between them is *who can withdraw*. "An agent that stubs everything" was
+rejected — but the reason clarified itself when Venkat asked about agentic co-authors as
+peers. The anti-pattern is content-free stubbing, whoever does it: a stub is a response,
+a pipe is not, and an agent that actually answers each item is a critic, not a planet.
+From there the protocol turned out to be agent-agnostic at all three levels already —
+`generated[]` for spans, opaque `author` for items, the origin for whole blygs — and the
+only thing worth writing is the byline convention (name the operator). Maintenance split
+on the same line: detection is a cron, but anything that republishes is authorship,
+because a snapshot refresh is a version bump, a feed entry, and a mention. One wire fact
+fell out that I would not have found without the question: **a re-bake is distinguishable
+from an edit** — same `content_hash`, new version — so a client can say "snapshots
+refreshed" today and a narrower refresh scope is definable later.
+
+**12. A correction to my own draft (decision #37).** Venkat's actual workflow — generate
+elsewhere, paste into the composer — showed that the rule 7 I had written into §5.7 this
+morning was wrong. It forbade marking pasted generated text as generated, on the theory
+that `generated[]` claims *this studio* ran the model. It does not; the claim is that the
+prose is machine-generated, and the wire never carried how it was asked for. A rule that
+blocks honest disclosure is the opposite of the construct's purpose. Replaced in place:
+imported text is an ordinary entry with `sources: []`, the grammar is studio-private, and
+§8b's `impyrt` is closed rather than deferred. Worth recording that a decision made from
+the abstract was corrected within hours by one sentence of real usage.
+
+**13. The reference agent (decision #39).** Worth building — not as a bot spec but as a
+contract-prover, a deliberately dumb chief-of-staff whose brain is pluggable so that
+`mixture-of-vgrs` can be it. The contract is four things the protocol mostly already
+has: #31's tokens to write, the public state plane as a ready-made RAG corpus to read,
+signals to poll, and `generated[].sources` as the disclosure of what was retrieved. And
+the answer to "is a blyg with an agent a two-author blyg by definition" is no: there are
+no author folders on the wire, the studio is the shared stage, and a blyg is two-author
+only when the agent signs items. The level — ghostwriter, byline, own origin — is an
+attribution choice, the same one a human collaborator faces.
+
+**Technical notes queued for Opus** (roadmap-tracks 1.6): `tn-3` groups and aggregation,
+writable now; `tn-2` identity, as a proposal draft first; `tn-4` write surface and `tn-5`
+agent contract, after their builds. Plus 2.10 the reference agent and 2.11 `impyrt` in
+the composer.
+
 **State after**
 
 - `docs/protocol-v0.3.md` drafted, DRAFT status, **not published**. `protocol-v0.2.md`
   superseded in the text; the live flip is Track 4.4 (register 0.3 in `sync_spec.py`,
   flip 0.2), Opus, ~30 min, listed as a carry-over.
-- Decisions **#30–#33** in `CLAUDE.md`; full reasoning in `v0.3-plan.md` **§8c**; every
+- Decisions **#30–#39** in `CLAUDE.md`; full reasoning in `v0.3-plan.md` **§8c**; every
   §8/§8b question marked ruled. roadmap-tracks 1.1, 1.2, 1.8, 1.9 struck through with
   their outcomes; 2.9 unblocked; the write-surface open question answered.
 - blygger-studio `CLAUDE.md`: gating passages rewritten to say what is now buildable, and

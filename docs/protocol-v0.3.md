@@ -63,7 +63,9 @@ Four design invariants shape everything below:
    HTML. A plain RSS reader always sees a sensible microblog.
 3. **AI is never in the protocol.** Generation, if any, happens in the studio at
    authoring time; the page publishes output plus provenance (§5.7). Readers
-   need no models or keys.
+   need no models or keys. This constrains the wire and the reader side, never
+   the writer: a blyg written, maintained, or entirely operated by a software
+   agent is a blyg like any other, and the protocol cannot and does not tell.
 4. **Identity is never in the protocol.** The only authenticated entity is the
    publishing client at its domain (the *origin*). DNS is the namespace.
 
@@ -361,6 +363,13 @@ Threads additionally carry `transclusions` (§10.3) and MAY carry `stub_of`
   necessarily single-author: a multiplayer client may publish one conformant
   feed with per-item bylines. There is no shared namespace and no
   `user@server`; DNS remains the namespace.
+- **An author need not be a person.** A software agent that writes items is
+  a valid `author` value like any other, asserted by the origin and
+  accountable to it. What discloses that its prose is machine-generated is
+  `generated` (§5.7), not the byline: the byline says who, the provenance
+  says how, and the two are independent. Recommended byline conventions for
+  agents — including naming the operator who answers for one — are practice,
+  not protocol (§16.6b).
 
 ### 5.6 Lineage — `forked_from`
 
@@ -423,8 +432,12 @@ span in document order:
 Rules:
 
 1. `sources` names the exact published versions of **this origin's** items
-   whose content was **drawn on** by the generator for that span. It MAY be
-   empty (pure instructed generation). `model` and `at` are RECOMMENDED.
+   whose content was **drawn on** by the generator for that span — the same
+   disclosure whether the generator was handed them by an author or
+   retrieved them itself from the archive. It MAY be empty, meaning **no
+   sources declared**: pure instructed generation, or generation whose
+   sources the publisher cannot name. `model` and `at` are RECOMMENDED. A
+   span MAY be the whole body.
    At 0.3 a source is always own-origin and carries no `origin` member;
    generation from another origin's items is not expressible on the wire at
    this version and is deferred (§16), where its shape is already decided:
@@ -446,13 +459,16 @@ Rules:
 6. Like all provenance in this protocol, `generated` is **self-asserted and
    unverifiable** — the same honesty stance as timestamps and `author`. The
    protocol does not pretend to verify what it cannot.
-7. `generated[]` asserts one specific thing: *this publisher generated this
-   span, with this model, from these sources, at this time.* A span pasted in
-   from generation that happened elsewhere asserts something weaker, and at
-   0.3 there is no way to mark it as generated without making the strong
-   claim falsely. Publishers MUST NOT use `generated[]` for spans they did
-   not generate; such text is quotation, and is marked as quotation or not at
-   all (§16).
+7. **Where the generation ran is not part of the claim.** `generated[]`
+   says *this prose is machine-generated*, and, when known, by what model,
+   from what, and when. Text generated outside the publishing studio and
+   brought into an item — pasted from another tool, produced by an external
+   agent — is disclosed the same way: an entry with `sources` empty or
+   naming what is known, `model` and `at` if known. There is no marker for
+   "generated elsewhere", because no reader could verify it and none would
+   act on it. A publisher that knows a span is machine-generated SHOULD
+   disclose it regardless of who ran the model; the construct exists so that
+   disclosure is always possible.
 
 Publishers additionally disclose generated spans in the rendered HTML: the
 renderer MUST wrap each generated span in `content_html` as
@@ -1013,6 +1029,16 @@ conversation object, no notification to anyone but the target's origin, and
 nothing a target can do about being stubbed except read it. The stub is on
 the stubber's soapbox, under the stubber's identity, in the stubber's feed.
 
+**A stub is a response, and a stub emitted without one is a misuse.** An
+aggregator, script, or agent that emits a stub for every item some set of
+origins publishes — with nothing to say about any of them — is not
+responding: it is re-emitting other people's content through a construct
+whose cost is supposed to be editorial work (§13.5), and it fills every
+target's response signal with non-responses (§15.5). The honest shape for
+"one place to follow a group" is a blogroll plus curation (§11, §13.5). An
+author, human or otherwise, that reads each item and answers it under its
+own byline is stubbing legitimately, however many stubs that is.
+
 ## 11. The blogroll — `blogroll.opml`
 
 *(OPTIONAL at every level.)* The blogroll is the protocol's **static
@@ -1250,6 +1276,14 @@ separate:
   imported item. Displayed copies follow §13.4's retention rule when their
   source is withdrawn. Verified inbound mentions (§15.5) are displayed, if
   at all, under exactly this rule.
+- **This is also the aggregator pattern.** A site that wants to present a
+  group of blygs in one place is a reader with a public face: it displays
+  curated imported content under this rule, publishes a blogroll of the
+  members (§11) so any blyg-aware reader can subscribe to all of them in one
+  import, and MAY serve a plain RSS digest *outside* the blyg surface —
+  excerpts and links to origin permalinks, no `blyg:` namespace — for legacy
+  readers that want one feed. It never re-emits, and it never stubs on the
+  members' behalf (§10.6).
 
 ### 13.6 L0 grandfathering — the legacy RSS wrapper
 
@@ -1576,16 +1610,15 @@ so that clients can leave room: `sources[]` takes the reference shape of
 §5.9, with `origin` omitted for own-origin, exactly as `transclusions[]`
 does. Four constructs, one reference object.
 
-### 16.4 Partial quotation, imported generated text, titles (deferred to 0.4)
+### 16.4 Partial quotation and titles (deferred to 0.4)
 
 - **Partial quotation** — quoting a span rather than a whole item — needs a
   selector on the wire *and* a faithfulness guarantee the whole-item form
   never needed: how a reader confirms the span is a true extract of the
   version named. The largest open construct.
-- **Imported generated text** — marking as generated a span that was
-  generated elsewhere — must not devalue the strong claim `generated[]`
-  makes (§5.7 rule 7). Options are a distinct provenance kind, a required
-  external marker, or refusal.
+- *(Imported generated text was on this list and is resolved: §5.7 rule 7
+  discloses it through the existing construct. The authoring grammar for it
+  is studio-private.)*
 - **Titles.** Items are titleless (§5.3) and `<title>` is derived (§7).
   Making a leading heading a real title is a wire field and a design change.
 
@@ -1631,6 +1664,28 @@ software that would need to say "I am unmaintained" is exactly the software nobo
 is updating, so maintenance status is a fact for directories to observe, never for
 the wire to assert. A registry MAY require a client source as a condition of
 *listing*; that is its business, not conformance. Enters §6.1 once a client emits it.
+
+### 16.6b Identity, groups, and agents (ruled; technical notes, never protocol)
+
+Three questions raised on 2026-09-28 were ruled to need **no construct**, and
+are recorded here so that the absence is legible as a decision:
+
+- **Identity practice.** Every live client emits `name` and `url` and nothing
+  else; the field is empty and converging on a URL. A non-normative note
+  will recommend: a person is a URL they control; proof is a reciprocal
+  link or a signature over `content_hash` carried inside `author`; OAuth
+  providers, wallets, DIDs and Fediverse actors all map onto those two
+  proofs; readers show verified claims as verified and never merge
+  identities across origins without one. Invariant 4 and §5.5 are untouched.
+- **Groups.** "Multi-author" is either several origins under one host with a
+  house blogroll, or one origin with bylines; the test is who can withdraw.
+  The aggregator shape is §13.5; stub-everything is not (§10.6).
+- **Agents.** The protocol is agent-agnostic at the span (§5.7), item (§5.5)
+  and origin (§1) levels. Maintenance that republishes is authorship: a
+  snapshot refresh is a new version with an unchanged `content_hash`, which
+  is how a client can tell a re-bake from an edit without any construct. An
+  agent's byline SHOULD name an operator; that convention lives in the
+  identity note. A blyg is two-author only when an agent signs items.
 
 ### 16.7 Reserved
 

@@ -5,7 +5,7 @@
 discharged the session-26 brief in full.
 **Rewrite this file each Fable round.** It is the one place a Fable session starts.
 
-> **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#30–#33**
+> **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#30–#39**
 > (the session-27 rulings) → [`v0.3-plan.md`](v0.3-plan.md) §8c (their reasoning) →
 > [`protocol-v0.3.md`](protocol-v0.3.md) **§16** (what is ruled-but-unbuilt, deferred, and
 > reserved — the 0.4 agenda is literally that section) →
@@ -15,7 +15,9 @@ discharged the session-26 brief in full.
 
 Session 27 ruled every open protocol question there was: the citation's human half (#30,
 `cited`), the write surface (#31, never normative; companion note later), `[[id]]` (#32,
-a wire-silent link), staleness (#33, direct only), and the 0.4 deferrals with their
+a wire-silent link), staleness (#33, direct only), client source discovery (#34),
+identity practice (#35), groups (#36), imported generation (#37, un-deferred), agents
+(#38), the reference agent and its contract (#39), and the 0.4 deferrals with their
 shapes where a shape could be fixed. It drafted `protocol-v0.3.md` under **strict #21** —
 built surface only. There is no Part 1 this time: **nothing in the Opus queue waits on
 Fable.**
@@ -30,10 +32,11 @@ the two nodes have exercised, what session 27 ruled:
 |---|---|---|
 | **G1** | blygger-studio emits `cited` on all three references and reads it on import; at least one remote citation has been rendered from `cited` on the *other* node | Promote spec §16.1 into §5.9 as normative text. Small. |
 | **G2** | `[[id]]` renders, and a document containing one has been imported by another client without incident | Promote §16.2 into §10.1. Small. |
-| **G3** | The studio's token auth exists and **at least one third-party tool** authenticates with a scoped token instead of the owner password | Write **`tn-2` or `tn-3` — a write surface for authoring tools** (non-normative, #31). Also decide the note's number: 1.6's identity note has dibs on `tn-2` if it is written first. |
+| **G3** | The studio's token auth exists and **at least one third-party tool** authenticates with a scoped token instead of the owner password | Review **`tn-4` — the write surface** (non-normative, #31), which Opus drafts from the build; Fable only checks it against #31's direction. |
 | **G4** | Track 4.4 has published 0.3 and flipped 0.2 | Nothing — but do not draft a 0.4 document while 0.3 is unpublished; two living drafts is one too many. |
+| **G5** | The reference agent (2.10) has run against a live node for long enough to have refreshed a snapshot, answered a mention, and authored under its own byline | Review `tn-5` for anything that turned out to want a construct — the refresh scope on the re-bake identity (#38) is the likely candidate. |
 
-If none of G1–G4 is true when a Fable session opens, **say so in one line and stop.**
+If none of G1–G5 is true when a Fable session opens, **say so in one line and stop.**
 Do not fill the round with re-derivations. A recorded "nothing to do" is the correct
 product.
 
@@ -53,9 +56,7 @@ listed there with what is already decided:
 2. **Partial quotation** (§16.4) — selector + faithfulness guarantee. Largest. Do not
    design it without a concrete authoring need on the table; ask Venkat what the actual
    quoting case was.
-3. **Imported generated text / `impyrt`** (§16.4) — what `generated[]` may assert. The
-   0.3 text already forbids the false strong claim (§5.7 rule 7); 0.4 decides whether a
-   weaker claim gets its own construct or stays quotation.
+3. ~~Imported generated text~~ — resolved by #37; nothing for 0.4.
 4. **Titles** (§16.4) — items are titleless by design. Default answer is still no; if
    Venkat wants it, it is a wire field and a feed-derivation change together.
 5. **Transitive staleness** (§16.5) — may be nothing. Decide *whether it exists* before
@@ -63,9 +64,9 @@ listed there with what is already decided:
 
 Also for 0.4, from the tracks page: **1.4 conformance suite** — the Fable half is only
 "which clauses are normative vs advisory"; that partition is now mostly legible from the
-0.3 text's MUST/SHOULD/MAY, so this may be a short ruling. And **1.6 `tn-2` identity
-practice** — non-normative, #11 untouched; write it only if six implementers are visibly
-diverging in a way that hurts readers.
+0.3 text's MUST/SHOULD/MAY, so this may be a short ruling. And the **technical notes** (1.6): `tn-2`–`tn-5` are Opus-written from #35–#39; Fable
+reviews each against its decision and nothing more — the field is empty (every client
+emits only `name`+`url`), so the notes exist to converge it, not to referee a dispute.
 
 ## Do not open
 
@@ -79,5 +80,5 @@ diverging in a way that hurts readers.
 
 Per item: the ruling, the reasoning, and whether it lands in a 0.3 revision or 0.4.
 Record in `v0.3-plan.md` (a §8d, if the questions are still 0.3-adjacent) or a new
-`v0.4-plan.md`, continue `CLAUDE.md`'s locked decisions from **#33**, append the DEVLOG
+`v0.4-plan.md`, continue `CLAUDE.md`'s locked decisions from **#39**, append the DEVLOG
 entry, and rewrite this brief.
