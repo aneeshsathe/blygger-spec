@@ -7,6 +7,116 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 27 (parallel, Opus) — 2026-09-28 — The endpoint hardened, a release channel invented, and the three constructs 0.3 was waiting on
+**Model:** Opus 5 · **Time:** ~11:26–13:20 PT · **Committed:** yes (3 repos) · **Deployed:** blygger-studio ×4 releases to both nodes, blygger.com (D1 migration + worker)
+
+**What & why**
+
+This ran alongside the Fable round above, on the half of the program that does not
+set semantics. Five pieces, in the order they were forced rather than the order
+they were planned.
+
+**1. Webmention hardening (2.5), and the propagation question it exposed.** The
+three §9.1 gaps closed in `blygger-studio` 0.4.1: a registrable-domain cap
+(120/h) *alongside* the per-host 60 rather than replacing it, a global cap of 300
+accepted claims/hour, and a 30-day prune of `failed` rows. Two departures from the
+session-23 plan are recorded in §9.1: the domain grouping is a curated heuristic
+rather than the Public Suffix List (~230KB in a Worker for one rate limit), so it
+can over-collect — which is exactly why it is the looser of the two caps — and the
+global cap counts *accepted claims*, not "pending verifications" as §9.1 worded
+it, because the cost is two fetches per claim and pending rows drain in seconds.
+
+Then Venkat asked the question that reordered the session: **is the distribution
+scaffolding in place to propagate this?** It was not, in any form — zero tags,
+zero releases, no changelog, no `npm run upgrade`, and `blygger-com`'s submissions
+table had no contact column, so the directory could identify every stale node and
+reach none of them. Detection without delivery. Worse, the session-26 subtree
+split means a node that cloned `blygger-spec` and works in `worker/` cannot
+`git pull` to the new repo at all.
+
+**2. So the release channel got invented before the fix shipped.** `CHANGELOG.md`
+whose every entry states `Migrations:` explicitly, tags, GitHub releases, and a
+README section written for the only node shape that exists in the wild — stood up
+by hand off `/start/`, possibly from the pre-split repo. Plus an optional,
+never-published operator `contact` on directory submissions (`blygger-com`
+migration 0002), write-once so a stranger submitting someone else's blyg cannot
+overwrite it. `listApproved` now names its columns and returns a `PublicRow`,
+which is the structural version of "never publish this field".
+
+**3. The endpoint became optional in the client (0.5.0), which the spec always
+said it was.** Found while drafting the operator notice: §15 is OPTIONAL at every
+level and §15.1 advertises an endpoint "only when mentions are accepted", but the
+client served it unconditionally — the intent was even in the code, as a
+`webmention: false` option no caller ever passed. `accept_mentions` is now a
+setting, default on, and off means *withdrawn* rather than guarded: no manifest
+key, no page advertisement, 404 on POST. A setting rather than an `Env` var
+because a re-clone upgrade ports `wrangler.jsonc` by hand and a D1 row never
+enters that path. This does not touch the session-23 ruling, which is about which
+origins an endpoint accepts, not whether to run one.
+
+**4. The three §16 constructs (0.6.0), which is what the freeze was waiting on.**
+`cited` on `stub_of`, remote `transclusions[]` and `forked_from`, live and pinned;
+`[[id]]` as a plain internal link; `generator_url`; `level` 1 → 2. Design notes
+worth keeping: `cited` is stored where each reference already keeps its cite
+(inside the entry for transclusions, in the 0008/0010 columns for the other two),
+so the wire object *is* the stored object and a published citation cannot drift
+from its document. Thirteen wire-shape assertions moved from `toEqual` to
+`toMatchObject` — the honest edit, since those lines are about identity. The
+stale-byline bug died with it: provenance had been rendered from a live
+subscription join, so a rename rewrote what a published document said about its
+source. `[[id]]`'s grammar sits beside the directive regexes because a negative
+lookbehind is all that separates them, hrefs are absolute because `content_html`
+travels to subscribers, and anchor text is a short quote of the target since items
+are titleless.
+
+**5. The gates, exercised live rather than in the suite.** Venkat's instruction
+was to test over the API and pass what could be passed. PI published
+`/t/4egjmrk5mmcvn15b92hnfgnksw/` — a remote transclusion carrying `cited`, plus an
+inline `[[id]]` — and `venkateshrao.com` imported it with the `cited` object kept
+byte-for-byte and the anchor intact. A second PI item stubs across origins, and
+its Webmention landed on the other node as `verified`/`stub`, which tests in
+production the rule most worth testing there: verification reads the bare
+reference and ignores the citation. **G1 and G2 are true**, with the ids recorded
+in the brief's gate table.
+
+**6. And one freeze blocker found by reading the draft rather than the gate
+table.** §15.2 said "the reference client records the target version per outbound
+reference for this purpose" — it did not, so every republish reset every outbound
+row to pending and re-notified every origin a thread quoted. The choice was to
+weaken the sentence or make it true; 0.6.1 makes it true (migration 0011), with
+withdrawal as the only caller allowed to force a re-send, because §15.7 owes a
+mention precisely when the target has not changed.
+
+**State after**
+
+- **`blygger-studio` 0.4.1 → 0.6.1**, four tagged releases with notes, 531 tests,
+  `tsc` clean. Both nodes deployed and verified at each step: `level: 2`,
+  `generator_url`, migration 0011 applied to both databases.
+- **blygger.com** carries an optional operator contact; 17 listings intact.
+- **Gates:** G1 ✅, G2 ✅ with live evidence. G3–G6 untouched.
+- **0.3 is not frozen.** Three promotions are now unlocked (§16.1 → §5.9,
+  §16.2 → §10.1, **§16.6a → §6.1**, the last of which is not in the gate table),
+  and two sentences in the draft are false as written: §15.3's "enough to keep a
+  queue from filling" (disproved by the hardening) and §10.1's "`[[id]]` is not
+  defined at 0.3", which the promotion must *replace* rather than append to.
+- Notice to the three third-party operators: drafted, and Venkat is sending it.
+
+**Open threads**
+
+- **The `[[` picker does not exist.** Venkat hit this: the palette lives only in
+  the thread editor and only triggers on `![[` at line start, while `[[id]]` is
+  legal in fragments too. Wants the palette factored out of `threadEditPage` into
+  all three composers, with the trigger distinguishing the two forms and the
+  insertion matching.
+- **Decision #33's staleness probe** needs migration 0011's fact for *imported*
+  items; the bulk re-pin UI sits on it. Half the roadmap-1.7 pairing is still open.
+- `cited` on `forked_from` is suite-tested but never exercised live; nothing reads
+  an imported document's `cited` yet, by design — the second-degree view is its
+  only consumer.
+- The two exercise items on the PI blyg are public and staying (Venkat: "leave
+  them").
+- **Session 24 still has no devlog entry** (unchanged since session 25).
+
 ## Session 27 — 2026-09-28 — The Fable round: every open protocol question ruled, 0.3 drafted under strict #21
 
 **Model:** Fable 5.1 · **Time:** ~11:02–12:40 PT · **Committed:** yes (blygger-spec, blygger-studio) · **Deployed:** nothing — 0.3 is drafted, not published
