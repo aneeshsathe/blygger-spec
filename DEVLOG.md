@@ -7,6 +7,122 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 28 — 2026-09-28 — 0.3 frozen and published; 0.4 defined
+
+**Model:** Fable 5.1 · **Time:** ~14:33– PT (in progress) · **Committed:** yes (blygger-spec, blygger-org, blygger-studio) · **Deployed:** blygger.org ×3 (0.3 published, snapshot, §16 revision)
+
+**What & why**
+
+Venkat opened with two instructions: freeze 0.3, since its gates had passed, and begin
+specifying 0.4. Then, once the rulings were on the table, a third: record them and hand
+the unblocked implementation queue to a parallel Opus session while the 0.4 discussion
+continues here.
+
+**1. The freeze was textual, and the list from session 27 was exact.** G1 and G2 were
+true with live evidence, so `cited` moved from §16.1 into §5.9, `[[id]]` from §16.2 into
+§10.1 — *replacing* the sentence that called it undefined, as the carry-over insisted —
+and `generator_url` from §16.6a into §6.1 with §3.2 extended to cover it. Two sentences
+that were false as written were corrected: §15.3's per-host rate limit is no longer
+called sufficient on its own (the session-27 hardening had proved it was not; the text
+now recommends the per-source, per-source-group, global shape without fixing numbers),
+and §15.4 now says in so many words that verification ignores `cited`. §10.3 and §15.4
+say a link produces no provenance and no relation. The promoted §16 subsections keep
+their numbers as one-paragraph pointers, because third parties may already cite §16.1 —
+the living document's numbers are part of its contract even when its text moves. One
+wording choice worth recording: `cited` is "frozen at the moment the reference was
+made", spelled out as publish time for a transclusion (republish re-resolves) and
+creation time for `stub_of` and `forked_from`, which is exactly what the client does,
+rather than a MUST NOT about later rewrites that no client has been tested against.
+
+**2. Published, with the sequencing session 27 asked for.** The promotions landed in the
+living text *before* the first snapshot, so the snapshot does not freeze §16 calling
+three built constructs unbuilt. `sync_spec.py` registers 0.3 as living and flips 0.2 to
+`("SUPERSEDED", "0.3")`; `/spec/0.2/` carries the forward banner live; the snapshot is
+`/spec/0.3/2026-09-28/` paired with tag `spec/0.3/2026-09-28`. Two small lies on the
+site went with it: the index's reference-implementation line claimed no release had
+ever been tagged (it was looking for `ref-v*` tags in the spec repo; the client has had
+its own repo and tagged releases for a day) and now points at blygger-studio's
+releases; `/start/` linked `/spec/0.2/` and now links 0.3 with the #42 sentence. Track
+4.4 was listed as Opus work; doing it here cost twenty minutes and avoided a second
+handoff.
+
+**3. The 0.4 definition turned on one rule that had never been written down (#43).**
+The freeze made a question concrete: with pre-1.0 versions all drafts (#21) and the
+living document receiving revisions (#23), what distinguishes a *revision* from the
+start of the *next version*? The answer is a test — a revision adds what a conformant
+reader already ignores safely without changing the meaning of what it displays; a new
+version is needed when a reader or receiver must change what it *does*. Everything
+promoted today was a revision by that test. A new mention relation, a quotation
+selector, or a title field would not be. The rule also settles when the 0.4 document
+opens: at the first built-and-exercised construct of the second kind, not before,
+because two living drafts is one too many.
+
+**4. Remote generation sources (#44): a source, not a quotation — and it notifies.**
+The question posed in session 26 was disclosure. #20's line is about the authorial act
+and does not move when the words come from another origin; a blockquote around
+non-verbatim prose would be false. The tempting analogy was `[[id]]`'s silence, and it
+cuts the other way: #32 kept links silent because a link carries none of the target's
+words, and notification in this protocol tracks exactly that. A generation source
+carries the target's words, transformed. Silence would make paraphrase-by-model the one
+way to use a stranger's words without telling them. So: the §5.9 reference shape with
+`origin` (and `cited`), resolution by #26's order (sources widen to any item a directive
+may name, threads included, local snapshot only), direct-only disclosure as for
+nesting, and a fourth mention relation `source`. The cost — an agent drawing on thirty
+items sends thirty mentions — is accepted under #36's actual line, which is about
+content-free stubbing. This is the one sanctioned inversion of #21: the wire could not
+say this, so the shape had to come before the build; it becomes normative only after a
+cross-node exercise, and that exercise opens the 0.4 document.
+
+**5. Three closures that needed no construct.** Transitive staleness does not exist
+(#45): if A baked B and B's source C moved without B republishing, A holds B's unchanged
+bytes and republishing A re-bakes B's *current* version, still with the old C — A can do
+nothing, only B can, and B sees C directly; every edge is its publisher's, so graph
+freshness is the direct check at each origin. Titles stay off the wire (#46): the
+RECOMMENDED feed derivation already begins with a leading heading, the "linked title"
+wish is the reference client rendering its own pages, and the reader-side rule against
+extracting titles stands because a reader inventing structure is the failure it
+prevents. The two parked candidates were decided against (#47): pinned-content feed
+entries help only a plain RSS reader nobody has spoken for, and a per-item responses
+surface is a follower list by another name. The conformance partition (#48) is short:
+MUST fails, SHOULD warns, MAY shape-checked when present; two suites because invariant 1
+splits publisher from reader.
+
+**6. Partial quotation is deliberately not ruled.** The brief said not to design it
+without an authoring case, and none is on the table; the question is in
+`v0.4-plan.md` §3. What is recorded ahead of the answer: the "new faithfulness
+guarantee" framing is half right (whole-item transclusion is verifiable only while the
+origin serves the version; a partial quote adds a substring test, and the genuinely new
+problem is elision, which no protocol fixes), the lean is a W3C text-quote selector,
+and character ranges are rejected in advance.
+
+**7. The handoff.** `docs/opus-brief.md` is new — the Opus mirror of `fable-brief.md`,
+wired into session-start step 4 — with an ordered eleven-item queue and the file
+ownership rules that let two sessions edit one program at once (Opus owns the three
+code repos and writes exactly two things into `blygger-spec`: its own devlog entry and
+its own ticks). The remote-sources build task is in the studio backlog with its fixed
+shape.
+
+**State after**
+
+- `protocol-v0.3.md`: published living text, two revisions today, snapshot
+  `2026-09-28` (the morning's state; the §16 revision is not snapshotted). `cited`,
+  `[[id]]`, `generator_url` normative. §16 now carries: `changelog[].generated` (ruled,
+  unbuilt), the write surface (never normative), remote generation sources (0.4, ruled
+  in full), partial quotation (0.4, open), and the closures.
+- `blygger.org/spec/`: 0.3 living, 0.2 and 0.1 superseded with banners, 0.3 snapshot
+  listed. `/start/` links 0.3.
+- Decisions #43–#48; `v0.4-plan.md`; `opus-brief.md`; roadmap-tracks 1.1, 1.3, 4.4 done
+  or defined, 1.4's Fable half ruled; `roadmap.md` v0.4 re-scoped.
+- Gates: G1 ✅ G2 ✅ G4 ✅. G3, G5, G6 open; none blocks anything.
+
+**Open threads**
+
+- **Partial quotation** awaits Venkat's authoring case (`v0.4-plan.md` §3).
+- **The 0.4 document is not drafted, by rule** (#43); it opens when remote generation
+  sources are built and exercised across both nodes.
+- `changelog[].generated` enters §5.2 as a 0.3 revision when 2.12 ships (gate G6).
+- **Session 24 still has no devlog entry** (unchanged since session 25).
+
 ## Session 27 (parallel, Opus) — 2026-09-28 — The endpoint hardened, a release channel invented, and the three constructs 0.3 was waiting on
 **Model:** Opus 5 · **Time:** ~11:26–13:20 PT · **Committed:** yes (3 repos) · **Deployed:** blygger-studio ×4 releases to both nodes, blygger.com (D1 migration + worker)
 

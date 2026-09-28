@@ -177,6 +177,16 @@ DEVLOG → Fable pass → spec revision, at any spec version below 1.0.
 > (filter plugin API needs v0.2's importer; staleness-over-DAG needs v0.3
 > nesting; auto-hoppers need v0.2 signals).
 
+> **Session-28 definition (2026-09-28, Fable 5.1 — decisions #43–#48, plan
+> [`v0.4-plan.md`](v0.4-plan.md)):** 0.4 *does* touch the wire, in one place:
+> generation across origins — `generated[].sources[]` gains `origin`, and a
+> remote source sends a mention with a fourth relation, `source` (#44). Partial
+> quotation joins it if Venkat's authoring case warrants a selector. Closed:
+> staleness over the DAG does not exist (#45), no title field (#46), the two
+> parked feed/surface candidates (#47). Everything else in the paragraph below
+> is client work under Track 2 and needs no protocol text. The 0.4 document opens
+> when the first wire construct is built and exercised (#43).
+
 **Goal:** the AI-native layer. TK-transclusion generation, staleness/regeneration, auto-hoppers, and the filter plugin API. No protocol change — AI is entirely studio-side.
 
 **Client deliverables:** `[TK]…[/TK]` scopes generate contextual summaries of included fragments at save time (pure generation when empty; inert `TK` annotation stays non-AI); **fragment-level generate/regenerate hardpoint in the fragment editor** (session-7 addition — all generation hooks, fragment editor + thread TK scopes + import filters, share one provider-call interface); edits to transcluded sources mark dependent threads **stale** — no automatic cascade; owner regenerates on demand (cost control, no surprise API spend); auto-hoppers via AI relevance filters over inbound items; filter plugin interface (typed hooks over the import pipeline: score/route/transform; default filters ship as plugins, including detect-stubs retrofitted); configurable AI provider + key via wrangler secrets.
