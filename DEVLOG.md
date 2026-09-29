@@ -9,7 +9,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 ## Session 29 — 2026-09-29 — The pre-release queue, and 0.8.0
 
-**Model:** Opus 5 · **Time:** ~07:54– PT · **Committed:** yes (studio) · **Deployed:** — (0.8.0 cut, not yet tagged or deployed)
+**Model:** Opus 5 · **Time:** ~07:54– PT · **Committed:** yes (studio, spec, org) · **Deployed:** blygger-studio 0.8.0 to both nodes (migration 0012 applied first); blygger.org rebuilt
 
 **What & why**
 
@@ -87,9 +87,11 @@ the backfill is conservative rather than just stating that it is.
 
 **State after**
 
-- **blygger-studio 0.8.0 is cut and committed, not tagged, not pushed, not
-  deployed.** Both of Venkat's nodes are still on 0.7.0, and an upgrade is not
-  a bare deploy because of 0012.
+- **blygger-studio 0.8.0 is released.** Tagged, pushed, published as a GitHub
+  release (which is what the update-check's feed reads), and live on both of
+  Venkat's nodes — migration 0012 applied to each database *before* the deploy,
+  since the column is additive and the old code ignores it. Both manifests
+  report `blygger-studio/0.8.0`.
 - 677 tests (was 652), `tsc` clean with `noUnusedLocals`.
 - Nothing this session touched the wire. `PROTOCOL_VERSION` unchanged.
 - The studio backlog's "Queued for the next version" block is fully checked
@@ -98,10 +100,20 @@ the backfill is conservative rather than just stating that it is.
 
 **Open threads**
 
-- **Tag, push and deploy are unrun** — held for Venkat, per the standing rule
-  about outward actions. The deploy is the per-target spelling
-  (`npm run deploy:vgr`, `npm run deploy:pi`), `wrangler login` rather than an
-  env token, and migration 0012 applied to both nodes.
+- **blygger.org was advertising 0.4.0 as the current client** — found while
+  checking what the release touched. `fc96c54` (session 28) fixed the *code*
+  that had been hand-keeping the version, but `content/ecosystem/index.md` is
+  generated and committed and was never regenerated, so the public directory
+  kept telling five live nodes to install a build that was by then four
+  releases old. Re-run and redeployed. **The general lesson is worth more than
+  the fix:** a generated-and-committed artifact whose generator has been
+  corrected is not corrected until it is re-run, and nothing in the release
+  path re-runs this one. Same shape as the stale-status-note problem, one level
+  down.
+- **The client card on that page shows an observed generator, not the current
+  one** (`blygger-studio/0.7.0` sitting directly above "rather than
+  `blygger-studio/0.8.0`"), which reads as a contradiction. Not touched —
+  it is blygger-org's presentation and worth a decision rather than a patch.
 - **The backtick-in-a-template-literal hazard fired again**, once, in a CSS
   comment inside `STUDIO_STYLE` — the fourth occurrence across two sessions,
   and `tsc` caught it only because the wreckage happened to be a syntax error.
