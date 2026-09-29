@@ -72,8 +72,11 @@ line.
   and undeployed.**
 - `blygger.org/start/` rewritten: the real install path, and a "Which text to
   build against" section for client authors.
-- Two documents written and **uncommitted** in this repo, by an Opus subagent
-  under the brief's item-9 ownership exception:
+- Two documents written by an Opus subagent under the brief's item-9 ownership
+  exception, **committed in 92a6e7c** — that commit's own message says they were
+  left uncommitted, which is wrong: a `git add -A` swept them in alongside this
+  entry. They have had no review pass beyond the subagent's own, so read them as
+  a first draft rather than as settled text:
   `docs/notes/tn-3-groups-and-aggregation.md` and
   `docs/proposals/identity-practice-proposal.md`.
 
