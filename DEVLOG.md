@@ -63,13 +63,39 @@ version from the client's `package.json` and its aliases from that repo's tags.
 task"), which fragments already had. Presentation only; tests hold the wire
 line.
 
+**6. Five studio changes after the 0.7.0 tag**, all cosmetic or studio-local,
+none touching the wire. A titled thread gets a linked title on the feed page
+and in the reader — two surfaces that had each arrived at their own behaviour
+separately, now three that agree (#46 calls this "a studio task" explicitly).
+The entry actions split into composition (`stub`, `fork`, the new `link post`)
+and not (`copy [[id]]`, `copy url`, the URL) — which is what resolved the #50
+placement question: the copy control is back beside a permalink, where #50 put
+it, and there is now literally a permalink beside it.
+
+A **global default for showing responses**, overridable per item. The old
+column was two-valued, so "off" and "no opinion" were the same row and a
+default could never take effect; migration 0012 adds a nullable override. The
+backfill was the careful part — an upgrade that newly exposed other people's
+responses on someone's pages would be a bad day — so explicit opt-ins become
+hard overrides and everything else inherits a default that is off, reproducing
+today's behaviour exactly. Verified against a real database.
+
+And a **timezone setting**, which closes a standing complaint: a Worker's clock
+is UTC, so an evening post could show tomorrow's date. The picker is filled by
+the browser rather than the server. `formatDateIn(iso, timeZone)` takes the
+zone as a *required* parameter, which turned "find every date" into a compiler
+task — it found 28 call sites across six files. The wire is unchanged and
+tested: feed dates RFC-822 in GMT, item documents ISO-8601 UTC.
+
 **State after**
 
-- **blygger-studio 0.7.0** tagged, released, and live on both nodes. 630 tests,
-  `tsc` clean with `noUnusedLocals` on since this session.
-- Work after the 0.7.0 tag — the two-pane reader, link post, the thread title —
-  is committed and deployed to neither node. **The next release is unreleased
-  and undeployed.**
+- **blygger-studio 0.7.0** tagged, released, and live on both nodes.
+- Everything after that tag is committed, pushed and **unreleased**: the
+  two-pane reader, `link post`, thread and reader titles, the responses
+  default, the timezone setting. 652 tests, `tsc` clean with `noUnusedLocals`
+  on since this session. **The next release is cut tomorrow**, after three
+  queued items recorded in the studio backlog: social cards, a proper top menu,
+  and a mobile pass.
 - `blygger.org/start/` rewritten: the real install path, and a "Which text to
   build against" section for client authors.
 - Two documents written by an Opus subagent under the brief's item-9 ownership
@@ -151,6 +177,15 @@ verifies it", and that gate is currently unreachable.
   Venkat's "reader doesn't roll up" complaint; the other half was source
   ambiguity and is fixed. Needs schema + importer + render together.
 - `init` has not been run end to end against a real domain.
+- **Three backticks-in-a-template-literal mistakes in one session**, twice in a
+  CSS comment and once in an inline script, each terminating the literal that
+  held it. `tsc` caught all three only because the wreckage happened to be a
+  syntax error rather than valid JavaScript — which is the session-19 hazard
+  exactly, and the stack conventions warn about it for *scripts*. The
+  stylesheet is the same hazard and the note does not mention it.
+- Not a rule anyone set, but worth recording: every defect this session that
+  the suite missed was found by opening the page. The elided-URL bug, the
+  stale census version, and the reader's missing title all passed their tests.
 
 ## Session 28 — 2026-09-28 — 0.3 frozen and published; 0.4 defined
 
