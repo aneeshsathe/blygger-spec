@@ -7,6 +7,112 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 29 — 2026-09-29 — The pre-release queue, and 0.8.0
+
+**Model:** Opus 5 · **Time:** ~07:54– PT · **Committed:** yes (studio) · **Deployed:** — (0.8.0 cut, not yet tagged or deployed)
+
+**What & why**
+
+The three items Venkat queued at the end of session 28 as the gate on the next
+release — social cards, a proper top menu, a mobile pass — and then the
+release itself.
+
+**1. The social-card item was already built.** `PageMeta` has driven
+`description`, `og:*` and `twitter:card` on every public page since `f4ac2c9`
+(2026-09-13, shipped in 0.4.1), with `og:image` as the item's first attached
+image falling back to the avatar. The queue entry was written from memory of
+wanting it rather than from the code, which is the failure mode the standing
+note about stale status notes describes; the check took one grep. What was
+left were three real gaps, and the important one is the gap *the entry itself
+predicted*: it said "`og:title` must be **derived** the way `<title>` already
+is". That derivation was a 70-character excerpt of the rendered item, which
+was right when nothing declared a title and became wrong the moment #46 made a
+leading heading an item's title. A titled item unfurled as "On Protocols
+Protocols are the thin layer…" — the heading, then the heading again as the
+first words of the body. `itemHead()` now reads the declared heading and takes
+the description from what follows it. The other two gaps: the pinned page and
+the archive emitted no `og:image` (the pinned page now uses the blyg's avatar,
+never the item's *current* attachments, because its whole promise is the bytes
+from when it froze).
+
+**2. A fourth naming surface.** Opening the archive at phone width showed the
+same title-into-body defect in the **visible rows**, not just the head. #46's
+"three surfaces now agree" (feed page, permalink, studio reader) had missed
+the archive listing, which is the fourth place the client names an item. Same
+helper, same fix. Worth recording as a class: every time a derivation gets a
+special case, the question is how many surfaces run it, and the answer has now
+been wrong twice.
+
+**3. The nav became a menu, and the menu earned a marker.** Sections are a
+list of real targets with a filled current tab; utilities are their own group.
+Below 640px the bar collapses behind a hamburger — which is why this had to
+come before the mobile pass rather than with it: a hamburger needs something
+structured to collapse.
+
+The part worth keeping is **why the collapse is gated on `html.js`, and why
+the marker is in the `<head>`**. A stylesheet that hides navigation is only
+safe if something can bring it back, so every hiding rule is qualified by a
+class that only a scripted browser sets; with scripting off you get the full
+row instead of a button that does nothing. And the marker goes in the head
+rather than beside the menu because a marker set later means a phone paints an
+expanded menu and then snaps it shut. The same pattern now gates the reading
+sidebar. `test/top-menu.test.ts` pins the three-way wire rather than the
+appearance: the button's `aria-controls` must name an element on the same
+page, the script must move the class the stylesheet reveals on, and every
+hiding rule must carry the marker.
+
+**4. The mobile pass, done by opening the pages.** Every studio and public
+page at 390px. Three real problems, and none of them was layout: horizontal
+overflow (one pasted URL is an unbroken token, and one anywhere sets the
+page's minimum width, so *every* page scrolls sideways — on a phone that also
+breaks vertical scrolling near the edges), tap targets (studio action rows at
+~26px, the public pages' version arrows at ~18px), and page gutters. There is
+deliberately no separate mobile layout: every studio page is already a single
+column, so the desktop structure survives the squeeze, and the two exceptions
+(the editor split, the reading sidebar) keep their own breakpoints where they
+are defined.
+
+**Method note, since session 28 ended on exactly this point:** the browser
+window would not resize below the OS minimum, so the phone-width check ran in
+a 390px-wide iframe injected into a same-origin page — media queries evaluate
+against the iframe's viewport, so that is a real narrow-viewport render rather
+than a scaled screenshot. It found the archive defect that 677 green tests did
+not.
+
+**5. 0.8.0 cut.** `CLIENT.version` to 0.8.0 with a changelog entry covering
+everything since the 0.7.0 tag. The release **carries migration 0012**, so
+that is the changelog's first line — an operator deciding how careful an
+upgrade has to be reads that before anything else — and the entry explains why
+the backfill is conservative rather than just stating that it is.
+
+**State after**
+
+- **blygger-studio 0.8.0 is cut and committed, not tagged, not pushed, not
+  deployed.** Both of Venkat's nodes are still on 0.7.0, and an upgrade is not
+  a bare deploy because of 0012.
+- 677 tests (was 652), `tsc` clean with `noUnusedLocals`.
+- Nothing this session touched the wire. `PROTOCOL_VERSION` unchanged.
+- The studio backlog's "Queued for the next version" block is fully checked
+  off; the 0.4 construct work (`v0.4-plan.md` §7, partial transclusion first)
+  is untouched and still the next build.
+
+**Open threads**
+
+- **Tag, push and deploy are unrun** — held for Venkat, per the standing rule
+  about outward actions. The deploy is the per-target spelling
+  (`npm run deploy:vgr`, `npm run deploy:pi`), `wrangler login` rather than an
+  env token, and migration 0012 applied to both nodes.
+- **The backtick-in-a-template-literal hazard fired again**, once, in a CSS
+  comment inside `STUDIO_STYLE` — the fourth occurrence across two sessions,
+  and `tsc` caught it only because the wreckage happened to be a syntax error.
+  The stack conventions warn about this for *scripts*; the stylesheets are the
+  same literal and the note still does not say so.
+- **`og:image:alt` is deliberately not emitted.** The honest alt text for an
+  item's first attached image is not derivable, and a neutral placeholder
+  would describe the wrong thing.
+- Session 28's open threads are all still open — the eight Fable questions,
+  the reader's missing `stub_of`, `init` unexercised against a real domain.
+
 ## Session 28 (parallel, Opus) — 2026-09-28 — Packaging, the two-pane reader, and eight questions back for Fable
 
 **Model:** Opus 5 · **Time:** ~14:30– PT · **Committed:** yes (studio, org) · **Deployed:** blygger-studio 0.7.0 to both nodes; blygger.org twice
