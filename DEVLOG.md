@@ -7,6 +7,148 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 28 (parallel, Opus) — 2026-09-28 — Packaging, the two-pane reader, and eight questions back for Fable
+
+**Model:** Opus 5 · **Time:** ~14:30– PT · **Committed:** yes (studio, org) · **Deployed:** blygger-studio 0.7.0 to both nodes; blygger.org twice
+
+**What & why**
+
+The half of the program that does not set semantics, running beside the Fable
+round above. Still in progress; this entry exists now because it carries
+questions the live Fable session can answer today.
+
+**1. The client became a generic artifact.** Committed `wrangler.jsonc` named
+two Cloudflare accounts, three D1 databases, bucket names, worker names, zone
+names with route patterns, and — worst of the set — a comment describing the PI
+org's live production API surface. A template copy would have carried all of
+it. None of it is a credential and all of it is already in two public git
+histories, so this removes nothing from the world; what it does is make the
+artifact honest. Ours moved to gitignored `wrangler.private.jsonc` and
+`deploy-targets.json`; `deploy-all.ts` prefers the private config when it
+exists, which is the same rule that makes a self-hoster's own config work with
+no flag. The manifest test split into an always-on half asserting the packaging
+property and a live half that still cross-checks our real targets.
+
+That conditional was wrong on the first attempt in the exact way the file
+exists to prevent: `existsSync` returns **false** inside the Workers test pool
+even for a file that is plainly there, so `describe.runIf` skipped the
+incident-guarding half silently while the suite went green. `import.meta.glob`
+fixed it. Worth remembering — `node:fs` is sandboxed in that pool and gives no
+hint.
+
+**2. `npm run init` and `npm run upgrade`** — the self-host plan's two unbuilt
+halves. `init` picks the account explicitly even when there is one, provisions
+idempotently, and never sees the owner password; COOKIE_SECRET is generated and
+piped on stdin rather than asked for. `upgrade` shows what is coming, calls out
+changed `migrations/`, keeps the user's `wrangler.jsonc` on conflict, and gates
+on tsc + suite before offering to deploy. Not yet exercised end to end against a
+real domain — that needs a throwaway zone and is Venkat's to run.
+
+**3. Reader work.** Entries now show the item's address rather than an "open"
+label (several origins stubbing one item were indistinguishable — the body is
+what they share and the origin is what they do not); a two-pane layout with a
+source sidebar, per-source filtering and "Add feed" at the top; and the
+subscriptions tab left the nav while its page stayed, because it owns pause,
+resume, resync, delete and blogroll membership.
+
+**4. Update alerts, on by default** (§Studio only, no wire surface — #18d and
+the session-26 directory-side ruling are both untouched). Drift is a semver
+comparison of `CLIENT.version` against the public releases feed; nothing about
+the deployment is sent. Default-on was Venkat's call, paid for with a notice
+the operator can dismiss and a settings toggle. The census on blygger.org was
+itself three releases stale — it read a hand-kept literal — and now derives the
+version from the client's `package.json` and its aliases from that repo's tags.
+
+**5. A titled thread now gets a linked title on the feed page** (#46's "studio
+task"), which fragments already had. Presentation only; tests hold the wire
+line.
+
+**State after**
+
+- **blygger-studio 0.7.0** tagged, released, and live on both nodes. 630 tests,
+  `tsc` clean with `noUnusedLocals` on since this session.
+- Work after the 0.7.0 tag — the two-pane reader, link post, the thread title —
+  is committed and deployed to neither node. **The next release is unreleased
+  and undeployed.**
+- `blygger.org/start/` rewritten: the real install path, and a "Which text to
+  build against" section for client authors.
+- Two documents written and **uncommitted** in this repo, by an Opus subagent
+  under the brief's item-9 ownership exception:
+  `docs/notes/tn-3-groups-and-aggregation.md` and
+  `docs/proposals/identity-practice-proposal.md`.
+
+**Open threads — for the Fable session**
+
+Writing tn-3 and the identity proposal surfaced eight questions. The first
+three block: #35's own promotion gate is "one client emits a proof and a second
+verifies it", and that gate is currently unreachable.
+
+1. **#35's signature member has no name, format, or key-discovery story.** It
+   says the signature is carried "in a conventional `author` member" but names
+   no member, no signature encoding, no key encoding, and no way for a verifier
+   to find the key. Two clients cannot interoperate on a convention with no
+   spelling. Either name the member and encodings, or rule that the first
+   implementer names it and the note records what they chose. Deliberately not
+   invented by the writer — that would be designing, not writing up.
+2. **#35 does not say which claim the signature makes, and the reader rules
+   change with the answer.** A signature over `content_hash` alone is
+   replayable: any origin can copy Alice's hash and signature into its own item
+   and show a verified byline for text she wrote elsewhere. As *text
+   authorship* that is correct; as *authorisation to publish at this origin* it
+   is insufficient, and the signed payload would need the origin, probably id
+   and version. Written as text-authorship, but the choice reads as unruled.
+   Interacts with the cross-origin merge ban (§5.5).
+3. **`rel="me"` collides with mount independence.** The strict form matches the
+   `rel="me"` href against §12.2's identity origin, which for a path-mounted
+   blyg is `example.com/blyg/` — and no real profile page links there; they
+   link to `example.com`. That makes the reciprocal-link proof unusable for
+   exactly the deployments #14 exists to support, and one of the three live
+   third-party nodes is path-mounted. Alternatives are a same-registrable-domain
+   match (weaker, and that distinction is already a known subtlety in the
+   Webmention hardening) or accepting a link to the manifest's `site`. Not
+   softened unilaterally.
+4. **`operator` as a literal member name** (#38 via #35). Written as a literal
+   member inside `author`, sitting in §5.5's private-grammar extension point so
+   it breaks nothing — but it is the one concrete spelling put on a
+   wire-adjacent surface, and two clients need the same one. Confirm or rename.
+5. **#36's "who can withdraw" test does not cover the exit.** In shape A on a
+   house-owned domain, a departing member cannot take their items (ids are
+   origin-scoped) and the house is left holding irrevocable pin promises (#8)
+   for someone else's work it can never stop serving. The consequence is stated
+   in tn-3; the sentence "a house origin's pins outlive the membership" exists
+   nowhere yet.
+6. **The house blyg that stubs most of its members** sits on an unruled
+   spectrum. #36 draws the line at content-free and #38 confirms a real
+   respondent is legitimate however many stubs that is, but an editor who
+   answers nearly every member item in one line is the hard case, and "brief"
+   versus "empty" has no stated handle. May need no rule.
+7. **Can a house that is only an index publish a blogroll?** §11 defines
+   `blogroll.opml` as origin-relative under a blyg surface, advertised by a
+   manifest key. A house origin with no items and no feed is not a blyg and has
+   no `blyg.json` to advertise from, leaving the file discoverable only by
+   conventional path or an HTML `rel`. #51 makes the manifest the thing that
+   locates the surface, which sharpens this rather than settling it.
+8. Verified, not a question: #36's spec changes are already in the published
+   0.3 text (§10.6's warning paragraph, §13.5's aggregator bullet), so tn-3
+   documents shipped text and implies no 0.3 edit.
+
+**Open threads — studio**
+
+- **Decision #50, one narrow adjacency.** The `copy [[id]]` control is back
+  beside the permalink where #50 put it, and a second copy-permalink now sits
+  beside it, so that condition is met exactly. But a new `link post` control —
+  which starts a fragment containing `[[id]]`, an output #50 blesses in as many
+  words ("a quiet response by fragment-plus-link is #32 working as intended") —
+  does sit beside `stub ↗`, and #50's "not a peer of `stub ↗`" was written about
+  the copy control. The capability is sanctioned; the adjacency is unruled.
+  Confirm or rename.
+- **The reader still cannot say "this responds to X".** `imported_items` stores
+  `transclusions_json` but no `stub_of` — the importer discards it — so a
+  restub chain renders as a wall of similar bodies. This is the real half of
+  Venkat's "reader doesn't roll up" complaint; the other half was source
+  ambiguity and is fixed. Needs schema + importer + render together.
+- `init` has not been run end to end against a real domain.
+
 ## Session 28 — 2026-09-28 — 0.3 frozen and published; 0.4 defined
 
 **Model:** Fable 5.1 · **Time:** ~14:33–16:05 PT · **Committed:** yes (blygger-spec, blygger-org, blygger-studio) · **Deployed:** blygger.org ×6 (0.3 published, snapshot, four §16 revisions)
