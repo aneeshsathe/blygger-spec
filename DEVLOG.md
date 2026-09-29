@@ -7,6 +7,111 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 29 (continued) — 2026-09-29 — Partial transclusion built and exercised; **gate G7 is open**
+
+**Model:** Opus 5 · **Committed:** yes (studio) · **Deployed:** blygger-studio 0.8.1 to both nodes · **Released:** v0.8.1
+
+**What & why**
+
+`v0.4-plan.md` §7.3, tasks P1–P9 — decision #49, spec §16.4. The third
+register of borrowing: quote a passage, where before you could only transclude
+an item whole or fork from a pin. Built, released as 0.8.1 (a 0.3 revision, no
+version bump, no migration), and exercised across both live nodes.
+
+**The two things that carry the design.**
+
+*Adjacency is the grammar.* A directive immediately followed, with no blank
+line, by a run of `>` lines is a partial transclusion. A blank line detaches.
+That is why there is no new sigil: transcluding an item whole and then quoting
+a bit of it yourself has been writable since 0.1, and no existing draft may
+change meaning. The lookahead happens **before** resolution, so a directive
+whose target does not exist still consumes its quote rather than leaving it to
+render as the author's own quotation.
+
+*The normalizer is the whole faithfulness guarantee, so it is one function.*
+`selectionText` in `markdown.ts`, with a second entry point
+`normalizeSelection` for text that is already text (a browser selection). Its
+non-obvious rule: whitespace *within* a block collapses, **including the raw
+newlines markdown-it leaves inside a `<p>`**. Splitting the HTML on literal
+newlines would make a match depend on where the author happened to press
+return, which is not a property of the text. Two normalizers differing by one
+space would be a construct that verifies on the node that published it and
+fails on the node that received it — worse than not having the construct.
+
+**P4 stands as written.** The bake is the selection's plain text in `<p>`s, not
+a carved sub-range of the source's inline HTML. No reason emerged to reverse
+it: the selection is defined on text, and cutting an HTML range faithfully
+(reopening the tags a cut crosses) is a second project. Emphasis in the source
+does not survive into the quote; that is the visible cost and the right one.
+
+**The defect the suite could not see.** Exercised against a real imported item
+on a local server, the published page rendered the passage with **no provenance
+line at all**. `injectProvenance` tested the class attribute as a literal
+string, `class="blyg-transclusion"`, and a partial's is `class="blyg-transclusion
+blyg-partial"`. The missing line was the visible half. The dangerous half: an
+unrecognised quote does not advance the provenance index, so a thread mixing
+both forms mis-pairs every line after the first partial — **attributing one
+origin's words to another's blyg**. Precisely the failure the depth-awareness in
+that same function was written to prevent, reached from the other direction.
+Fixed as a class-token match, pinned by a mixed-thread test. Third session
+running in which every defect the suite missed was found by opening the page.
+
+**A partial now says "excerpt of v1"** where a whole one says "snapshot of v1".
+§16.4 puts the disclosure on the second class; this is its human half. Without
+it an excerpt and a whole transclusion are the same blockquote to a reader,
+differing only in being shorter — indistinguishable from the source being short.
+
+**P9 — the cross-node exercise. All four parts pass.**
+
+PI item `0180khm1xmrgpsqqe65v51bp4w` (thread, v1), a stub of venkateshrao
+thread `54pwr12zqvvaj37zqx0f8vdbhk` v1, quoting one paragraph of it. Left up,
+labelled as a conformance exercise.
+
+- **(a)** PI's document carries `selector` — `exact`, plus `prefix`
+  `"ay want to use aneesh's client. "` and `suffix` `"\nNew version of
+  blygger-desktop "` (the `\n` is a block boundary, which is the normalizer
+  working) — beside the `cited` entry from #30, and the bake carries
+  `blyg-transclusion blyg-partial`.
+- **(b)** venkateshrao's mentions view shows it **verified as `stub`**.
+  `relationTo` never looked at `selector`, which is the point: §16.4 keeps it
+  out of §15.4 so delivery never depends on the receiver's current text.
+- **(c)** after a resync, venkateshrao's reading view renders the partial with
+  both classes and all three `data-blyg-*` attributes intact through
+  `sanitizeHtml`.
+- **(d)** a deliberately wrong passage is refused — `400 {"error":"that passage
+  is not in the version we hold of this item"}` — at *selection* time, before a
+  draft exists.
+
+And on PI's public page the provenance line reads `from Venkatesh Rao's Blyg ↗
+· excerpt of v1`.
+
+**State after**
+
+- **blygger-studio 0.8.1 released and live on both nodes.** 733 tests, `tsc`
+  clean. `PROTOCOL_VERSION` stays `"0.3"` — this implements 0.3, additively.
+- **Gate G7 is open.** §7.3 P1–P7 and P9 are done; P8 — promoting §16.4's
+  partial half into §10.1–§10.3 as a 0.3 revision, and the `css-contract.md`
+  line for `blyg-partial` — is the Fable session's, and the build's P4 call
+  (plain text, not inline HTML) is the rule to record with it.
+- §7.2 (remote generation sources, R1–R8, the construct that opens the 0.4
+  document and gate G8) is untouched and is the next build. §7.4 says this
+  order deliberately.
+
+**Open threads**
+
+- **The wrong-quote error arrives at two different layers**, and only one of
+  them has been seen by a human: `/api/stubs` refuses a bad selection with a
+  sentence, and publish refuses one with `quoted passage not found in the
+  target's version N`. The second is reachable by hand-editing the markdown
+  after the prefill, and the editor renders it in the preview — but no live
+  author has hit it, so its wording is untested against confusion.
+- **`selector` is written but never read.** §16.4 says a reader MAY re-check
+  the passage while the origin serves that version. Nothing does, and the
+  read-side re-check is the natural next studio surface — it is why
+  `selectionText` is exported rather than private.
+- The static-export-vs-served-routes check in §7.4's definition of done has not
+  been run for this release.
+
 ## Session 29 — 2026-09-29 — The pre-release queue, and 0.8.0
 
 **Model:** Opus 5 · **Time:** ~07:54– PT · **Committed:** yes (studio, spec, org) · **Deployed:** blygger-studio 0.8.0 to both nodes (migration 0012 applied first); blygger.org rebuilt
