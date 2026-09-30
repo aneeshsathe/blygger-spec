@@ -124,6 +124,116 @@ probe was deleted; `blygger-studio`'s working tree carries only the other sessio
 - **Ten public issues cite `plans/` paths**, so those docs are pushed with this entry —
   otherwise the citations dangle.
 
+## Session 29 (continued, third block) — 2026-09-29 — Refinements across the client and both sites; the directory stops queueing
+
+**Model:** Opus 5 · **Committed:** yes (studio, org, com) · **Deployed:** blygger-studio 0.8.2 and 0.8.3 to both nodes; blygger.org twice; blygger.com four times · **Released:** v0.8.2, v0.8.3
+
+**What & why**
+
+Venkat: "Refinements to studio and blygger.org and .com websites," then five
+more items as the afternoon went. Grouped by what they turned out to be about.
+
+**1. A thread was named in other people's words.** Reported as "the main public
+display page still doesn't display thread cards properly"; the feed card was
+only where it showed. A thread's `content_html` carries baked transclusions, so
+flattening it to a one-line name attributes the quoted person's sentence to the
+thread's author. Measured before fixing: **5 of 19 live threads opened with a
+transclusion** — the shape `POST /api/stubs` prefills — so their browser tab,
+search heading, social card, RSS headline and feed excerpt were all somebody
+else's sentence. One derivation, `authorOwnHtml`, now feeds all four surfaces,
+and the card gained a `⧉N` count to say why it is shorter than the item.
+
+That is **three sessions running** in which a derivation was fixed on some
+surfaces and not others (titles twice, now this). The helper's comment records
+the count deliberately: the question to ask of any derived string is how many
+surfaces run it.
+
+**2. The directory stopped queueing, twice.** Automatic listing first, with
+seven checks. Venkat on seeing the result: *"I'm not going to chase down
+harmless failures personally. Hold back should be for confirmed security issues.
+Others can be released with a warning."*
+
+So the gate went three-valued — block, warn, clean — and the useful line turned
+out to be **confirmed versus ambiguous, not severe versus mild**. A reviewer
+cannot distinguish a homograph domain from a legitimate non-Latin one, or a
+hijacked manifest from a site that moved; those warn. Only acts nobody performs
+by accident block, and there are two: a credential in a public URL, and a
+direction-override character in a display name.
+
+**The rule that taught this lesson twice.** "Manifest asserts an origin that is
+already listed here" survived about an hour as a block, on the reasoning that
+mismatch *onto a neighbour* is checkable where bare mismatch is not. The first
+real row it met was `[jdbb] studio blyg`, whose manifest claims
+`jd-blyg.exe.xyz` — the operator's own previous address, listed here, because
+they had moved hosts. Indistinguishable from impersonation by inspection,
+overwhelmingly a move in fact. Blocking it would have meant the first
+consequence of migrating a domain is being queued.
+
+**3. Our own default was polluting the directory.** The first version of the
+rules held a submission titled `blyg` as a name collision. Venkat: *"blyg as
+name is people setting lazy defaults. We shouldn't use that as the
+discriminator. Blyg name collisions are okay if different domains. There can be
+2 'Joe's blyg' sites."*
+
+Both halves right, and the second half is ours: `getSettings` returned the
+literal `"blyg"` when no title was set, so every operator who skipped one
+settings field published under the same name. Two unrelated live nodes were
+doing it. The directory was being asked to disambiguate deployments by a name
+none of their operators had chosen — our defect, surfacing as a stranger's
+queue entry. The default is now derived from the deployment's own host
+(`blyg.example.com` → `example.com`), `npm run init` writes `site_url` while it
+has the domain in hand, and blygger.org carries an advisory for other client
+authors. **The general form is the keeper:** a default identical across
+installations destroys information, and the deployment usually already knows a
+truer answer.
+
+**4. Two hand-kept pointers, one bug.** blygger.org's nav linked `/spec/0.2/`
+— a hardcoded literal, pointing at a superseded document for as long as 0.3 had
+existed, on the front door of the site. And the ecosystem card printed
+`projects.toml`'s literal version directly above an alert naming a different
+one as current, because session 28 fixed the alert and not the card. Both now
+derive. `deploy.sh` re-runs the census too, which is the structural half: that
+page is generated *and committed*, so fixing its generator does not fix it —
+and it had gone stale twice in one day.
+
+**5. The version story disagreed with itself.** `npm run upgrade` merged
+`upstream/main` while the studio's update alert compared against the releases
+feed, so an operator could upgrade onto unreleased commits and still be told
+they were current — and `CLIENT.version` on `main` between releases is the
+*previous* release's number, so "what am I running" had no meaningful answer.
+`upgrade` tracks `v*` tags now.
+
+**State after**
+
+- **blygger-studio 0.8.3** released, live on both nodes. 755 tests, `tsc` clean.
+- **blygger.com**: listing is automatic, queue is **empty** (0 pending of 23),
+  feed rows carry real names, and a recheck endpoint re-applies the rules to the
+  queue whenever they change.
+- **blygger.org**: nav derives the spec link, the latest spec page carries a
+  living-text pointer to the canonical markdown on `main`, the census is
+  self-consistent and refreshed on every deploy, and `/start/` carries the
+  default-title advisory.
+
+**Open threads**
+
+- **Warnings have no feedback loop.** A listing warns, the operator sees it once
+  at submission, and nothing ever tells them again — so a stale manifest or a
+  plaintext link gets published and stays. Recorded as a TODO in
+  `blygger-com/CLAUDE.md` with the four decisions it needs and the order: does a
+  listing show its warnings publicly (decide first — it changes what the rest is
+  for), re-check on a schedule, use the contact channel, and a per-listing page
+  to send someone to.
+- **`src/review.ts` briefly contained literal NUL and 0x1F bytes**, because
+  ` `-style escapes were written as the characters they denote. The regex
+  behaved identically, `tsc` was happy, and no test could have caught it — but
+  git and grep treated the file as binary, so a search for a string in it
+  returned nothing. Worth remembering as a class: an invisible character in
+  source is unreviewable in a diff.
+- Three studio releases in one day (0.8.1, 0.8.2, 0.8.3) means operators saw
+  three alerts. Releases are cheap here — no build artifact, the client ships as
+  source — but the alert cadence is a real cost and nobody has decided what it
+  should be.
+
 ## Session 29 (continued) — 2026-09-29 — Partial transclusion built and exercised; **gate G7 is open**
 
 **Model:** Opus 5 · **Committed:** yes (studio) · **Deployed:** blygger-studio 0.8.1 to both nodes · **Released:** v0.8.1
