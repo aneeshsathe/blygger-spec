@@ -7,6 +7,123 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 29 (parallel, research) — 2026-09-29 — Five exploration docs, ten public issues, and a conformance-cost criterion
+
+**Model:** Opus 5 · **Time:** ~07:50–09:30 PT · **Committed:** yes (`plans/` only) · **Deployed:** —
+
+A **research-only** session, running beside the implementation session that built partial
+transclusion. Wrote nothing in `src/`, touched no protocol text, deployed nothing. Output is
+five docs in a new `plans/` directory and ten issues across the two public repos.
+
+**What & why**
+
+Venkat asked for four explorations in two rounds. Each produced a doc in `plans/` — a new
+directory, chosen over `docs/` deliberately: these are exploratory, none is ruled, and a
+separate directory keeps them from reading as plan docs of record. They are also the one
+thing this session wrote into `blygger-spec`, so the parallel session's file ownership was
+never in question.
+
+1. **`unicode-support-proposal.md`** — the spec says nothing about Unicode beyond implying
+   UTF-8, which settles none of the four things the protocol does with text (hash, compare,
+   count, slice). Seven findings, all **measured in workerd** via a temporary
+   `vitest-pool-workers` probe rather than reasoned about. Two are cross-implementation
+   interop defects (`content_hash` is NFC/NFD-sensitive; §12.2's "two readers write the same
+   origin string" is an artifact of the reference client's URL parser, not a requirement).
+   Three are live client bugs (§below). Proposes four rules plus an optional manifest `lang`.
+2. **`rich-editor-proposal.md`** — four options for a richer composer, costed.
+3. **`pour-over-links-proposal.md`** — paste a URL, pour the source into the draft. Venkat
+   defined the term this session; it appears nowhere prior in the four repos or this devlog.
+4. **`publishing-patterns.md`** — 24 publishing genres the existing primitives support, with
+   print and digital precedents, plus §4: the genres that are **blocked**.
+5. **`inline-fragment-authoring.md`** — a `[[text]]` operator that tangles one document into
+   a thread plus component fragments, and the three separate questions hiding inside
+   "meaningfully named anchors for ids".
+
+**The decision that reshaped two of the five.** Venkat ruled mid-session: *vendored options
+are out for the reference client, and definitely out for anything touching the protocol.*
+The first clause killed the editor doc's recommendation (CodeMirror 6) and its biggest win,
+`[[id]]` as a readable chip; what survives is overlay highlighting — paint-only, so the
+textarea keeps IME, undo, bidi and mobile from the platform — plus making the already-real
+preview pane interactive.
+
+The second clause is the sharper one and is recorded as **§0 of the Unicode doc**: at the
+protocol level, "no vendored dependencies" means **a normative rule must be satisfiable from
+a language's standard library**. JS has `Intl.Segmenter`, `String.normalize` and IDNA-via-`URL`
+built in, which is exactly why the first draft did not notice that two of its four rules
+were dependency-imposing for Python, Go and Rust implementers. Both were reformulated, and
+the reformulation is better spec text: **state properties, not algorithms** ("the origin MUST
+be ASCII" constrains the same set as "apply IDNA ToASCII" and costs nothing to check), and
+**put correctness in the MUST, quality in the SHOULD** (never emit an unpaired surrogate is
+free; never split a grapheme cluster needs a segmenter). Whether that criterion belongs in
+§3 of the spec is an open thread below — it constrains every future construct, not just this
+one.
+
+**Three live client defects, all verified, now `blygger-studio#15`.** (a) `Response.text()`
+in workerd **ignores the `charset` parameter**, and no code path anywhere sniffs encoding —
+so every non-UTF-8 feed the L0 wrapper imports is mojibaked, and §10.2 then bakes that
+permanently into any thread quoting it. `TextDecoder` supports the full WHATWG label set and
+is unused. (b) `excerpt()` slices by UTF-16 code unit and emits a **lone high surrogate**
+at odd boundaries, which becomes U+FFFD in every subscriber's feed title and inside
+`cited.excerpt` on the wire. (c) `escapeXml()` passes C0 controls through; `fast-xml-parser`
+tolerates them so our suite stays green while a strict subscriber's parse of the **whole
+feed** fails.
+
+**One finding handed directly to the implementation session:** the NFC gap lands on partial
+transclusion's substring test — the NFC spelling of a phrase does not `.includes()` its NFD
+spelling — so an author selecting visibly-correct text gets a publish error. One line, cheap
+while the test is being written, expensive after.
+
+**Routing the issues.** Venkat asked for the docs to be filed on the spec repo. The spec
+repo's own `config.yml` says *"if no other client would have to change, it is a client bug,
+not a protocol one"*, and by that rule most of this is client work — the editor is §16.6
+territory ("never normative"), pour-over emits only ordinary markdown, tangling rewrites to
+ordinary 0.3, and `page` slugs are already legal. Raised the conflict, Venkat chose the
+split. Result: **4 on `blygger-spec`** (#6 Unicode, #7 `cited` on a `{url}` stub, #8 the
+variorum + the unrepublishable book, #9 `page` stability) and **6 on `blygger-studio`**
+(#15–#20). All cross-linked; decision numbers disambiguated from issue numbers so `#45`
+does not silently become a link when a repo reaches 45 issues.
+
+**Two findings worth more than their issues suggest.** The **variorum** is blocked by the
+`![[id@vN]]` reservation, and the backlog's rationale ("snapshot semantics make the need
+moot") holds for the common case but not for displaying two versions side by side under one
+byline — which is what a critical edition is. And a thread quoting an **unpinned remote
+item** can become permanently unrepublishable when a stranger withdraws: the mitigation
+("quote pins if you want your work to survive") is currently an inference across three
+sections and is probably the most actionable sentence available to anyone composing a
+durable work here.
+
+**State after**
+
+`plans/` holds five exploratory docs, none ruled, none referenced from the document map yet
+(see open threads). Ten issues open across the two public repos, each self-contained. No
+source, spec text, migration or deployment touched by this session. The temporary Unicode
+probe was deleted; `blygger-studio`'s working tree carries only the other session's changes.
+
+**Open threads**
+
+- **Is the conformance-cost criterion right, and does it belong in the spec?** Unicode doc
+  §0 and issue #6 question 7. It is inferred from a ruling about client vendoring. If it
+  holds, §3 is its home, and it would have caught two bad rule formulations before they were
+  written.
+- **May an explicit, author-triggered publish-time act rewrite the author's source?** Asked
+  from two directions — `blygger-studio#16` Q3 (editor) and `#20` Q1 (tangling). **One
+  ruling closes both**, and it is the highest-leverage decision among the ten issues.
+- **Is the no-vendoring ruling client-side JS specifically, or dependencies generally?**
+  Assumed the narrow reading throughout; the broad one reaches `markdown-it` and is a much
+  larger conversation. `blygger-studio#16` Q2.
+- **`docs/backlog.md` and the document map are not updated** for these five docs. Deliberate:
+  the backlog says only a Fable round moves an idea out, and the document map is Fable-owned
+  under the session-28 partition. The next Fable pass should file what survives and decide
+  whether `plans/` earns a document-map row or folds into `docs/proposals/`.
+- **Should the patterns catalogue be published?** `blygger.org` has three genres (spec,
+  notes, talks); *patterns* would be the first aimed at publishers rather than implementers.
+  Track 4; parked as `blygger-studio#18` question 3 rather than opening `blygger-org`'s
+  first-ever issue on a speculative question.
+- **The issue templates reference labels that do not exist** on either repo (`protocol`,
+  `proposal`). Template-created issues cannot apply them. Two `gh label create` calls.
+- **Ten public issues cite `plans/` paths**, so those docs are pushed with this entry —
+  otherwise the citations dangle.
+
 ## Session 29 (continued) — 2026-09-29 — Partial transclusion built and exercised; **gate G7 is open**
 
 **Model:** Opus 5 · **Committed:** yes (studio) · **Deployed:** blygger-studio 0.8.1 to both nodes · **Released:** v0.8.1
