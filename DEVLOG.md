@@ -87,11 +87,10 @@ now Dropbox-ignored; `node_modules` never had been.
 - `opus-brief.md` predates the React Studio: queue items with UI halves now land in
   `src/ui/`. The studio backlog carries a note saying so. The brief is Fable-owned, so it
   was not edited.
-- Kyle's merge left a branch-specific "Approved API and SDK migration" section in
-  `blygger-studio/CLAUDE.md`. It is instruction text aimed at agents and is stale now.
-  Venkat to decide whether to remove it; left in place.
-- The "Reader view doesn't roll up entries" bug is still waiting on one sentence from
-  Venkat.
+- ~~Kyle's branch-era "Approved API and SDK migration" section in `blygger-studio/CLAUDE.md`~~ —
+  removed at Venkat's request, end of session.
+- ~~"Reader view doesn't roll up entries"~~ — dropped by Venkat as a mistaken diagnosis.
+- Venkat posted the release announcement on his blyg.
 - `/image` opening the file picker from a keystroke is verified in Chromium only. iOS
   Safari is untested.
 - Test posts are live: PI `1pxtdtfzy2zcasa10qxrpvp32h` (v2). venkateshrao
