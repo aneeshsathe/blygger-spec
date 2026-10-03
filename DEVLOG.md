@@ -7,6 +7,47 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 32 — 2026-10-03 — Opus queue items 1–4: six releases (0.11.1–0.16.0); G6 built and half-exercised; image and editor bugs
+
+**Model:** Opus 5.5 · **Time:** ~10:57–12:20 PT · **Committed:** yes (blygger-studio, blygger-spec) · **Deployed:** blygger-studio 0.11.1 → 0.16.0 to both nodes; migrations 0014, 0015, 0016 applied to both D1s first. Tags v0.11.1–v0.15.0 cut; v0.16.0 tagged on green CI.
+
+Continues session 31 after Venkat switched back from Fable; counted as its own session because the Fable part wrote its own entry.
+
+**What & why.**
+
+1. **0.11.1 deployed** (Kyle's #25). Live time to first byte on the homepage went from ~4.2s to ~0.35s on venkateshrao and from ~1.9s to ~0.3s on PI. That answers session 31's open thread: the `json_each` batch queries work on remote D1. D1 commands need `CLOUDFLARE_ACCOUNT_ID` per node under OAuth, which `deploy-protocol.md` already documents.
+2. **0.12.0: stale quotes** (decision #33's direct check; #38 "detect always, refresh only on a decision"). `src/freshness.ts` reports each quote of a published thread against **what `resolveTarget` would bake now**, the same function publish calls, so the report cannot drift from publish. Remote quotes also probe `{origin}items/{id}.json`; a failed probe is inconclusive and never marks a quote stale. Statuses: current, refreshable, behind, passage-missing, unresolvable, retained. Only the direct relation counts (#45).
+   - **Refresh** republishes through `publishAndNotify`, which is factored out of the publish handler so both share the fork check and error mapping. It resyncs a lagging subscription first through the importer's own `reconcileIndex`. The wire shows #38's distinguishing fact: same `content_hash`, new version.
+   - **The finding:** refresh could not gate on `dirty`. "Discard changes" leaves `dirty = 1` on purpose, because a restore drops the positional TK provenance cache, and the parity suite asserts that. So refresh gates on *holds the published words*: the copy is clean, or it is byte-equal to the published version and that version disclosed no `generated[]`.
+   - **The same hazard is live for any restore-then-publish:** republishing a restored version that disclosed generated text drops `generated[]`. Not fixed; recorded in the studio backlog.
+3. **0.13.0: `[TK]impyrt=…[/TK]`** (#37). The provenance lives in the grammar (`TkScope.imported`), not the positional cache: `sources: []`, `model` only if the author wrote one, never `at`. So reordering scopes cannot move the disclosure. The editor gains *mark selection as generated*; generate refuses impyrt scopes; a `![[id]]` inside one declares no source.
+4. **0.14.0: drafted changelog notes** (#40; migration 0015 adds `versions.note_generated`).
+   - *Draft note* asks the configured model to describe the change. It runs before publish, never inside it, so publish stays network-free (#26).
+   - **§5.2's depth rule is enforced mechanically:** over an unpinned prior version, a draft that reproduces a 6-word run found only in the old text gets a 422. The guard's first version missed runs wrapped in quote marks, because apostrophes counted as word characters; a test caught it.
+   - `changelog[].generated: true` is emitted only when the note is published unedited.
+   - Fixed on the way: the editor never cleared the note after publish, so a stale note rode along on the next publish.
+   - The provider's HTTP call is factored into `complete()`. The claude-api skill wanted the SDK and `claude-opus-5-5`; the raw-fetch transport is a recorded choice for this Worker, so it stayed, and the model question went to Venkat (point 7).
+5. **0.15.0: history for imported items** (#40, reader half). The changelog is read from the origin on demand. *See the change* is a dependency-free word diff (`src/word-diff.ts`: paragraphs aligned first, then words inside replaced paragraphs), offered only between public versions, meaning adjacent pins and last pin → current. The fetcher tries only `v{n}.json` and the item document. With 0.14.0 this is the whole build side of **gate G6**.
+6. **G6 exercised in one direction.** PI item `4zss0yg5f5zbh48e22s4f87003` (labelled a conformance exercise; left up per the standing rule) got v2 with a note drafted by `claude-sonnet-5-5` and published unedited, so PI's changelog emits `"generated": true`. Venkateshrao's studio resynced, imported v2, and read that history through the new route; the unpinned v1 correctly returned 404. The reverse direction needs a publish in Venkat's own voice and is his call.
+7. **AI model (Venkat):** both nodes set to `claude-sonnet-5-5` over the API, to save cost. The released package has **no built-in default** (0.16.0): with no model set, generation says so instead of choosing for the operator. This is flagged in the changelog as action-needed.
+8. **0.16.0: bugs.**
+   - **Images** (Venkat's report and studio#24): every Studio upload is now inline (`media.inline`, migration 0016, backfilled where the item's text already references the image). An inline image shows only where its line is, so deleting the line removes it from the page, the feed and the item `media` list. Uploads from other tools are still appended. `DELETE /api/media/{id}` detaches when a published version still shows the bytes (§5.4) and deletes otherwise. The editor lists each attachment's state and offers *remove*.
+   - **The upload stall did not reproduce** in Chromium or WebKit, locally or against live PI, including 3.2 MB files and a slow-network simulation. The explanation that fits all of Venkat's symptoms: navigating away mid-upload saves the placeholder into the draft, and the finished image is then appended at the bottom. Uploads now block navigation, and stale placeholders are stripped when the editor opens. **Unconfirmed**; Venkat to report node, browser and file type if it recurs.
+   - **Editor viewport:** a fixed 18rem textarea sat inside a pane stretched to the preview's height. Panes are now flex columns sized to the window, and the textarea fills its pane.
+   - **studio#2:** two string-replacement splices became function replacements.
+   - **Closed with replies:** studio#24 and #2. studio#7 (media versioning, double uploads) is only partly addressed by removal and stays open.
+
+**State after.** blygger-studio 0.16.0 is live on both nodes, with migrations through 0016. Suites: 790 Worker, 6 UI-state, 136 browser, all passing. Opus brief items 1–4 are done. Next in the brief are remote generation sources (gate G8), which Venkat deferred, and `cited` on `{url}` stubs (gate G10). Gate G6 is built and exercised PI → venkateshrao only.
+
+**Open threads.**
+- **G6's reverse direction:** a drafted note published unedited on venkateshrao, read from PI. Venkat to decide. Fable promotes §16.6c into §5.2 once the gate is judged open.
+- **studio#4 / decision #54** (`[[id]]` and `![[id]]` inert in code): planned but not built. Detect code regions with markdown-it's block parser (fences, indented code, fences inside lists) plus a backtick-span scanner, and skip directives and links in them in `walk`, `extractDirectives` and `resolveInternalLinks`.
+- **Restore-then-publish drops `generated[]`** for a version that disclosed generated text. The repair candidate is re-wrapping the restored spans as `impyrt`; the open question is locating them in markdown.
+- **The upload stall is unconfirmed;** see point 8.
+- **Refresh's resync branch** (`behind` → `reconcileIndex`) is unit-tested only. The test pool's outbound fetch is 503, so the first real "behind" refresh is its live test.
+- **8 legacy attachments on venkateshrao** are still appended below their posts and are removable from each editor. 1 row on PI is the avatar.
+- Typing in the note field while a draft request is in flight gets overwritten when the draft arrives. Minor; the e2e test had to wait for it.
+
 ## Session 31 — 2026-10-03 — Kyle's #25 merged (0.11.1); Fable triage: partial transclusion normative, #52–#56, nine issue replies
 
 **Model:** Opus 5.5 (merge, triage list) → Fable 5.1 (rulings, recording) · **Time:** ~10:26–11:00 PT · **Committed:** yes (blygger-studio, blygger-spec, blygger-org) · **Deployed:** blygger.org (fifth revision of the 0.3 text). blygger-studio 0.11.1 is merged, **not** tagged or deployed.
