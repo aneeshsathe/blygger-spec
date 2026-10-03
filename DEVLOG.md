@@ -7,6 +7,95 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 31 — 2026-10-03 — Kyle's #25 merged (0.11.1); Fable triage: partial transclusion normative, #52–#56, nine issue replies
+
+**Model:** Opus 5.5 (merge, triage list) → Fable 5.1 (rulings, recording) · **Time:** ~10:26–11:00 PT · **Committed:** yes (blygger-studio, blygger-spec, blygger-org) · **Deployed:** blygger.org (fifth revision of the 0.3 text). blygger-studio 0.11.1 is merged, **not** tagged or deployed.
+
+**What & why.**
+
+1. **Kyle Mathews' #25 merged as 0.11.1** (`e8eb334`). The public homepage went from ~300
+   D1 queries for 100 cards (one each for content, pins, media and quoted sources) to 5,
+   or 7 when a thread quotes another item, plus 2 for settings and the item list, by
+   batching through `json_each` joins; migration **0014** adds four indexes and changes no
+   data; pin links on the other public pages stop reading every version body. Reviewed
+   against the old code path by path — order and tie-break preserved, withdrawn quoted
+   items still resolve to their authored kind, frozen citations still beat the live join,
+   the social image still falls back to the avatar. 743/743 locally with the private-config
+   tests CI skips; both typechecks clean. One thing not checked here: the queries lean on
+   SQLite's JSON functions inside D1, verified only against local D1. Deploy needs 0014
+   applied to both D1s first — carried over.
+2. **The Fable triage.** Opus wrote the triage list (Part 1 what unblocks work, Part 2
+   gates, Part 3 public issues), Venkat switched models, Fable ruled. Rulings and reasoning
+   in chat, one "go", then everything recorded at once (the session-27 cadence).
+   - **#52 — Kyle's phase 3.** OAuth-style minting stays inside #31 because #31 fixed the
+     token model, not the minting UX, and Micropub's own auth is IndieAuth (OAuth 2 with
+     your own site as the authorization server). MCP is a transport for #39's contract, not
+     a second one. **Kyle builds 2.9; Opus comes off it** and reviews against four
+     invariants (one token model with a paste path; no `.well-known` — host-rooted, breaks
+     path-mounted blygs — and no manifest key; a read scope and a distinct publish verb,
+     no refresh-only scope; MCP = same operations and scopes with provenance recorded).
+     What tipped it from refusal to constraint was the measured state: Blygger Desktop
+     holds the owner password on a stock server and an unscoped `BLYG_OWNER_TOKEN` on an
+     extended one — both the thing #31 exists to end — its author lists the scopes he
+     needs in studio#11 and says he switches the day scoped tokens ship, and his docs
+     already read Kyle's OAuth plan as upstream's direction. Two auth systems was the
+     outcome of fighting it. Reasoning: `v0.4-plan.md` §8.1.
+   - **#53 — `content_html` is self-contained**, every URL absolute (§5.2). The same bytes
+     travel three ways with no origin to resolve against; §7 already required it for the
+     description, which *is* `content_html`. `media[].url` unaffected. Revision by #43;
+     built in 0.11.0, so straight into normative text.
+   - **#54 — `[[id]]` inert in code** like the directive (§10.1; blygger-spec#4). A
+     grammar correction. studio#4 now covers both forms.
+   - **#55 — `cited` MAY sit on a `{url}` stub** (§16.1a; blygger-spec#7). #49's "plain-web
+     targets get nothing" is about verification; `cited` promises no test and the frozen
+     label matters *more* for a target with no versions. Same cap. Gate **G10** added.
+   - **#56 — `page` SHOULD be stable** (§5.8; blygger-spec#9). Option A; a reader MUST
+     re-read per version rejected as a new obligation that helps no link already outside
+     the system.
+   - **Parked with triggers** (plan §8.6): Unicode (blygger-spec#6) gets a round of its own,
+     measured first — the NFC/NFD sensitivity of `content_hash` is a real defect; the
+     variorum (blygger-spec#8 part 1) becomes `![[id@vN]]`'s named trigger, and
+     fork-plus-prose is explicitly *not* the intended answer; a namespaced `meta` bag
+     (blygger-spec#10) not opened — `author` is the one extension point by design.
+     blygger-spec#8 part 2 asked for one sentence in §10.2 (the republication veto an
+     unpinned remote quote hands a stranger; quote pins) and got it.
+3. **Gate G7 closed.** Partial transclusion promoted from §16.4 into §10.1 (grammar), §10.2
+   (faithfulness check and bake) and §10.3 (`selector`), with the build's P4 call recorded
+   as the rule: the bake is the selection's plain text in paragraphs, not a carved HTML
+   sub-range; emphasis in the source does not survive, and that is the visible cost.
+   `blyg-partial` is the third wire-visible class in `css-contract.md` §1. §17 gains the
+   fifth-revision line. **Published** via `blygger-org/deploy.sh`; verified live with a
+   cache-bust. Not snapshotted (policy).
+4. **Nine replies posted through `gh` in Venkat's voice**, at his instruction: #2
+   (cyberscribe — the #51 ruling and the G9 gate, asking whether the WordPress side is being
+   built), #5 (the conformance corpus is #48's reader half; stays open as tracking), #6
+   (parked, with the method), #8 (both halves), #10 (Kyle — physics vs culture is the
+   stance; no `meta` bag; the genre list is worth mining); #3, #4, #7, #9 closed with their
+   answers; studio#4 extended to `[[id]]`. The drafts are in the session scratchpad.
+5. **Both briefs rewritten.** `opus-brief.md`: 2.9 is Kyle's; the picker and partial
+   transclusion are off the list; the queue leads with deploying 0.11.1, bulk re-pin,
+   `impyrt`, generated notes, then remote generation sources, then `cited` on `{url}` stubs
+   and the two small spec-driven fixes. `fable-brief.md`: gates G3/G5/G6/G8/G9 carried,
+   **G10** added, G7 removed; Unicode as the one standing question; `.well-known` and the
+   `meta` bag added to do-not-open.
+6. **`DEVLOG.md` carried one literal NUL byte** (line 316, inside the note *about* NUL bytes
+   in `src/review.ts` — the same escape mistake it described), which made `grep` treat the
+   whole file as binary. Replaced with the two-character escape.
+
+**State after.** 0.3 text at its fifth revision, live. Decisions through #56. Carry-overs:
+G8 is the next build; Kyle's auth PR is reviewed against #52; 0.11.1 awaits migration 0014
+and deploy. Open spec issues: #1 (v0 comments), #2 (awaiting cyberscribe), #5 (tracking),
+#6 (parked), #8 (answered, left open for the variorum thread), #10 (discussion).
+
+**Open threads.**
+- **0.11.1 deploy** — migration 0014 on both D1s, then `deploy:vgr`/`deploy:pi`, then the
+  `v0.11.1` tag. Live homepage timing unmeasured before and after; measure once.
+- **The `json_each` queries are untested against remote D1.** Local D1 passed; the first
+  deploy is the test. If a query fails live, the fallback is the pre-0.11.1 renderer, which
+  the old tests still cover.
+- Two more Unicode-adjacent client bugs (studio#15) sit beside spec#6 and should be fixed
+  regardless of the spec round.
+
 ## Session 30 — 2026-10-02 — Kyle Mathews' Studio rebuild merged; blygger-studio 0.10.0 and 0.11.0; akash's site PR
 
 **Model:** Opus 5.5 · **Time:** ~16:50–19:40 PT · **Committed:** yes (blygger-studio, blygger-org, blygger-spec) · **Deployed:** blygger-studio 0.10.0 then 0.11.0 to both nodes; blygger.org
