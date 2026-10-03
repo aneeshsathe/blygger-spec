@@ -7,6 +7,96 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 30 — 2026-10-02 — Kyle Mathews' Studio rebuild merged; blygger-studio 0.10.0 and 0.11.0; akash's site PR
+
+**Model:** Opus 5.5 · **Time:** ~16:50–19:40 PT · **Committed:** yes (blygger-studio, blygger-org, blygger-spec) · **Deployed:** blygger-studio 0.10.0 then 0.11.0 to both nodes; blygger.org
+
+**What & why**
+
+Two outside contributors had open PRs. The session reviewed them, routed them, merged them,
+and then shipped follow-ups that Venkat asked for once the merged Studio was live.
+
+1. **Kyle Mathews' blygger-studio #21 + #22** (≈47k lines, stacked). #21 rebuilds `/api`
+   as a documented contract: Zod → OpenAPI 3.1 → Hey API SDK, resource routes, strict
+   validation, removed pre-0.9 routes with no aliases. #22 rebuilds the Studio as a React
+   SPA (TanStack Router/DB, Base UI) and deletes the SSR Studio. **Routing: no Fable needed**
+   for either. Nothing changes on the wire (protocol-output assertions were preserved 1:1,
+   and `transclusion.ts` was touched only by a verbatim move to `directives.ts`). #31
+   already ruled `/api` is the client's own contract, and neither PR changes auth. Three
+   **Venkat calls** were needed and made:
+   - (A) reverse v0.1-plan's "no client-side framework" rule for the Studio. Public pages
+     stay server-rendered. This removes the template-literal/inline-script bug class.
+   - (B) **releases cut from `v*` tags, not on every push to main.** Kyle's
+     `release.yml` would have shown a failed run on every doc-only push and pushed every
+     merge into strangers' update alerts. Changed in `2a6d75b`.
+   - (C) accept the `/api` route break. Blygger Desktop calls removed routes, but it
+     already needs a modified server (it sends bearer tokens and calls `tk-provenance`
+     endpoints), so nothing that works against stock Studio broke.
+
+   Merged #22 alone, since it contains #21, so no stray 0.9.0 release went out. Verified
+   locally before pushing: 730 Worker, 6 UI-state and 118 Playwright tests.
+   **Kyle's phase 3 (OAuth, then MCP) is ⚠️ FABLE before it starts** — see Open threads.
+2. **akash's blygger-org #1** (mobile nav + Contents drawer). Merged with a follow-up
+   (`1a06ad8`). The PR clipped page overflow, which would have cut off wide spec tables
+   with no way to scroll, so `build.py` now wraps tables in a scroller. Tapping a section
+   link no longer pulls focus back to the button. It also fixed a live bug: the talk page
+   showed the literal text `{{SPEC_LINK}}`. Deployed with `./deploy.sh`.
+3. **0.10.0 live, then exercised for real.** Applied migration 0013 by hand to both D1s,
+   deployed per target, and drove both nodes over the API with the registry passwords:
+   login, reading pages 1–2, upload, TK generation through the live provider, publish,
+   edit and republish (two test posts). Venkat checked the Studio on his phone, the
+   save-before-navigate behaviour and select-to-quote. Kyle's background code (mentions,
+   importer, cron, `protocol.ts`) is untouched, and the cron was seen polling after the
+   deploy.
+4. **CI flake** (run 37085553974): Playwright gated readiness on port 8787, but the
+   mounted-studio proxy on 8789 starts last. It now gates on the proxy. A second race, in
+   quote-selection, was found by a local run (`8a65934`).
+5. **0.11.0** (Venkat's asks, plus one bug found while answering a question):
+   - **Feed thread cards show the thread** — the permalink's own HTML with provenance,
+     clipped at 24rem with a fade, "THREAD · N quoted" as its own line. This
+     *deliberately reverses* session 28's plain-text teaser. That teaser's later fixes
+     existed because flattening HTML welded a quoted sentence onto the author's own; real
+     HTML keeps the blockquote boundary. One-line surfaces (title, og, RSS headline,
+     archive) keep the author's-own-words rule.
+   - **Images anywhere while writing** — caret insertion, `/image` on its own line,
+     paste, drop, with a placeholder holding the spot during upload. `/image` never
+     reaches `content_md`, so there is no protocol question.
+   - **Absolute URLs in `content_html`**, found by asking whether `/image` raised protocol
+     issues. A PI image imported to venkateshrao resolved against the wrong host (404).
+     §7 required absolute URLs in the RSS description, and the item document didn't have
+     them. Fixed on four sides: publish, import, bake (a remote snapshot is resolved
+     against *its* origin before entering our thread), and a bounded, idempotent cron
+     repair (`repairImportedUrls`; GLOB, not LIKE, so `//host` can't starve it).
+   - Operator docs: a CHANGELOG entry written for nodes on 0.8.x, and
+     `docs/upgrading-to-0.11.md` (paths, migration table, the stale-`build/` trap,
+     mounts, checks, rollback, and an old→new route table for tool authors).
+
+**State after:** blygger-studio **0.11.0** is tagged and deployed to both nodes (735
+Worker + 6 UI + 126 browser tests). Releases are cut from tags. blygger.org is deployed
+with akash's drawer. The Studio checkout's `node_modules`, `build/` and `sdk/dist/` are
+now Dropbox-ignored; `node_modules` never had been.
+
+**Open threads**
+- ⚠️ **FABLE: Kyle's phase 3** (`blygger-studio/docs/migration.md` §3). OAuth goes beyond
+  #31's owner-minted bearer-token direction, and MCP is #39's agent contract. The ruling
+  must also settle who builds the rest of 2.9 (Opus queue item 2), so that two auth systems
+  don't get built. Added as a carry-over.
+- ⚠️ **FABLE, one line:** must `content_html` in the item document carry absolute URLs?
+  The spec is explicit for RSS (§7) and only implies it for the item document (§16.2's
+  reason for absolute `[[id]]` hrefs). 0.11.0 is correct under either ruling.
+- `opus-brief.md` predates the React Studio: queue items with UI halves now land in
+  `src/ui/`. The studio backlog carries a note saying so. The brief is Fable-owned, so it
+  was not edited.
+- Kyle's merge left a branch-specific "Approved API and SDK migration" section in
+  `blygger-studio/CLAUDE.md`. It is instruction text aimed at agents and is stale now.
+  Venkat to decide whether to remove it; left in place.
+- The "Reader view doesn't roll up entries" bug is still waiting on one sentence from
+  Venkat.
+- `/image` opening the file picker from a keystroke is verified in Chromium only. iOS
+  Safari is untested.
+- Test posts are live: PI `1pxtdtfzy2zcasa10qxrpvp32h` (v2). venkateshrao
+  `2gj6y12ephczxkqsq95yxhpbpm` was withdrawn by Venkat.
+
 ## Session 29 (parallel, research) — 2026-09-29 — Five exploration docs, ten public issues, and a conformance-cost criterion
 
 **Model:** Opus 5 · **Time:** ~07:50–09:30 PT · **Committed:** yes (`plans/` only) · **Deployed:** —
