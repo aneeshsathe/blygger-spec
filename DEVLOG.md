@@ -313,7 +313,7 @@ they were current — and `CLIENT.version` on `main` between releases is the
   for), re-check on a schedule, use the contact channel, and a per-listing page
   to send someone to.
 - **`src/review.ts` briefly contained literal NUL and 0x1F bytes**, because
-  ` `-style escapes were written as the characters they denote. The regex
+  `\0`-style escapes were written as the characters they denote. The regex
   behaved identically, `tsc` was happy, and no test could have caught it — but
   git and grep treated the file as binary, so a search for a string in it
   returned nothing. Worth remembering as a class: an invisible character in

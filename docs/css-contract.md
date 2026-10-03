@@ -19,7 +19,7 @@ Two audiences, two very different levels of commitment:
 
 ## 1. Wire-visible classes (permanent; protocol surface)
 
-Two class names are **baked into published `content_html`** at publish time.
+Three class names are **baked into published `content_html`** at publish time.
 They travel with the content: they are in the item JSON, in the feed's
 `<description>`, in every pinned version file, and in any copy any reader
 imports. They are permanent wire tokens and cannot be renamed — see
@@ -28,12 +28,14 @@ imports. They are permanent wire tokens and cannot be renamed — see
 | Selector | Meaning | Spec |
 |---|---|---|
 | `blockquote.blyg-transclusion` | A fragment quoted verbatim into a thread, snapshotted at publish time. Carries `data-blyg-id` (26-char item id) and `data-blyg-version` (integer). | §10.2 |
+| `blockquote.blyg-transclusion.blyg-partial` | A **partial** transclusion (added 2026-10-03, `protocol-v0.3.md` §10.1–§10.2): a passage of the item named by the same `data-blyg-*` attributes, baked as the selection's plain text in `<p>`s. Always alongside `blyg-transclusion`; the second class is what discloses that the quote is a passage and not the whole item. | §10.2 |
 | `span.blyg-tk-gen`, `div.blyg-tk-gen` | A span of machine-generated prose. `span` for inline output, `div` for block output. The JSON `generated` array is the authoritative provenance; this is its presentation-plane twin. | §5.7 |
 
 Obligations:
 
-- **Styling is free; suppression is not.** Both classes exist to disclose
-  something — that words are someone else's, or that words were generated. A
+- **Styling is free; suppression is not.** All three classes exist to disclose
+  something — that words are someone else's, that only a passage of them was
+  taken, or that words were generated. A
   theme may render them any way it likes, but must not make the distinction
   invisible where the disclosure is the point. (`blyg-transclusion` needs to
   read as quoted material; `blyg-tk-gen` is deliberately *unstyled* in this
@@ -42,7 +44,7 @@ Obligations:
   `content_html` verbatim. Renaming, stripping, or "normalizing" these classes
   destroys provenance the publisher asserted.
 - **Sanitize before rendering foreign content** (`protocol-v0.2.md` §14).
-  Keeping these two classes and their `data-blyg-*` attributes through your
+  Keeping these three classes and their `data-blyg-*` attributes through your
   sanitizer's allowlist is what preserves the disclosure.
 - A reader that does not understand them must still render the content; they
   are ordinary HTML elements with a class, and the ignore-unknown rule applies.
