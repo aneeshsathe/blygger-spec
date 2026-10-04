@@ -85,6 +85,14 @@ writing; read it on the PR branch).
     ignores it does (nothing, by §13.1), and whether a future maintenance agent's
     refreshes carry it by default.
 
+14. **Listing public hoppers in `blyg.json`** (session 34). Studio 0.24.0 lists public
+    hoppers under *Collections* on the homepage and archive, so people can find them;
+    other blygs and the blygger.com directory still cannot. A manifest key naming
+    each public hopper's page would let them. It adds a key readers see, so it is
+    Fable's under #58. Weigh it against decision #12 (hoppers are curation display,
+    never re-emitted on the feed): a list of links is not a re-emission, but it is
+    the first time a hopper would be discoverable by machine.
+
 ## C. Review after the fact (#58 batch)
 
 - **No decision carries the `Fable review pending` label yet**, so #58 is still untested.
