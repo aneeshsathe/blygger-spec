@@ -9,7 +9,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 ## Session 33 (parallel, Fable) — 2026-10-03 — Forks flatten (#57); the TK-source questions were #44 all along
 
-**Model:** Fable 5.1 · **Time:** ~19:05–19:40 PT · **Committed:** yes (blygger-spec) · **Deployed:** see below. Run beside an Opus session; Fable touched only `blygger-spec/`.
+**Model:** Fable 5.1 · **Time:** ~19:05–20:05 PT · **Committed:** yes (blygger-spec, blygger-org) · **Deployed:** blygger.org (sixth revision of the 0.3 text). Run beside an Opus session; Fable touched `blygger-spec/` and the spec sync in `blygger-org/`.
 
 **What & why.** Venkat opened a Fable session for two things he hit in the studio.
 
@@ -44,15 +44,30 @@ Per-session development log. Non-skippable: every coding session appends an entr
 3. **Recorded at once on "go":** §5.6 rule 6 pointer and new §16.6f in the spec, §17
    sixth-revision line, decision #57 and a carry-over in `CLAUDE.md`, plan §9, Opus
    queue item 5 with the rest renumbered, G11 in the Fable brief.
+4. **Model routing re-gated on blast radius (#58).** Venkat: Opus 5.5 is out and said to be
+   near Fable-grade; reduce the need for Fable rounds as far as feasible. The old rule
+   routed by subject and made Fable the bottleneck for reversible work — of #52–#57,
+   three needed no new principle and changed nothing on the wire, and today's TK
+   questions were lookups. Opus 5.5's own record in sessions 30–32 (bugs found, a recorded
+   choice held against a skill, the cost call deferred, gaps recorded not improvised) is
+   the evidence that matters, not the capability claim, which is unverified and which the
+   rule does not depend on. **The four-question test** (`CLAUDE.md` § Model routing):
+   must a reader change (#43); is anything readers see added, removed or renamed; is a
+   locked decision reinterpreted or the do-not-open list touched; can a settling principle
+   be cited. All clear → Opus rules, records with a `Fable review pending` label, builds.
+   §16 promotions after a gate (G6, G10, G11) move to Opus. Fable keeps G8, new wire
+   surface, verification and identity, conflicts and reversals, and a batch review that
+   opens every Fable round. Recorded in `CLAUDE.md` (routing section and #58), the
+   roadmap's reading rule, and both briefs.
 
-**State after.** Decisions through #57. 0.3 text at its sixth revision in the repo;
-**publication to blygger.org is Venkat's call** at the end of this session (the §17 line is
-written on the assumption it is published; remove it if not). G8 still deferred. Opus
-session running in parallel owns everything outside `blygger-spec/`.
+**State after.** Decisions through #58. 0.3 text at its sixth revision, **published**
+(blygger.org via `deploy.sh`, cache-bust verified). G8 still deferred. The next Fable
+round opens with a review of whatever Opus has ruled under #58. Opus session running in
+parallel owns everything outside `blygger-spec/`.
 
 **Open threads.**
-- **Publish the sixth revision** via `blygger-org/deploy.sh` with a cache-bust check, or
-  strike the §17 line.
+- **#58 is untested.** The first Opus-ruled decision is the test of whether the four
+  questions are sharp enough; the review step is where a wrong stop or a wrong rule shows.
 - **The attribution line's form** is the build's call; G11 records it.
 - **HTML-to-markdown for quotes** is bounded to the blyg dialect; images in quoted
   fragments become absolute `![]()` links to the origin's media. If the build finds a

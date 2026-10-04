@@ -26,9 +26,13 @@ Two sessions may be editing this program at once. The partition that worked in s
   own `DEVLOG.md` entry, titled `## Session N (parallel, Opus) — …` and placed above the
   Fable entry of the same session; and ticks on its own items in `CLAUDE.md`'s TODO and
   carry-over lists. Nothing else.
-- If a build finds the spec wrong or silent, **do not improvise**: record it in your
-  devlog entry's open threads and, if it blocks, stop and tell Venkat — a Fable round
-  can rule the same afternoon.
+- If a build finds the spec wrong or silent, **run the four-question test** in
+  `CLAUDE.md` § Model routing (decision #58). Reversible and settled by a citable
+  principle: rule it yourself, record it as the next numbered decision with the
+  `Fable review pending` label and the reasoning in `v0.4-plan.md`'s rulings section,
+  and build. Otherwise record it in your devlog entry's open threads and, if it blocks,
+  stop and tell Venkat — a Fable round can rule the same afternoon. **During a live
+  Fable round, add decisions only by appending**; the list is the one shared surface.
 - Deploys authenticate with `wrangler login`, not the registry tokens
   (`docs/deploy-protocol.md` § Authentication); unset `CLOUDFLARE_API_TOKEN` first.
   `deploy:all` is blocked in auto mode — use `deploy:vgr` / `deploy:pi` and verify
@@ -47,8 +51,9 @@ draft from his build once gate G3 opens.
 
 ## The queue, in order
 
-Everything here is unblocked. Semantics are fixed by the decisions cited; implement, do
-not redesign. Priorities follow `roadmap-tracks.md`. Ship each as its own release with a
+Everything here is unblocked. Semantics are fixed by the decisions cited; implement
+them. Where a build raises a question the decisions do not answer, apply the
+four-question test (#58) before stopping: most studio-side questions are yours to rule. Priorities follow `roadmap-tracks.md`. Ship each as its own release with a
 `CHANGELOG.md` entry stating `Migrations:`.
 
 1. **Deploy 0.11.1** (Kyle's #25, merged session 31): apply `0014_public_page_indexes.sql`
@@ -113,6 +118,9 @@ normative text session 31).
 
 Studio backlog ticks with what was built and what it found; `CHANGELOG.md` entries
 stating `Migrations:`; tagged releases; both nodes deployed and verified; your
-`(parallel, Opus)` devlog entry; and anything a build found that the spec should say,
-as an open thread — not as a spec edit. Ideas you have that are neither ruled nor scheduled
+`(parallel, Opus)` devlog entry; any decisions you ruled under #58, numbered and
+labelled `Fable review pending`; gate promotions you performed (G6, G10, G11 are yours
+once their exercise has run — move the §16 text, fix cross-references, add the §17
+line, publish via `blygger-org/deploy.sh`); and anything outside the test that the
+spec should say, as an open thread — not as a spec edit. Ideas you have that are neither ruled nor scheduled
 go in that open-threads list too; the next Fable pass files them in `docs/backlog.md`.
