@@ -7,6 +7,43 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 33 (parallel, Opus) — 2026-10-03 — Four releases (0.17.0–0.20.0): the grammar's reach, lineage on import, forks flatten; G10 and G11 exercised
+
+**Model:** Opus 5.5 · **Time:** ~19:00–20:00 PT · **Committed:** yes (blygger-studio, blygger-spec) · **Deployed:** blygger-studio 0.17.0 → 0.20.0 to both nodes; migration 0017 applied to both D1s first. Tags v0.17.0–v0.19.0 cut; v0.20.0 tagged on green CI.
+
+Ran beside the Fable session above. Opus held off `blygger-spec/` until Fable had committed.
+
+**What & why.**
+
+1. **0.17.0: the bracket and TK grammar apply only where they should** (studio#3, #4, #5, #13, #14; all aneesh's).
+   - `src/code-ranges.ts` finds code blocks with markdown-it's *own block parser*, so fences, `~~~`, indented code and fences inside list items are found exactly as the renderer sees them, plus code spans by the CommonMark backtick rule.
+   - The directive walker, `extractDirectives`, the link resolver and the TK parser all skip code (#54).
+   - The walker also skips generated output (#5, #20): inline spans by their existing markers, and provenance-free output by a new U+E004/E005 pair stripped after rendering.
+   - `applyInternalLinks` never nests anchors (#13): inside link text a token becomes the label; inside an href or URL text, the author's `[[id]]`; inside tags or `<code>`, the literal.
+   - `resolveBlockLinks` is shared by publish and both previews (#14).
+   - Inline TK markers are dropped where a span cannot go, such as hrefs and alt text (#3).
+   - 18 new tests; 12 fail on the old code, and the other 6 are controls.
+2. **0.18.0: lineage survives import** (studio#12; migration 0017 adds `imported_items.stub_of_json` and `forked_from_json`, stored verbatim). **Finding:** the "`cited` on `{url}` stubs is not yet emitted" premise behind G10 was stale. Hostname-only `cited` had been on the wire since 0.4 (three live venkateshrao stubs). What was missing was the import half, plus a useful citation. The response action now freezes the feed's name and the entry title at creation (§5.9), and `parseStubOf` validates an author-supplied `cited`.
+3. **0.19.0:** the composer autosaves (studio#23): the first save waits for a 3-second pause and at least 8 characters, then edits save like the editor's. Image alt text keeps escapes (studio#6: markdown-it 14's `text_special` tokens).
+4. **0.20.0: forks flatten** (#57, Fable's ruling from the session above; `src/fork-flatten.ts`).
+   - Own prose is copied byte-exact from the pinned `content_md`.
+   - Each top-level directive, with a partial's attached quote, is replaced in order by its baked element as a plain blockquote plus a *quoted from* attribution line. Nested quotes nest, and the origin carries down the layers.
+   - `blyg-tk-gen` is re-wrapped as `impyrt`, with the model from `generated[]` for own prose.
+   - **Fallback:** when the directives and the bake disagree, or a generated span cannot be located in the markdown, the whole pinned HTML is converted. Byte-exactness yields before a disclosure does.
+   - Fixes fragment forks dropping `generated[]`. A dependency-free HTML parser and converter covers the dialect this client renders.
+   - The session-24 test asserting directives were kept was rewritten to the ruling.
+5. **Gate G10 exercised:** PI stub `2ba4jjx71hnpatspwpa7a3kv4k` (a `{url}` stub of the living spec, full `cited`) imported onto venkateshrao with `stub_of_json` byte-identical. **Fable can promote §16.1a.**
+6. **Gate G11 exercised as a draft:** PI thread `6ftb9x77qw3egm7wrbn5vnfzfr` (pinned v1, quoting venkateshrao `54pwr12zqvvaj37zqx0f8vdbhk`, which itself quotes `blyg.aneeshsathe.com`) forked on venkateshrao as draft `13386qxgds01zxq4q3qjzd2fjh`. No directive remains. Both layers arrived flattened with their attribution, so three origins were crossed. **Publishing the fork is Venkat's call**, since it is his node and his voice. Left as a draft.
+7. Studio issues #3, #4, #5, #6, #12, #13, #14 and #23 closed with replies.
+
+**State after.** blygger-studio 0.20.0 on both nodes, migrations through 0017. Suites: 819 Worker, 6 UI-state, 138 browser, all passing. Opus brief item 5 (fork flattening) is done; G8 is still deferred.
+
+**Open threads.**
+- **For Fable — a conflict to reconcile.** The session-33 Fable entry's §9.2 says an own-line `![[id]]` left in TK output is "at publish, a real transclusion", and calls that consistent. That describes the code before 0.17.0. Following decision #20 ("inside a TK scope every `![[id]]` is a source reference … never a blockquote; scopes cannot contain transclusions") and aneesh's #5, 0.17.0 makes such a line inert. The code follows #20; §9.2's note should change, or #20 should be revisited.
+- **G11 needs the fork published** (or Venkat's word that a draft suffices) before Fable promotes §16.6f into §5.6.
+- **G6 reverse direction** is still Venkat's call (session 32).
+- Earlier imports have `stub_of_json` NULL until their origin's next version; no backfill was written.
+
 ## Session 33 (parallel, Fable) — 2026-10-03 — Forks flatten (#57); the TK-source questions were #44 all along
 
 **Model:** Fable 5.1 · **Time:** ~19:05–20:05 PT · **Committed:** yes (blygger-spec, blygger-org) · **Deployed:** blygger.org (sixth revision of the 0.3 text). Run beside an Opus session; Fable touched `blygger-spec/` and the spec sync in `blygger-org/`.
