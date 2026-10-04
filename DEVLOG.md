@@ -7,6 +7,57 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 33 (parallel, Fable) — 2026-10-03 — Forks flatten (#57); the TK-source questions were #44 all along
+
+**Model:** Fable 5.1 · **Time:** ~19:05–19:40 PT · **Committed:** yes (blygger-spec) · **Deployed:** see below. Run beside an Opus session; Fable touched only `blygger-spec/`.
+
+**What & why.** Venkat opened a Fable session for two things he hit in the studio.
+
+1. **Forking a thread with quotes** (screenshot: `fork of 5d1dee… v1`). The top level was
+   editable; the quotes arrived as `![[id]]` directives, uneditable. He asked whether a
+   fork should flatten the whole tree to fragment level, raised and set aside pin-closure
+   (a thing may be pinned only if everything it quotes is pinned), and settled on
+   recursive unrolling. **Ruled #57, agreeing, with the reason sharpened:** the current
+   fork copies `content_md`, so it inherits a *composition* that re-resolves in the
+   forker's context — different versions on an own-origin fork, publish failures and
+   drift on a remote one, quote-mentions sent on the forker's behalf — which is not
+   "the bytes anyone can still fetch" that `fork.ts` says a fork descends from.
+   Pin-closure is wrong for a stronger reason than tedium: the thread's pin already
+   freezes every baked quote in its `content_html`, so the fragments' pins add nothing.
+   Shape: source quotes from the pinned `content_html`, own prose byte-exact from
+   `content_md`, each quote an ordinary blockquote with an attribution line, recursive,
+   no `blyg-transclusion` class, no inherited `transclusions[]`, re-cite by hand for a
+   live quote, `blyg-tk-gen` re-wrapped as `impyrt`. The last point exposed that today's
+   fork drops `generated[]` for a forked fragment as well — session 32's restore-leak
+   class. Revision by #43; §16.6f now, §5.6 rule 6 after the build; gate **G11**; Opus
+   queue item 5, ahead of remote generation sources. Reasoning: `v0.4-plan.md` §9.1.
+2. **TK sources.** "`[TK] prompt ![[id]] [/TK]` says unresolvable for imported ids" —
+   that is the v0.1 rule in `resolveFragment` (local, published, fragment-only), which
+   #44 already widened; the build is G8, deferred at session 32 and left deferred. "What
+   goes out" is not the scope: output as prose, `blyg-tk-gen`, `generated[]` by
+   reference, a `source` mention at 0.4; the source's words are never carried as a quote
+   (§5.7 rule 3), so "TK transclude" is a misnomer the docs should drop. `[[id]]`,
+   `[text](url)` and bare URLs inside a scope are literal text — not retrieved, not
+   disclosed — by the principle shared by #32 and #44, resting on the generator being
+   network-free. One edge noted for the studio: a `![[id]]` left in the output becomes
+   both a source and a real quote at publish. No ruling needed; recorded as plan §9.2.
+3. **Recorded at once on "go":** §5.6 rule 6 pointer and new §16.6f in the spec, §17
+   sixth-revision line, decision #57 and a carry-over in `CLAUDE.md`, plan §9, Opus
+   queue item 5 with the rest renumbered, G11 in the Fable brief.
+
+**State after.** Decisions through #57. 0.3 text at its sixth revision in the repo;
+**publication to blygger.org is Venkat's call** at the end of this session (the §17 line is
+written on the assumption it is published; remove it if not). G8 still deferred. Opus
+session running in parallel owns everything outside `blygger-spec/`.
+
+**Open threads.**
+- **Publish the sixth revision** via `blygger-org/deploy.sh` with a cache-bust check, or
+  strike the §17 line.
+- **The attribution line's form** is the build's call; G11 records it.
+- **HTML-to-markdown for quotes** is bounded to the blyg dialect; images in quoted
+  fragments become absolute `![]()` links to the origin's media. If the build finds a
+  construct it cannot round-trip, record it as an open thread rather than improvising.
+
 ## Session 32 — 2026-10-03 — Opus queue items 1–4: six releases (0.11.1–0.16.0); G6 built and half-exercised; image and editor bugs
 
 **Model:** Opus 5.5 · **Time:** ~10:57–12:20 PT · **Committed:** yes (blygger-studio, blygger-spec) · **Deployed:** blygger-studio 0.11.1 → 0.16.0 to both nodes; migrations 0014, 0015, 0016 applied to both D1s first. Tags v0.11.1–v0.15.0 cut; v0.16.0 tagged on green CI.

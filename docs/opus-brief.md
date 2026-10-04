@@ -1,11 +1,12 @@
 # Opus brief — the standing queue for an implementation session
 
 **Written:** session 31 (2026-10-03), by Fable 5.1, replacing the session-28 brief after
-Kyle Mathews' phase 3 was ruled (#52) and two queue items shipped.
+Kyle Mathews' phase 3 was ruled (#52) and two queue items shipped. **Session 33** (same
+day, Fable) inserted item 5, fork flattening (#57); items 1–4 shipped in session 32.
 **Rewrite this file when the queue changes materially.** It is where an Opus or Sonnet
 session starts (`CLAUDE.md` → At Session Start, step 4).
 
-> **Read first:** this brief → `CLAUDE.md` locked decisions **#52–#56** (session 31) and
+> **Read first:** this brief → `CLAUDE.md` locked decisions **#52–#57** (sessions 31, 33) and
 > **#30–#51** (dense; the reasoning is in `v0.3-plan.md` §8c and `v0.4-plan.md`) → the
 > latest `DEVLOG.md` entries → [`blygger-studio/CLAUDE.md`](../../blygger-studio/CLAUDE.md)
 > backlog, which carries every build task below with its fixed shape. **The Studio is a
@@ -66,28 +67,40 @@ not redesign. Priorities follow `roadmap-tracks.md`. Ship each as its own releas
    when the author leaves it blank, **pin-bounded** (full between pins, descriptive over
    unpinned), editable before publish; emit `changelog[].generated: true`. Record in your
    devlog when both nodes have exercised it — that opens gate G6.
-5. **Remote generation sources** (#44, the first 0.4 construct; **implementation plan:
+5. **A fork of a thread flattens its quotes** (#57, spec §16.6f, reasoning `v0.4-plan.md`
+   §9.1): `resolveForkSource` builds the draft from the pinned file, `content_md` for the
+   thread's own prose byte-exact and `content_html` for the quotes — each `blyg-transclusion`
+   element replaced by an ordinary markdown blockquote of its content (recursive; `blyg-partial`
+   from its paragraphs) plus an attribution line (origin, id, link to `page` where known, else
+   the item document). No `blyg-transclusion` class survives; no inherited `transclusions[]`;
+   no quote-mentions. `blyg-tk-gen` spans in own prose and in quotes are re-wrapped as `impyrt`
+   so `generated[]` survives — today's fork drops it for a forked fragment too, the restore
+   leak's class. HTML-to-markdown for the blyg dialect only. Update the stub-vs-fork section
+   of `/studio/syntax`. **Exercise:** on one node, fork a thread from the other that quotes a
+   third item; record the ids — that opens gate **G11**. Same item: warn when a generated
+   output contains a `![[id]]` the instruction did not (it becomes a real quote at publish).
+6. **Remote generation sources** (#44, the first 0.4 construct; **implementation plan:
    `v0.4-plan.md` §7.2**, tasks R1–R8 with acceptance checks). Exercise it across both
    live nodes (R8) and record the ids: that opens gate G8 and the 0.4 document.
-6. **`cited` on `{url}` stubs** (#55, spec §16.1a): emit the §5.9 object when a stub
+7. **`cited` on `{url}` stubs** (#55, spec §16.1a): emit the §5.9 object when a stub
    targets a plain URL — `retrieved` always, `source`/`author`/`excerpt`/`url` when the
    page offers them; the pour-over-links affordance (studio#17) is the natural producer.
    Assert an import across nodes retains it verbatim; record it — that opens gate G10.
-7. **Two small spec-driven fixes** from session 31: `[[id]]` inert inside code spans and
+8. **Two small spec-driven fixes** from session 31: `[[id]]` inert inside code spans and
    blocks, as `![[id]]` already should be (#54; studio#4 now covers both forms); and a
    `page` that never changes across versions for the same item (#56 — the client already
    does this; add the assertion so slugs (studio#19) cannot break it later).
-8. **2.13 — discovery surfaces from references** (#41): chain view first.
-9. **Technical notes** (tracks 1.6): `tn-3` groups and aggregation is writable now
+9. **2.13 — discovery surfaces from references** (#41): chain view first.
+10. **Technical notes** (tracks 1.6): `tn-3` groups and aggregation is writable now
    (#36); `tn-2` identity practice starts as `docs/proposals/identity-practice-proposal.md`
    (#35). Both are `blygger-spec/docs/` files — the one ownership exception, since they
    are Opus-written by decision; tell the Fable session when you open one.
-10. **2.4 fork-friendliness, then 3.1 / 3.2** — version surfacing and the health cron. (2.3,
+11. **2.4 fork-friendliness, then 3.1 / 3.2** — version surfacing and the health cron. (2.3,
     the update path, shipped in 0.8.0 and was corrected in 0.8.3.) The exposed
     third-party nodes are still on pre-0.8 code.
-11. **Phase B remainder** (`v0.3-plan.md` tasks 12–16): share, own items in hoppers,
+12. **Phase B remainder** (`v0.3-plan.md` tasks 12–16): share, own items in hoppers,
     stub templates, threads tab, `stub_of` at import (studio#12 is the field report).
-12. **The conformance runner** (#48): `blygger-spec/conformance/` — a publisher suite
+13. **The conformance runner** (#48): `blygger-spec/conformance/` — a publisher suite
     that takes an origin and a reader suite of fixtures. New directory, Opus-owned.
     blygger-spec#5 is the tracking issue; its author has fixtures generated from a
     running Worker to seed the reader half.
