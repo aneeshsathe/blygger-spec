@@ -76,6 +76,15 @@ writing; read it on the PR branch).
     parents reopen locked decision #27's citation shape. Check it against the do-not-open
     list's refusal of a general extension bag (blygger-spec#10). The issue has no reply yet.
 
+13. **A reserved `ignyr` directive in a changelog note** (Venkat, session 34). It would
+    tell feed consumers to move that version to a lower-priority queue: the wire half of
+    the batching norm the studio's *updates* tab (0.23.0) sets for refreshing stale
+    quotes. A refresh republish, or a batch of them, could carry it so readers are not
+    flooded with trivial versions. A new reader-visible construct, so Fable's. Questions
+    to settle: where it lives (changelog text versus a field), what a consumer that
+    ignores it does (nothing, by §13.1), and whether a future maintenance agent's
+    refreshes carry it by default.
+
 ## C. Review after the fact (#58 batch)
 
 - **No decision carries the `Fable review pending` label yet**, so #58 is still untested.
