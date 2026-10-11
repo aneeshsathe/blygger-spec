@@ -30,6 +30,21 @@
       "id": "0jwr7x38zkf7gazr0ckkmp8dn4",
       "version": 1,
       "source_sha256": "37e92db919d08ae7a5cb2421ef0b4d007fb120dc4bdf94289e9f2760d4616ae6"
+    },
+    "0.40.0": {
+      "id": "7yavj4m7ddnbjhtxfmk1jk2jrd",
+      "version": 1,
+      "source_sha256": "b25e248a37da4ccef82f7889c0aa0f703baee9454e348c30518e8b381ef89906"
+    },
+    "0.41.0": {
+      "id": "4v95yj8rr1ym5gzwpsdzb9w5na",
+      "version": 1,
+      "source_sha256": "4200837086b040ccc554fdbe38899328972bc110142387da79e1e284830f4030"
+    },
+    "0.41.1": {
+      "id": "1x153ygd5qja4p7t8ebkjfj5qv",
+      "version": 1,
+      "source_sha256": "a8eaebaac41f02375874eef2bb601a58553273ee58819aca39f863e936da3d65"
     }
   }
 }
