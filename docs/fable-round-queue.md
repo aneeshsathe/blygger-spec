@@ -69,6 +69,28 @@ and withdrawn stubs, one test), #62 (#57 against F6, partiality from the bake), 
     *Parked session 43 (Venkat, on `pending-calls.md` #5):* moved to `backlog.md` §1 with
     its trigger. Leave it out of the next round.
 
+15. **An RFC recommending the pace-layered home page to other clients** (Venkat, session
+    46). Studio 0.42.0 ships it as core and the fresh-install default: the diachronic
+    view, beside newest first (synchronic). Venkat's ruling: it is part of the premise,
+    so it should be a recommended convention, not just one client's feature. The model,
+    the wire-only inputs and the open choices are in `blygger-studio/docs/pace-layered-
+    feed.md`; `blygger-studio/test/fixtures/feeds/*.json` are worked histories with
+    expected orders, written so another client can check itself. To rule: whether it is
+    an RFC (comment period on blyg.blygger.org, per the RFC process) or a technical note;
+    whether the constants (six layers, halving per layer and per hop, one place per
+    version) are normative or illustrative; and the one place the wire is short — it says
+    *which* versions are pinned but not *when*, so the reference counts a pin from its
+    version's publication. A `pinned_at` in the changelog would fix that; it is a wire
+    change.
+16. **Should a pin re-send mentions?** (session 46, from the same work). A thread pinned
+    after it quoted another blyg sends nothing new, so the quoted blyg never learns its
+    item was frozen into someone's pinned version. That is the only way inbound pins
+    could count toward a pace-layered order, and it is why the reference algorithm
+    counts own-origin pins only. Options: re-send a thread's mentions when one of its
+    versions is pinned (§15/§16 territory; receivers would re-verify and record the pin),
+    or have verifiers read the source's `changelog[].pinned` on the periodic re-check.
+    Neither blocks 0.42.0.
+
 ## C. Review after the fact (#58 batch)
 
 - **Session 34's studio fixes made four calls a reviewer may want to confirm.** None

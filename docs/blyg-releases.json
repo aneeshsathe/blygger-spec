@@ -45,6 +45,11 @@
       "id": "1x153ygd5qja4p7t8ebkjfj5qv",
       "version": 1,
       "source_sha256": "a8eaebaac41f02375874eef2bb601a58553273ee58819aca39f863e936da3d65"
+    },
+    "0.42.0": {
+      "id": "1q4zp1efmn4ffbaa5xshyf8vsd",
+      "version": 1,
+      "source_sha256": "1a7084134e5adab011cb55a229b726ce415ea3897543c2a524fbb4c06fea262c"
     }
   }
 }

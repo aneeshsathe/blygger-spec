@@ -26,7 +26,6 @@ is a different document: [docs/roadmap.md](docs/roadmap.md).
 
 | # | Item | Area | Est | Status | Open question | Link |
 |---|---|---|---|---|---|---|
-| 1 | Fresh source installs fail their first deploy: `npm run init` writes no `nodejs_compat` | studio | 1 | shipped: studio 0.37.0 |  | [studio#46](https://github.com/blygger/blygger-studio/pull/46) |
 | 3 | Settings page reorganised into sections | studio | 5 | next |  |  |
 | 55 | CI reliability and speed: parallel jobs, PR-scoped e2e and mutation suites, Release reusing main's green Check, one CI retry for e2e | studio | 5 | shipped: studio 0.41.1 (#67, #69) | Triage of 40 runs: the e2e flakes were mostly `compose-pwa:179` (fixed by #64); mutation failures were real catches. Split the auth-security worker half further only if it stays the floor. | [studio#67](https://github.com/blygger/blygger-studio/pull/67) |
 | 4 | Custom theme with live preview, shareable as a file, plus a reading typeface | studio | 3 | shipped: studio 0.40.0 (#58) |  | [studio#38](https://github.com/blygger/blygger-studio/issues/38) |
@@ -34,7 +33,6 @@ is a different document: [docs/roadmap.md](docs/roadmap.md).
 | 7 | Release announcements for every client on the official blyg | org | 3 | shipped: `publish_releases.py`; third-party clients by hand |  |  |
 | 9 | Stub editor: choose the quoted passage in the preview | studio | 5 | next |  |  |
 | 10 | Images resized in the browser before upload | studio | 5 | next |  |  |
-| 12 | Read state for imported items, then mark unread, under a new `reading:state` scope | studio | 3 | shipped: studio 0.39.0 |  | [studio#44](https://github.com/blygger/blygger-studio/pull/44), [#45](https://github.com/blygger/blygger-studio/pull/45) |
 | 13 | Templated surfaces (§16.6e) promoted to normative text | spec | 2 | ready: Soapbox confirmed 2026-10-07; Fable promotes with the 0.4 document (row 24) |  | [spec#2](https://github.com/blygger/blygger-spec/issues/2) |
 | 14 | Technical note TN-2: identity practice | spec | 5 | next |  |  |
 | 15 | Full backup: download the whole blyg, every version and file, as one archive | studio | 5 | later |  |  |
@@ -58,9 +56,7 @@ is a different document: [docs/roadmap.md](docs/roadmap.md).
 | 32 | Self-host template with `npm run upgrade` | studio | 20 | later |  |  |
 | 33 | A "you are behind" notice per listed node | com | 5 | later |  |  |
 | 34 | Passkey sign-in | studio | 13 | later |  | [studio#50](https://github.com/blygger/blygger-studio/issues/50) |
-| 35 | A way to run UI experiments as extensions without changing the reference design | studio | 8 | shipped: studio 0.37.0; two (reading time, inspect) ship off in 0.38.0 |  | [studio#52](https://github.com/blygger/blygger-studio/pull/52) |
 | 49 | Lineage glyph on reading entries, as an operator-compiled extension | studio | 3 | shipped: studio 0.40.0 |  | [studio#53](https://github.com/blygger/blygger-studio/pull/53) |
-| 50 | Autosave keeps one write in flight; shared item and hopper reads | studio | 3 | shipped: studio 0.37.0 |  | [studio#47](https://github.com/blygger/blygger-studio/pull/47), [#55](https://github.com/blygger/blygger-studio/pull/55) |
 | 36 | Technical note TN-4: a write surface | spec | 5 | later |  |  |
 | 37 | Reference agent and technical note TN-5: the contract between a blyg and an agent | spec | 40 | later |  |  |
 | 38 | YouTube links embed on public pages; a failed off-origin image shows as a link | studio | 3 | shipped: studio 0.40.0 (#62) |  | [studio#9](https://github.com/blygger/blygger-studio/issues/9) |
@@ -79,3 +75,8 @@ is a different document: [docs/roadmap.md](docs/roadmap.md).
 | 57 | Import subscriptions from an OPML file: client-side parse and preview, paced `createSubscription` calls with an optional `backfill: false` (cron backfills), folders flattened, out of the blogroll unless the owner ticks a box | studio | 5 | next | Aneesh builds it; shared with Blygger Desktop through `/api`. Folders as hoppers later. | [studio#63](https://github.com/blygger/blygger-studio/issues/63) |
 | 58 | Duplicate-upload guard: an identical file uploaded to the same item returns the existing row (`media.sha256`, migration 0028) | studio | 2 | waiting: Aneesh's PR | Per-version attachments (§5.4, a studio fix with no wire change) is a separate, larger PR. | [studio#7](https://github.com/blygger/blygger-studio/issues/7) |
 | 56 | `GET /api/capabilities`: the operations and extensions enabled on a node (OpenAPI stays the full contract, OAuth decides access); MCP `tools/list` drops disabled extensions' tools | studio | 3 | waiting: Kyle | Offered to Kyle, who designed the API; ours if he declines. | [studio#61](https://github.com/blygger/blygger-studio/pull/61#issuecomment-6103218858) |
+| 59 | Studio error log: a local ring buffer of errors (message, stack, operation, item id, build, time), a "details" link on each banner, and "copy diagnostics" in Settings for pasting into an issue; nothing leaves the device. Then retry a browser-dropped request (Safari "cancelled") once before showing a banner | studio | 3 | next | Prompted by an intermittent "canceled" banner while editing on iPad Safari (session 46): message not produced by the studio or its libraries, so likely WebKit dropping a fetch. |  |
+| 60 | Pace-layered home page: the diachronic view, beside newest first. Items sink as new ones arrive, slower the more they are pinned (pins on quoting items count, halved per hop), and climb one place per new version. Core and the fresh-install default; extensions can add further orders | studio | 8 | shipped: studio 0.42.0 | Changelog-driven climbing (a major revision climbs further) is stubbed in `climbFor()`. | [plan](https://github.com/blygger/blygger-studio/blob/main/docs/pace-layered-feed.md) |
+| 61 | Setup walk-through: every setting, one step at a time, beside its default, with reset; greets a fresh install, re-runnable from Settings | studio | 5 | shipped: studio 0.42.0 |  |  |
+| 62 | Pace-layered ordering recommended to other clients (RFC or technical note), with worked fixtures to check against | spec | 3 | needs ruling | Normative or illustrative constants; a `pinned_at` on changelog entries (the wire says which versions are pinned, not when); whether pins re-send mentions so inbound pins can count. |  |
+| 63 | Bespoke builds: document and encourage n=1 blygs, built from the spec by their owner's own generator. Agentic coding makes a one-person site cheap, and this end of the ecosystem should flourish: a guide on blygger.org (the spec, the conformance toolkit, what a minimal L2 static blyg needs), and the ecosystem page's "Bespoke builds" section pointing to it | org | 3 | next | The section exists (session 46): Ben Mayhew's blyg, plus `msn`, `sig-p4b-blyg` and `cchalc-site` moved from Clients. What is left is the guide. |  |
