@@ -50,6 +50,11 @@
       "id": "1q4zp1efmn4ffbaa5xshyf8vsd",
       "version": 1,
       "source_sha256": "1a7084134e5adab011cb55a229b726ce415ea3897543c2a524fbb4c06fea262c"
+    },
+    "0.43.0": {
+      "id": "2qnspef760dpa71b61vrg5jb0a",
+      "version": 1,
+      "source_sha256": "e75d5aede1b46a794d3bd9c186eba1c68ef470d73e5ff8f7dd52ac2ecca7f8ff"
     }
   }
 }
