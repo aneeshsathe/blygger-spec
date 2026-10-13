@@ -60,6 +60,11 @@
       "id": "2zmmjmw81259fpqakcyf6qqxr6",
       "version": 1,
       "source_sha256": "cf5cc310d2b291f782584b7dad7fb58f3d9cd24933804b485f44fd3e7c18d67d"
+    },
+    "0.45.0": {
+      "id": "1nbe3sakyg9bkz99mj0r4e77hs",
+      "version": 1,
+      "source_sha256": "78b290de18e86fd392ec227a7c83c8da070b0c72a92935778ecc4428820cdd50"
     }
   }
 }
