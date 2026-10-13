@@ -8,7 +8,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > `ygg` because that was the name at the time.
 
 ## Session 48 — 2026-10-13 — 0.46.1: publish shows at once (edge cache keyed on the public revision); link titles held for Fable; Fable docs refreshed
-**Model:** Opus 5.5 · **Time:** ~10:12–12:16 PT · **Committed:** yes (studio, spec) · **Deployed:** blygger-studio 0.46.1 to all three nodes; no migration. Released: v0.46.1 (Release run green, listed Latest). Not announced on blyg.blygger.org.
+**Model:** Opus 5.5 · **Time:** ~10:12–12:16 PT · **Committed:** yes (studio, spec) · **Deployed:** blygger-studio 0.46.1 to all three nodes; no migration. Released: v0.46.1 (Release run green, listed Latest), announced on blyg.blygger.org (`45v34mh3k5pyhev894dbn571h1`; on the home page at the first read, the fix's first real publish). blygger.org redeployed for row 72.
 
 **What & why:**
 - **Venkat's report: "hitting publish seems to take unusually long to take effect since recent versions."** Cause: the public-HTML edge cache from studio#41 (live since 0.39.0) keeps each page 60 s plus 300 s stale-while-revalidate, and nothing purges it on publish. Browsers validate with `no-cache` + ETag, and the edge answers with the stale copy's ETag, so a reload cannot get past it. 0.43–0.44 made one publish touch many cached pages (front page, posts page, every page's links section), each expiring on its own clock. Measured live first: all three nodes cache as designed (PI showed MISS → UPDATING → REVALIDATED → HIT).
@@ -24,7 +24,6 @@ Per-session development log. Non-skippable: every coding session appends an entr
 **Open threads:**
 - Fable round: `docs/fable-brief.md` → review, open 0.4, rule queue items 17 + 19 (then Opus builds link titles).
 - A `mentions` change domain, if mention hide/show lag is ever noticed.
-- 0.46.1 not announced on blyg.blygger.org (`publish_releases.py`), and blygger.org not redeployed for row 72 — both outward, left for Venkat's call.
 
 ## Session 47 — 2026-10-12 — Five releases (0.43.0–0.46.0): static front page, main and masthead menus, own posts in hoppers, quiet autosave, Settings on one page; #71 merged; roadmap rows 64–71
 **Model:** Opus 5.5 · **Time:** ~14:29–20:31 PT · **Committed:** yes (studio, spec, org) · **Deployed:** blygger-studio 0.43.0, 0.44.0, 0.45.0 and 0.46.0 to all three nodes (plus two venkateshrao-only previews of 0.46 work); no migrations. Released: v0.43.0–v0.46.0, each announced on blyg.blygger.org (0.46.0: `3xtkkjdjtscjcw250gnv75z54g`). Posted on blyg.blygger.org: a summary of the day, "Five releases in a day" (`1dz8be0najta5hdwbkwctbndns`). blygger.org redeployed three times for the roadmap.
