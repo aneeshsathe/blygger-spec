@@ -7,6 +7,30 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 47 — 2026-10-12 — Five releases (0.43.0–0.46.0): static front page, main and masthead menus, own posts in hoppers, quiet autosave, Settings on one page; #71 merged; roadmap rows 64–71
+**Model:** Opus 5.5 · **Time:** ~14:29–20:31 PT · **Committed:** yes (studio, spec, org) · **Deployed:** blygger-studio 0.43.0, 0.44.0, 0.45.0 and 0.46.0 to all three nodes (plus two venkateshrao-only previews of 0.46 work); no migrations. Released: v0.43.0–v0.46.0, each announced on blyg.blygger.org (0.46.0: `3xtkkjdjtscjcw250gnv75z54g`). Posted on blyg.blygger.org: a summary of the day, "Five releases in a day" (`1dz8be0najta5hdwbkwctbndns`). blygger.org redeployed three times for the roadmap.
+
+**What & why:**
+- **studio#71 (Kyle) merged** (4bbac39): TanStack `CancelledError` kept out of the error banner. Venkat then said the banner he saw read `CancelledError`, not "canceled" as reported in session 46, so #71 *is* his iPad bug; row 59's note rediagnosed, the planned retry for browser-dropped requests dropped, the error log kept.
+- **studio#70 (Surya):** only `/api` is host-rooted (an accident of session 11's route order); the studio, MCP and OAuth already sit under the mount. Replied with a plan, **row 64**: serve `{mount}/api`, keep `/api` as an alias for two releases, accept both OAuth resource identifiers meanwhile.
+- **0.43.0, a static front page** (row 65, Venkat: "similar to how WordPress did it"): `front_page` (a published thread; falls back to the latest items if withdrawn) and `posts_path` (default `posts`, Venkat's choice over `/feed`, which readers probe for XML; settable, reserved names refused). The thread's pages name the root canonical: **decision #69**, ruled by Opus under #58, *Fable review pending*, reasoning in `v0.4-plan.md` §10.12. The edge-cache matcher admits any free single segment, since the posts address is a setting.
+- **0.44.0, a links section on every public page** (row 5 grown): chosen threads, collections, own links, and the blogroll OPML, blygger.org and blygger.com, each removable (Venkat: start on). `blygPage()` now frames every public page. Found: the settings form sends every field, so a withdrawn front page made every Settings save fail; stored values now pass.
+- **Venkat's ruling, design:** the links menu is edited only in Settings, "an exceptional action, not a routine choice"; no item-menu entry (memory saved). By contrast *add to hopper* is a routine per-item action and went into the ⋯ menu.
+- **0.45.0:** the side menu redone after Venkat looked at it live (one link per line, masthead over the content, a Menu button below 62rem instead of the menu at the page foot); **own posts in hoppers** (`~own` subscription marker in `hopper_items`, existing routes, no migration, kept out of the interaction log); **autosave no longer disables publish** (Venkat's report: autosave ran through the editor's busy flag; now `useAction().background`, except the composer's draft-creating first save); thread search in the menu settings.
+- **0.46.0, Settings on one page** (row 3): General, Feed, Appearance, Links (masthead menu and main menu, Venkat's names), AI (each function's model beside its instructions), Network, Extensions, with a sidebar of anchors; Venkat accepted all four suggestions (Network section, Extensions last, "AI" in the sidebar, Access linked). Main menu defaults to the left (Venkat); the PI and blygger.org nodes moved on upgrade, as intended. Front page chosen by search.
+- **Roadmap rows added:** 64 (owner API under the mount), 65, 66 (`[[text | id]]`, needs a Fable ruling), 67 (links in [TK] output publish as raw brackets: the grammar is inert inside generated text, studio#5; seen on venkateshrao `4tsyw2ccaps3h0w1dveqc1f35x`), 68 (blogroll entries in the main menu), 69 (pace-layered reading view), 70–71 (shipped). Old shipped rows dropped.
+- **Answered:** a blyg may host other files at its origin (§4 fixes only the protocol paths); Blygger Studio itself cannot, today. `impyrt` shipped in 0.13.0; `ignyr` is unbuilt, Fable queue item 13.
+
+**Found along the way:** the local e2e server keeps the 60-second edge cache, so two Playwright projects reading the same public page see each other's render; a bare `browser.newContext()` in the mobile project inherits the phone viewport; `\|` inside a code span in ROADMAP.md renders literally on blygger.org (pipes in table cells go outside code).
+
+**State after:** all three nodes run 0.46.0 with the main menu on the left; venkateshrao has its own choices set. ROADMAP: 64, 67, 68, 69 next; 66 needs ruling; 59 next.
+
+**Open threads:**
+- Fable: review decision #69; rule row 66's grammar (and the bracket order); whether row 67's fix may read generated text as grammar. Still first: open `protocol-v0.4.md`.
+- The home page shows the blogroll OPML twice with a bottom menu ("Also reading" and the menu's foot line).
+- `ignyr` should probably stop a version climbing in the pace-layered orders (home page and row 69); raise with Fable queue item 13.
+- Kyle's #66 and the session-45 contributor threads are unchanged.
+
 ## Session 46 — 2026-10-11/12 — Pace-layered home page (the diachronic feed) and a setup walk-through, 0.42.0; stuck "unpublished changes" fixed; Bespoke builds
 **Model:** Opus 5.5 · **Time:** ~10:55–13:10 PT 10-11, paused overnight, ~11:24–12:40 PT 10-12 · **Committed:** yes (studio, spec, org) · **Deployed:** blygger-studio 0.42.0 to all three nodes, migration 0029 applied to all three D1s first. Released: v0.42.0. Posted on blyg.blygger.org: the 0.42.0 announcement (`1q4zp1efmn4ffbaa5xshyf8vsd`).
 
