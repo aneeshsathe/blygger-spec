@@ -5,6 +5,9 @@ blygger-spec#11 (Aneesh Sathe's conformance toolkit and first-round report) and 
 **Pruned:** session 38 (2026-10-06), Fable 5.1 — items 1–5 and 15 ruled (decisions
 #59–#64, reasoning `v0.4-plan.md` §10), the seventh revision reviewed, the 0.27.0 styling
 question ruled (#59). Numbers are kept so earlier references resolve.
+**Added to:** session 48 (2026-10-13), Opus 5.5, at Venkat's request before a Fable round:
+items 17–21, the roadmap rows marked *needs ruling* that are Fable's under #58, and decision
+#69 in section C. Venkat asked for 17 by name and is holding its build for the ruling.
 **Read with** [`fable-brief.md`](fable-brief.md), which stays the standing agenda; this file
 is the itemised queue for the next round. Delete an item once it is ruled; delete the file
 when it is empty.
@@ -91,7 +94,63 @@ and withdrawn stubs, one test), #62 (#57 against F6, partiality from the bake), 
     or have verifiers read the source's `changelog[].pinned` on the periodic re-check.
     Neither blocks 0.42.0.
 
+17. **Author-chosen link text: `[[title | id]]`** (Venkat, session 48; ROADMAP row 66,
+    and row 25, which is the same request filed earlier — merge them once this is ruled).
+    Today an inline `[[id]]` renders with the target's leading heading or an excerpt as
+    its anchor text (`anchorText` in `blygger-studio/src/transclusion.ts`). Venkat wants
+    to write the text himself, and asked for the form **title first, then id, with spaces
+    around the pipe**. Fable's because §10.1 makes `[[…]]` permanent protocol grammar and
+    the new form travels in `content_md`, which readers see (#58 question 2). A 0.3
+    reader treats it as literal text; `content_html` would still carry a correct anchor.
+    The build waits on this ruling (studio side: a parse change in the link resolver,
+    plus tests; small). To rule:
+    - **Order.** Title first as asked, or Obsidian's `[[id | title]]`, which writers may
+      already type? Ids are 26 characters of lowercase Crockford base32, so either order parses
+      unambiguously. Accepting both is a third option.
+    - **Whitespace and escaping.** Whether spaces around the pipe are required, allowed or
+      trimmed, and what a `|` or `]]` inside the text means.
+    - **Which version.** A 0.4 construct (the 0.4 document opens this round, G8), so 0.3
+      stays frozen.
+    - **Interactions to check.** #46 (no title field: this is anchor text, not an item
+      title, and §10.1 already calls anchor text presentation); #54 (inert inside code);
+      #63 (inherited `[[id]]` links flatten in a fork, so the text has to survive the
+      flattening); #43 (a publisher re-parsing another's `content_md`); and item 19,
+      which proposes a different meaning for `[[text]]`.
+18. **Author-sized inline images** (ROADMAP row 39, [studio#37](https://github.com/blygger/blygger-studio/issues/37),
+    one comment). Every inline image renders at full column width; `<img width>` and
+    `{width=…}` are literal text because raw HTML is off. A size has to be written in
+    `content_md`, so other clients meet it: Fable's for the same reason as 17. To rule:
+    whether a size belongs in the grammar at all, and if so its spelling and what a
+    reader that ignores it shows (the full-width image, by §13.1).
+19. **Tangling: a `[[text]]` operator that publishes a thread and its fragments together**
+    (ROADMAP row 45, [studio#20](https://github.com/blygger/blygger-studio/issues/20), no
+    comments). On publish, each marked span becomes its own fragment and the document
+    becomes a thread that transcludes them. The published `content_md` holds only
+    ordinary `![[id]]` directives, so the wire may not change, but it claims `[[…]]` for
+    text that is not an id. **Rule it with 17:** `[[title | id]]` and `[[text]]` cannot
+    both mean what their proposals say without a rule that tells them apart.
+20. **An optional `cid` on pinned versions** (ROADMAP row 46, RFC on
+    [blygger-spec#13](https://github.com/blygger/blygger-spec/issues/13), one comment). A
+    changelog entry with `"pinned": true` MAY carry an IPFS `cid`, so a pinned version can
+    outlive its origin and a third party can prove its bytes. A new wire member, so
+    Fable's. Relates to item 15's missing `pinned_at` (both put more on pinned changelog
+    entries) and to the IPFS mapping in session 3's withdraw/pin proposal.
+21. **Grammar written by TK generation** (ROADMAP row 67, status *next*). A generated
+    paragraph ending in an inline `![[id]]` publishes as literal brackets
+    ([example](https://venkateshrao.com/blyg/t/4tsyw2ccaps3h0w1dveqc1f35x/)), because the
+    grammar is inert inside generated output (studio#5) and only an own-line directive
+    there quotes (#60, 0.20.1). The fix is either to render inline `[[id]]`/`![[id]]` in
+    generated text as plain links, or to stop generation emitting the grammar (prompt +
+    strip). The first reads generated text as grammar, which studio#5 forbade, and may
+    reinterpret #60. If Fable confirms the second, Opus builds it with no ruling.
+
 ## C. Review after the fact (#58 batch)
+
+- **Decision #69** (Opus, session 47): a static front page is presentation; the front
+  page item's live and pinned pages may name the mount root as `rel="canonical"`, and its
+  `page`, document, feed entry and index entry do not change. Built as studio 0.43.0.
+  Reasoning in `v0.4-plan.md` §10.12. Check the reading of §2.8 rule 3's "live
+  permalink" as the page people reach.
 
 - **Session 34's studio fixes made four calls a reviewer may want to confirm.** None
   changes the wire or a reader. Details are in the 0.21.2 changelog. Two were taken up in

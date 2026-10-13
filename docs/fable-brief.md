@@ -7,13 +7,17 @@ open `protocol-v0.4.md` if gate G8 is open; take the queued non-blocking items i
 **Written:** session 38 (2026-10-06), by Fable 5.1, at the close of the conformance round
 that reviewed the seventh revision, ruled decisions #59–#64 and wrote the eighth revision.
 **Rewrite this file each Fable round.** It is the one place a Fable session starts.
+**Updated:** session 48 (2026-10-13), by Opus 5.5, at Venkat's request: the review list
+brought up to #69, G8 and G9 marked as this round's main work, queue items 17–21 added
+(17, author-chosen link text, is the one Venkat is waiting on). No Fable round has run since
+session 40, so the session-38 text below stands except where marked.
 
-> **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#59–#64**
+> **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#59–#69**
 > (the session-38 rulings; #52–#58 are the two rounds before; #43–#51 the 0.4 definition)
 > → [`v0.4-plan.md`](v0.4-plan.md) §10 (the reasoning behind #59–#64) and §7 (the
 > implementation plan Opus builds from) → [`protocol-v0.3.md`](protocol-v0.3.md) **§16**
 > (ruled shapes awaiting builds) → [`fable-round-queue.md`](fable-round-queue.md) (items
-> 6–14, none blocking) → [`backlog.md`](backlog.md) → [`opus-brief.md`](opus-brief.md).
+> 6–21, none blocking; **17 is the one Venkat is waiting on**) → [`backlog.md`](backlog.md) → [`opus-brief.md`](opus-brief.md).
 
 ## What the last round settled, so it is not reopened
 
@@ -38,10 +42,12 @@ A Fable round begins by reading every entry labelled `Fable review pending`, in 
 confirm (strike the label), amend (edit the entry, note the amendment with the date), or
 reverse (a new numbered decision that says why). Check each against the four questions as
 well as on its merits — an entry that should have stopped is the finding that matters most.
-**Pending now:** decision #65 (fork intents, §5.6 rules 7–8) and the G11 promotion (eleventh
-revision, session 39: §16.6f → §5.6 rule 6 with its three session-38 bullets; the attribution
-line's form recorded in §16.6f; built as studio 0.32.3). **Expected next time:** the studio's §15.4 step 2 fix if Opus
-recorded a call while building it, and the `tn-3` revision.
+**Pending now (session 48):** decision #65 (fork intents, §5.6 rules 7–8); the G11 promotion
+(eleventh revision, session 39: §16.6f → §5.6 rule 6 with its three session-38 bullets; the
+attribution line's form recorded in §16.6f; built as studio 0.32.3); and **decision #69**
+(session 47: a static front page is presentation and may be the item's `rel="canonical"`;
+studio 0.43.0, reasoning `v0.4-plan.md` §10.12). The queue's section C lists the smaller
+calls. #66–#68 were ruled or reviewed by Fable in session 40.
 
 ## The gates
 
@@ -60,8 +66,22 @@ under #58; Fable reviews them.**
 G6 and G10 closed in session 37 and were reviewed in session 38.
 
 If nothing is pending review and neither G8 nor G9 is true when a Fable session opens,
-**say so in one line and stop** — or take queue items 6–14 or the standing question below,
+**say so in one line and stop** — or take queue items 6–21 or the standing question below,
 deliberately.
+
+## This round, as of session 48
+
+1. **Review** #65, the G11 promotion and #69 (above).
+2. **Open `protocol-v0.4.md`** (G8, true since session 44), with §16.6e promoted (G9, true
+   since session 42). ROADMAP rows 24 and 13; Robert Peake then switches Soapbox to `"0.4"`
+   and blygger-spec#2 closes.
+3. **Rule queue item 17, author-chosen link text** (`[[title | id]]`, ROADMAP row 66).
+   Venkat asked for it in session 48 and is holding the studio build for this ruling. It
+   is a `content_md` grammar form, so it lands in the 0.4 text if ruled; **rule it together
+   with item 19** (tangling's `[[text]]`), which claims the same brackets.
+4. **Optional:** items 18 (image size) and 20 (`cid`), both grammar or wire additions with
+   open issues; item 21 if the answer is "keep generation from emitting the grammar"; the
+   session-38 leftovers 6–8, 10–11, 13, 15–16.
 
 ## The one standing question — Unicode on the wire (blygger-spec#6)
 
@@ -103,6 +123,6 @@ in each live client. Nothing here is pre-decided.
 ## Hand back
 
 Per gate: what was promoted, into which section, in which document. Continue `CLAUDE.md`'s
-locked decisions from **#64**, record reasoning in `v0.4-plan.md` §10 (or a new section),
+locked decisions from **#69**, record reasoning in `v0.4-plan.md` §10 (or a new section),
 append the DEVLOG entry, file any new ideas in `backlog.md`, prune `fable-round-queue.md`,
 and rewrite this brief.

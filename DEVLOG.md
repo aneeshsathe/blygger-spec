@@ -7,6 +7,25 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 48 — 2026-10-13 — 0.46.1: publish shows at once (edge cache keyed on the public revision); link titles held for Fable; Fable docs refreshed
+**Model:** Opus 5.5 · **Time:** ~10:12–12:16 PT · **Committed:** yes (studio, spec) · **Deployed:** blygger-studio 0.46.1 to all three nodes; no migration. Released: v0.46.1 (Release run green, listed Latest). Not announced on blyg.blygger.org.
+
+**What & why:**
+- **Venkat's report: "hitting publish seems to take unusually long to take effect since recent versions."** Cause: the public-HTML edge cache from studio#41 (live since 0.39.0) keeps each page 60 s plus 300 s stale-while-revalidate, and nothing purges it on publish. Browsers validate with `no-cache` + ETag, and the edge answers with the stale copy's ETag, so a reload cannot get past it. 0.43–0.44 made one publish touch many cached pages (front page, posts page, every page's links section), each expiring on its own clock. Measured live first: all three nodes cache as designed (PI showed MISS → UPDATING → REVALIDATED → HIT).
+- **Fix, 0.46.1: put the public revision in the cache key** rather than purging (no purge API for the Workers-exports cache was needed or checked). The gateway reads `change_state` once per public request and adds `?rev=epoch.items.subscriptions.hoppers.settings.feed` to `cf.cacheKey` (`publicHtmlRevision`, `src/html-cache.ts`). Domain choice: `feed` alone misses item columns pages show (`responses_override`, `show_responses`, `highlight_override`), so `items` is in, at the cost of a fresh entry per autosave while editing; `reading` and `signals` are the owner's private state and stay out; settings only bump on a real value change, and no cron writes settings. A failed D1 read falls back to the plain key. **Known gap:** `mentions_in` has no change domain, so hide/show of an inbound mention still waits 60 s (a domain needs a migration + trigger + oracle; left out of a patch).
+- **Verified live** on blyg.blygger.org with a throwaway draft (created, then discarded; never public): HIT → MISS after the draft, MISS again after the discard. Cached HITs there ~0.13 s, so the extra D1 read is cheap. Suite 1712/1712, typecheck, `check:template`, `release:check` all green.
+- **Link titles `[[ title | id ]]` (Venkat): held for a Fable ruling**, at Venkat's choice. It is ROADMAP row 66 (and duplicate row 25): §10.1 makes `[[…]]` permanent grammar and the form travels in `content_md`, so #58 question 2 routes it to Fable. Found while writing it up: studio#20 (tangling, row 45) proposes `[[text]]` for a different meaning; the two must be ruled together.
+- **Fable docs refreshed for the next round** (Venkat): `fable-round-queue.md` items 17–21 (link text; image size, studio#37; tangling, studio#20; `cid` on pins, spec#13; grammar in TK output, row 67) and #69 in section C; `fable-brief.md` gains a "This round, as of session 48" agenda (review #65, G11, #69 → open 0.4 → rule 17 with 19 → optional rest), read-first list to #69, hand-back from #69.
+
+**Found along the way:** the classifier refused `npm run deploy:pi` despite its standing rule while `deploy:vgr` and the blyggerOrg deploy ran; Venkat approved it in `/permissions` and it went through. No Fable round has run since session 40, so #65, the G11 promotion and #69 are all still pending review.
+
+**State after:** all three nodes on 0.46.1; a publish shows on the next page read. ROADMAP row 72 added (shipped 0.46.1); rows 66 and 25 point to Fable queue item 17.
+
+**Open threads:**
+- Fable round: `docs/fable-brief.md` → review, open 0.4, rule queue items 17 + 19 (then Opus builds link titles).
+- A `mentions` change domain, if mention hide/show lag is ever noticed.
+- 0.46.1 not announced on blyg.blygger.org (`publish_releases.py`), and blygger.org not redeployed for row 72 — both outward, left for Venkat's call.
+
 ## Session 47 — 2026-10-12 — Five releases (0.43.0–0.46.0): static front page, main and masthead menus, own posts in hoppers, quiet autosave, Settings on one page; #71 merged; roadmap rows 64–71
 **Model:** Opus 5.5 · **Time:** ~14:29–20:31 PT · **Committed:** yes (studio, spec, org) · **Deployed:** blygger-studio 0.43.0, 0.44.0, 0.45.0 and 0.46.0 to all three nodes (plus two venkateshrao-only previews of 0.46 work); no migrations. Released: v0.43.0–v0.46.0, each announced on blyg.blygger.org (0.46.0: `3xtkkjdjtscjcw250gnv75z54g`). Posted on blyg.blygger.org: a summary of the day, "Five releases in a day" (`1dz8be0najta5hdwbkwctbndns`). blygger.org redeployed three times for the roadmap.
 
