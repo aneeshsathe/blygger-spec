@@ -29,7 +29,7 @@ is a different document: [docs/roadmap.md](docs/roadmap.md).
 | 3 | Settings page reorganised into sections | studio | 5 | next |  |  |
 | 55 | CI reliability and speed: parallel jobs, PR-scoped e2e and mutation suites, Release reusing main's green Check, one CI retry for e2e | studio | 5 | shipped: studio 0.41.1 (#67, #69) | Triage of 40 runs: the e2e flakes were mostly `compose-pwa:179` (fixed by #64); mutation failures were real catches. Split the auth-security worker half further only if it stays the floor. | [studio#67](https://github.com/blygger/blygger-studio/pull/67) |
 | 4 | Custom theme with live preview, shareable as a file, plus a reading typeface | studio | 3 | shipped: studio 0.40.0 (#58) |  | [studio#38](https://github.com/blygger/blygger-studio/issues/38) |
-| 5 | A footer link to blygger.org and a public Collections menu, each removable in settings | studio | 2 | next |  |  |
+| 5 | A links section on every public page, below the content or as a left or right sidebar: chosen threads, public collections, the owner's own links, and links to the blogroll OPML, blygger.org and blygger.com, each removable in settings | studio | 5 | waiting: next studio release (built on main, a6a8453) | Grew from "a footer link to blygger.org and a public Collections menu" (session 47). |  |
 | 7 | Release announcements for every client on the official blyg | org | 3 | shipped: `publish_releases.py`; third-party clients by hand |  |  |
 | 9 | Stub editor: choose the quoted passage in the preview | studio | 5 | next |  |  |
 | 10 | Images resized in the browser before upload | studio | 5 | next |  |  |
