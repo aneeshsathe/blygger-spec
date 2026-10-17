@@ -143,6 +143,18 @@ and withdrawn stubs, one test), #62 (#57 against F6, partiality from the bake), 
     generated text as plain links, or to stop generation emitting the grammar (prompt +
     strip). The first reads generated text as grammar, which studio#5 forbade, and may
     reinterpret #60. If Fable confirms the second, Opus builds it with no ruling.
+22. **An extension registry** (session 49, [studio#59](https://github.com/blygger/blygger-studio/pull/59),
+    Aneesh Sathe, draft PR with a working implementation; `docs/extension-registry.md` on
+    the branch lists its own open questions). A central `registry/index.json` that authors
+    PR into and operators pull from with `npm run ext:add <name>`: each entry pins an https
+    repo, a full commit and a sha256 tree hash, a supported studio range and
+    `"server": false`; the pull runs on the operator's machine, and a studio never fetches
+    from the registry at runtime (the `docs/extensions.md` rule holds). Fable's twice over:
+    it compiles third-party code into the owner's session, and it proposes that
+    blygger.org eventually host the index. To rule: whether a registry belongs to the
+    program at all or to a third party; who reviews an entry, and what review promises;
+    browser-only as a hard rule; and whether blygger.org hosts it. Session 49 told Aneesh
+    to expect a ruling in a round or two, after 0.4 opens.
 
 ## C. Review after the fact (#58 batch)
 

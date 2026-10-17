@@ -11,6 +11,13 @@ that reviewed the seventh revision, ruled decisions #59–#64 and wrote the eigh
 brought up to #69, G8 and G9 marked as this round's main work, queue items 17–21 added
 (17, author-chosen link text, is the one Venkat is waiting on). No Fable round has run since
 session 40, so the session-38 text below stands except where marked.
+**Updated:** session 49 (2026-10-17), by Opus 5.5, staging this round at Venkat's request.
+**An Opus session runs in parallel** (`opus-brief.md` § file ownership): it stays out of
+this file, the queue, `protocol-v0.3.md`/`v0.4-plan.md` and `CLAUDE.md`'s decisions, and
+writes only its own DEVLOG entry (`## Session 49 (parallel, Opus)`) and its ticks. Nothing
+new is pending review since session 48: studio 0.46.2/0.46.3 (Kyle's #66 OAuth fix, toolbar
+tooltips, CI image re-pins) ruled nothing. New in the queue: **item 22**, Aneesh's extension
+registry (studio#59).
 
 > **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#59–#69**
 > (the session-38 rulings; #52–#58 are the two rounds before; #43–#51 the 0.4 definition)
@@ -66,20 +73,24 @@ under #58; Fable reviews them.**
 G6 and G10 closed in session 37 and were reviewed in session 38.
 
 If nothing is pending review and neither G8 nor G9 is true when a Fable session opens,
-**say so in one line and stop** — or take queue items 6–21 or the standing question below,
+**say so in one line and stop** — or take queue items 6–22 or the standing question below,
 deliberately.
 
-## This round, as of session 48
+## This round, as of session 49
 
 1. **Review** #65, the G11 promotion and #69 (above).
 2. **Open `protocol-v0.4.md`** (G8, true since session 44), with §16.6e promoted (G9, true
    since session 42). ROADMAP rows 24 and 13; Robert Peake then switches Soapbox to `"0.4"`
    and blygger-spec#2 closes.
 3. **Rule queue item 17, author-chosen link text** (`[[title | id]]`, ROADMAP row 66).
-   Venkat asked for it in session 48 and is holding the studio build for this ruling. It
+   Venkat asked for it in session 48 and is holding the studio build for this ruling.
+   **Ned Twigg asked for the same thing on [blygger-spec#16](https://github.com/blygger/blygger-spec/issues/16)**
+   (text after the id, ignored by the resolver, optionally checked); session 49 told him it
+   is queued and that we would post there when it is ruled, so reply on #16 at hand-back. It
    is a `content_md` grammar form, so it lands in the 0.4 text if ruled; **rule it together
    with item 19** (tangling's `[[text]]`), which claims the same brackets.
-4. **Optional:** items 18 (image size) and 20 (`cid`), both grammar or wire additions with
+4. **Optional:** item 22 (extension registry, studio#59; Aneesh was told "a round or two,
+   after 0.4 opens", so ruling it this round or saying when is a courtesy); items 18 (image size) and 20 (`cid`), both grammar or wire additions with
    open issues; item 21 if the answer is "keep generation from emitting the grammar"; the
    session-38 leftovers 6–8, 10–11, 13, 15–16.
 
