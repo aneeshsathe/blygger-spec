@@ -75,6 +75,16 @@
       "id": "45v34mh3k5pyhev894dbn571h1",
       "version": 1,
       "source_sha256": "9d9c3ce8dcd1b709f0e06c26d1b5c0c6065ab2f7c415b9f3b83ef0652d67a7b7"
+    },
+    "0.46.3": {
+      "id": "5jhc3xn06s6bd6w7mw25nyv7w5",
+      "version": 1,
+      "source_sha256": "575753a77db9bbb901d61472a54ec7370831c4eb23ed617073b5185557498d76"
+    },
+    "0.47.0": {
+      "id": "05z7c3reaqy8er5512zdaxdrtv",
+      "version": 1,
+      "source_sha256": "5ac7a964eadf6550360f8b0161138443c2719da5d41afaa6087c1f7647c0cb13"
     }
   }
 }
