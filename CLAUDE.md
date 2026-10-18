@@ -230,11 +230,11 @@ needs to reconstruct design rationale from this alone.
 
 Details and acceptance in [`docs/opus-brief.md`](docs/opus-brief.md), section "New from the session-49 Fable round".
 
-- [ ] **a.** Build the label `[[id | text]]` / `![[id | text]]` (#70, ROADMAP row 66); reply on blygger-spec#16 when shipped.
-- [ ] **b.** TK grammar strip (ROADMAP row 67).
-- [ ] **c.** Publish the day's roundup thread on `blyg.blygger.org` — Venkat's paragraph and the link list are in `docs/opus-brief.md` item c (the 0.4 announcement fragment `3jz4v4nrbxhpatwk7c6g0616w9` is already up; quote it).
-- [ ] **d.** Studio comments/docs citing moved 0.3 section numbers (§16.3, §16.6e).
-- [ ] **e.** blygger-com vendored resolver handles a templated (Soapbox-shaped) submission; `sync-vendor` if behind.
+- [x] **a.** *Done session 49: studio 0.47.0, spec#16 replied and closed.* Build the label `[[id | text]]` / `![[id | text]]` (#70, ROADMAP row 66); reply on blygger-spec#16 when shipped.
+- [x] **b.** *Done session 49: studio 0.47.0.* TK grammar strip (ROADMAP row 67).
+- [x] **c.** *Done session 49: `5tyvhh4ypc63edhtza4z2tgcpe`.* Publish the day's roundup thread on `blyg.blygger.org` — Venkat's paragraph and the link list are in `docs/opus-brief.md` item c (the 0.4 announcement fragment `3jz4v4nrbxhpatwk7c6g0616w9` is already up; quote it).
+- [x] **d.** *Done session 49: studio 0.47.0, 24 files.* Studio comments/docs citing moved 0.3 section numbers (§16.3, §16.6e).
+- [x] **e.** *Done session 49: it handled Soapbox's current shape; re-synced with the outbound policy, and the real gap fixed — the directory now hands out the manifest's feed (migration 0009, `e93bd0c`).* blygger-com vendored resolver handles a templated (Soapbox-shaped) submission; `sync-vendor` if behind.
 - [ ] **f.** Conformance toolkit clause analysis against `protocol-v0.4.md` once #11 merges.
 - [ ] **g.** When Soapbox reports `"0.4"`, re-run the census and note it.
 - [ ] **h.** Emit `changelog[].pinned_at` (ruled shape §16.9, #73) — the column exists; then a second client reads it and Fable promotes.
@@ -243,7 +243,7 @@ Details and acceptance in [`docs/opus-brief.md`](docs/opus-brief.md), section "N
 - [ ] **k.** Refuse a `stub_of` that names an L0 wrapper id; offer the `{url}` stub instead (#76). Walk the closure check through baked versions if it does not already (#76, F3).
 - [ ] **l.** Updates tab: a same-hash version goes to the *ignyr* queue by default (#77); agent refreshes land there by construction.
 - [ ] **m.** Optional: re-send a version's remote mentions on pin (#73, MAY).
-- [ ] **Check the blygger.org deploy of 2026-10-17 17:3x PT** — it built the tree with the parallel session's uncommitted `build.py`, `templates/page.html`, `content/glossary/`.
+- [x] *Checked session 49: what went live was intended, and it was committed and redeployed.* **Check the blygger.org deploy of 2026-10-17 17:3x PT** — it built the tree with the parallel session's uncommitted `build.py`, `templates/page.html`, `content/glossary/`.
 
 ### Left over from session 41 (2026-10-07)
 
