@@ -49,6 +49,62 @@ verb, no refresh-only scope; MCP = same operations and scopes, provenance record
 when it passes; flag to Venkat if it wants something outside them. `tn-4` is yours to
 draft from his build once gate G3 opens.
 
+## New from the session-49 Fable round (2026-10-17) — do these before the queue below
+
+Decisions #70–#72 (`CLAUDE.md`), reasoning `v0.4-plan.md` §11, text in `protocol-v0.4.md`
+(the living document since this round; `protocol-v0.3.md` is frozen). Venkat's rule for
+this list: whatever Opus can do more cheaply than a Fable round is Opus's. In order:
+
+- **a. The label — `[[id | text]]` and `![[id | text]]`** (#70, ROADMAP row 66, 0.4 §10.1;
+  Venkat is waiting on this). Grammar: id first (26 Crockford chars right after the
+  brackets), then optional `\s*\|` and a label running to `]]` — the label may contain a
+  pipe, so split on the *first* pipe after the id; trim; empty label = none; no escape.
+  Three regexes to extend, all built from `ID_ALPHABET`: `DIRECTIVE_LINE` in
+  `src/directives.ts` and `src/transclusion.ts` (and `RESERVED_LINE` stays as is),
+  `LINK_INLINE` in `src/transclusion.ts` and `src/fork-flatten.ts`. On a link the label
+  replaces `anchorText()`'s output in the bake (escaped); on a directive it is dropped
+  before resolution and never reaches the bake, `transclusions[]` or provenance. The
+  partial-transclusion adjacency rule is unchanged: the blockquote attaches to the
+  directive line whether or not it carries a label. Palette (`src/palette.ts`) and *copy
+  ID* emit the long form `[[id | <heading or excerpt>]]` — the same text `anchorText()`
+  would have chosen, so the author sees what they would get and can edit it. Fork
+  flattening (#63): the flattened markdown link keeps the baked anchor text, which is now
+  the label; the own-prose path must recognise the labelled form or it falls through to
+  the whole-HTML rebuild on every labelled link. Tests: grammar table (label with pipe,
+  label with `]]`-less brackets, empty label, whitespace variants, labelled directive +
+  attached blockquote, labelled form inside code is inert, #54), bake assertions for link
+  and directive, fork-flatten of a labelled link, palette output. `Migrations: none`.
+  **Reply on blygger-spec#16 when it ships** (Ned Twigg was told *copy ID* would emit it).
+- **b. TK grammar strip** (ROADMAP row 67; Fable confirmed the second option, §11.4): keep
+  generation from emitting `[[…]]`/`![[…]]` — say so in the prompt and strip any bracket
+  form that survives in the output before it is inserted, leaving the text. Generated
+  output stays non-grammar (studio#5, #60). Test with the live example on row 67.
+- **c. Announce 0.4 on `blyg.blygger.org`** (the official blyg carries releases and
+  spec news, #66): one fragment, human byline + whole-item `generated[]` span as the TK
+  pattern requires, linking `https://blygger.org/spec/0.4/` and the snapshot
+  `https://blygger.org/spec/0.4/2026-10-18/`, naming the two promotions and the label.
+  `publish_blyg.py` or the studio by hand; record the id in the devlog.
+- **d. Studio docs and strings that cite 0.3 section numbers that moved**: `grep -rn
+  "§16.3\|§16.6e\|16\.6e\|0\.3" src docs README.md CHANGELOG.md` — §16.3 is now §5.7
+  rules 8–9 and §15.4; §16.6e is §4/§6.1/§12/§15.4 step 2. Comments only; no behaviour
+  change. `PROTOCOL_VERSION` is already `"0.4"` (0.41.0).
+- **e. blygger-com's vendored resolver** (`npm run sync-vendor`, its `CLAUDE.md`): the
+  directory validates submissions with the resolver, and 0.4 makes `rel="blyg"` able to
+  point at a manifest directly and lets `feed`/`items` be authoritative. Check the vendored
+  copy handles a Soapbox-shaped submission (manifest under `/wp-json/…`, templated `item`),
+  and re-sync if the studio's resolver is ahead of it.
+- **f. Conformance toolkit against 0.4**: once blygger-spec#11 merges, re-run
+  `conformance/clauses/analyze.py` against `protocol-v0.4.md` and tell Aneesh the
+  section map (a, d above). The F13 keyword-less-sentence pass is still Opus's.
+- **g. Close the loop on blygger-spec#2**: Fable closes it at publication with a note to
+  Robert Peake to switch Soapbox's key to `"0.4"`. When his manifest reports `"0.4"`,
+  re-run the census (`sync_ecosystem.py`) and note it in the devlog.
+
+**Found by the deploy, not a task:** this round's `blygger-org/deploy.sh` run built the
+tree as it stood, which included the parallel Opus session's uncommitted `build.py`,
+`templates/page.html` and `content/glossary/`. Check that what went live is what that
+session intended, and commit or revert them.
+
 ## New from the session-38 Fable round (2026-10-06) — do these before the queue below
 
 Decisions #59–#64 (`CLAUDE.md`), reasoning `v0.4-plan.md` §10, text in the eighth revision

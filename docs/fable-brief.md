@@ -93,7 +93,7 @@ in each live client. Nothing here is pre-decided.
 - **The snapshot policy stands:** revisions land in the living text and are not
   snapshotted; a snapshot is cut at publication of a new version and thereafter as a
   deliberate act when a third party needs the text to hold still. 0.4's first snapshot
-  is `2026-10-17`.
+  is `2026-10-18` — the UTC date; it was cut on 2026-10-17 PT, at publication.
 - **Opening 0.5** needs a construct of #43's second kind built and exercised; none is
   ruled. The version ladder's "Grove" (`roadmap.md`) is RAG and presentation, and its one
   protocol deliverable, the CSS contract, is written. Do not open 0.5 for a revision.

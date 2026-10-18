@@ -218,6 +218,19 @@ needs to reconstruct design rationale from this alone.
 
 - [ ] **HTML ETags at the edge** — moved out of the session-start carry-overs, session 45 (Venkat: "a future housekeeping item, doesn't seem particularly worth it now"). Small gain: browsers revalidating a blyg HTML page get the full page instead of a 304. Feeds and item JSON, the surfaces clients poll, keep their ETags, and the edge cache (#41) already spares the Worker. Still true on all three hosts at 0.41.1 (checked session 45). **Recipe, by hand in the dashboard** (the registry token cannot edit rulesets): a Configuration Rule per zone, setting Email Obfuscation, Automatic HTTPS Rewrites and (if still listed) Server Side Excludes to Off — venkateshrao.com `(http.request.uri.path eq "/blyg" or starts_with(http.request.uri.path, "/blyg/"))`, blygger.org `(http.host eq "blyg.blygger.org")`, protocol-institute.org (PI account) `(http.host eq "blyg.protocol-institute.org")`. One zone at a time; verify an HTML `etag` and a 304 on `If-None-Match` after each. Session 43's diagnosis and risk review follow. (from studio#41, sessions 40–43): #41–#45 are all merged and live (0.34.1, 0.39.0). Left over: browsers never get the Worker's weak ETag on HTML. **Diagnosed session 43:** both readable zones (venkateshrao.com, blygger.org) have Email Obfuscation, Server-side Excludes and Automatic HTTPS Rewrites on, Cloudflare defaults that strip ETags from HTML. **Venkat approved the fix:** a Configuration Rule (`http_config_settings` phase, `set_config` with the three off) scoped to `/blyg/*` on venkateshrao.com, then the blyg.blygger.org host, then the PI host. Roll it out one host at a time and verify a 304 after each step. Risks reviewed: none of the blyg pages contains an email address or an `http://` subresource. **Blocked on credentials:** the registry `CLOUDFLARE_API_TOKEN` gets an authentication error on rulesets, and wrangler's OAuth has no rules scope. It needs a token with Zone → Config Rules: Edit on both accounts. Drop once all three hosts send ETags on HTML.
 
+### From the session-49 Fable round (2026-10-17) — Opus, in this order
+
+Details and acceptance in [`docs/opus-brief.md`](docs/opus-brief.md), section "New from the session-49 Fable round".
+
+- [ ] **a.** Build the label `[[id | text]]` / `![[id | text]]` (#70, ROADMAP row 66); reply on blygger-spec#16 when shipped.
+- [ ] **b.** TK grammar strip (ROADMAP row 67).
+- [ ] **c.** Announce spec 0.4 on `blyg.blygger.org` (record the id).
+- [ ] **d.** Studio comments/docs citing moved 0.3 section numbers (§16.3, §16.6e).
+- [ ] **e.** blygger-com vendored resolver handles a templated (Soapbox-shaped) submission; `sync-vendor` if behind.
+- [ ] **f.** Conformance toolkit clause analysis against `protocol-v0.4.md` once #11 merges.
+- [ ] **g.** When Soapbox reports `"0.4"`, re-run the census and note it.
+- [ ] **Check the blygger.org deploy of 2026-10-17 17:3x PT** — it built the tree with the parallel session's uncommitted `build.py`, `templates/page.html`, `content/glossary/`.
+
 ### Left over from session 41 (2026-10-07)
 
 - [x] **Check how our outbound mention sender handles a 429** — **confirmed session 43, no fix needed.** `drainOutbound` treats 429 as retryable (other 4xx are terminal) on the 15m → 1h → 4h → 12h → 24h schedule, so the first retry outlasts the 60 s pair cooldown; an hourly-cap 429 (`Retry-After: 3600`) may cost one extra attempt, with four left. `Retry-After` is ignored, a minor inefficiency. Pinned by a new test in `test/mentions.test.ts`.
