@@ -100,6 +100,33 @@ this list: whatever Opus can do more cheaply than a Fable round is Opus's. In or
   Robert Peake to switch Soapbox's key to `"0.4"`. When his manifest reports `"0.4"`,
   re-run the census (`sync_ecosystem.py`) and note it in the devlog.
 
+- **h. Emit `changelog[].pinned_at`** (#73; 0.4 §16.9, a ruled shape). The `versions`
+  table has stored `pinned_at` since migration 0002, so this is one line in the item
+  document and pin file emitters plus the importer keeping it on imported changelogs.
+  `Migrations: none`. Once a second client reads it (the pace-layered order over
+  subscriptions, ROADMAP row 69, is the natural reader), Opus promotes it into §5.2 and §8
+  under #58 and Fable reviews.
+- **i. Draft RFC-3, the pace-layered order** (#73), from
+  `blygger-studio/docs/pace-layered-feed.md` and `test/fixtures/feeds/*.json`, in the
+  shape of `docs/rfcs/rfc-1-*.md` and `rfc-2-*.md`: model, wire inputs, reference
+  constants (reference values, not normative), the fixtures as a conformance check,
+  `pinned_at` as the one wire fact it wants. Hand to Fable to edit before it publishes.
+- **j. Author-sized images** (#75; §16.10): markdown-it-attrs or a small post-processor —
+  `{width=N}`, `{width=N%}`, `{height=…}` after an image, nothing else; bake `width` and
+  `height` onto `<img>`; `placedIn` in `src/util.ts` must still match the media path; a
+  size picker (small / medium / full) on the inserted image; a `max-height` cap in the
+  theme today regardless. Reply on studio#37 when shipped.
+- **k. Refuse a `stub_of` that names an L0 wrapper id** (#76), offering the `{url}` stub
+  on the entry's link instead; one live stub does this. And confirm the closure check
+  walks baked versions (`transclusions[]` of the version named, from the local versions
+  table), not current documents (#76, F3) — add the Alloy 1a′ case as a test either way.
+- **l. The *ignyr* queue** (#77): in the updates tab, an imported version whose
+  `content_hash` equals the previous version's is a maintenance republish and goes to a
+  low-priority queue by default; show the count, never resurface it as new writing. Agent
+  refreshes land there by construction.
+- **m. Optional: re-send a version's remote mentions when it is pinned** (#73, MAY). Only
+  if cheap; nothing reads it yet.
+
 **Found by the deploy, not a task:** this round's `blygger-org/deploy.sh` run built the
 tree as it stood, which included the parallel Opus session's uncommitted `build.py`,
 `templates/page.html` and `content/glossary/`. Check that what went live is what that
