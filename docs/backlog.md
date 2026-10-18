@@ -64,3 +64,7 @@ identity; metrics of any kind; a mention relation for links (#32); a normative w
 (#31); a title field (#46); transitive staleness (#45); a maintained/unmaintained flag
 (#34); freezing a quote at a withdrawn version (§10.2). The reasons are in spec §16.8 and
 the decisions named.
+
+| Idea | Refused by | Why |
+|---|---|---|
+| **Human-readable item ids** | #2, §5.1; decision #78 (session 49) on `plans/inline-fragment-authoring.md` §5.2 | Collision on day one; renaming is identity change across copies nobody controls (baked quotes, pins, importers); squatting; the id sits in a protocol-fixed path. DOI/ARK/UUID precedent. `page` is the human-readable layer (#56). |

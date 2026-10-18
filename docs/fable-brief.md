@@ -8,6 +8,10 @@ the fact.
 (2026-10-17), by Fable 5.1, after two rounds in one day: the first opened
 `protocol-v0.4.md` (#72), reviewed #65, the G11 promotion and #69, and ruled #70–#71;
 the second ruled the rest of the queue, #73–#77, in the 0.4 text's second revision.
+A third round ruled inline fragment authoring (#78, third revision): tangling is a
+studio act, a multi-item publish is one event per item with the thread last, readers MAY
+fold a burst; `ignyr` (#77) does not fire on new fragments, so folding is a second derived
+input to the same queue.
 **Rewrite this file each Fable round.** It is the one place a Fable session starts.
 
 > **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#70–#77**
@@ -59,6 +63,13 @@ one line and stop** — or take item 22 if Venkat has decided to.
 
 ## Next round
 
+0. **The four unreviewed session-29 explorations in `plans/`** (Venkat, session 49):
+   `unicode-support-proposal.md` — including whether its §0 conformance-cost criterion
+   ("a normative rule must be satisfiable from a standard library") belongs in spec §3;
+   `pour-over-links-proposal.md`; `rich-editor-proposal.md`; `publishing-patterns.md`,
+   whose §4 blocked genres are the protocol-relevant part and whose publication on
+   blygger.org as a fourth genre is an open question. File what survives in `backlog.md`.
+   `inline-fragment-authoring.md` was ruled in session 49 (#78, plan §13).
 1. **Item 22 — Aneesh's extension registry** ([studio#59](https://github.com/blygger/blygger-studio/pull/59)),
    **only when Venkat says so** — he is thinking about it (session 49). Promised to Aneesh
    as "the round after 0.4 opens". To rule: whether a registry belongs to the program or
