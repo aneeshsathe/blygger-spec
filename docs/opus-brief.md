@@ -79,11 +79,31 @@ this list: whatever Opus can do more cheaply than a Fable round is Opus's. In or
   generation from emitting `[[…]]`/`![[…]]` — say so in the prompt and strip any bracket
   form that survives in the output before it is inserted, leaving the text. Generated
   output stays non-grammar (studio#5, #60). Test with the live example on row 67.
-- **c. Announce 0.4 on `blyg.blygger.org`** (the official blyg carries releases and
-  spec news, #66): one fragment, human byline + whole-item `generated[]` span as the TK
-  pattern requires, linking `https://blygger.org/spec/0.4/` and the snapshot
-  `https://blygger.org/spec/0.4/2026-10-18/`, naming the two promotions and the label.
-  `publish_blyg.py` or the studio by hand; record the id in the devlog.
+- **c. The day's roundup on `blyg.blygger.org`** (Venkat, session 49, end of day). The
+  0.4 announcement fragment is published (`3jz4v4nrbxhpatwk7c6g0616w9`, 18:16 PT), as are
+  the 0.46.3 and 0.47.0 release threads. **Still to publish: one thread rounding up the
+  whole day**, human byline + whole-item `generated[]` span as the TK pattern requires,
+  quoting the 0.4 fragment with a `![[3jz4v4nrbxhpatwk7c6g0616w9]]` directive. Venkat's
+  paragraph, to carry verbatim or lightly edited, with links added:
+
+  > Protocol 0.4 opened and was published with its first snapshot, then took two
+  > revisions the same evening. Nine decisions were recorded, #70 through #78: the
+  > `[[id | text]]` label, received conventions over taste, the 0.4 opening, the
+  > pace-layered RFC with `pinned_at`, `cid` on pins, image sizing, the conformance
+  > clarifications with member tables measured against all 22 live blygs, `ignyr` as a
+  > derived reader-side queue, and inline fragment authoring. Three pending Opus rulings
+  > were confirmed. Five GitHub threads were answered and one closed. The Fable queue went
+  > from seventeen items to one.
+
+  Facts to link from it: `https://blygger.org/spec/0.4/` and the snapshot
+  `/spec/0.4/2026-10-18/`; §17's three revision lines; decisions #70–#78 in
+  `CLAUDE.md` (link the GitHub blob); blygger-spec#2 (closed, Robert Peake to switch
+  Soapbox to `"0.4"`), #13 (`cid` ruled), #16 (label ruled); studio#20 (tangling), #37
+  (image size); the roadmap page for rows 13, 24, 39, 45, 46, 62, 66, 67; Studio 0.47.0
+  as the first client emitting the label. Write it for the ecosystem, not for us
+  (`VOICE.md`): what changed for someone running a blyg or writing a client, and what
+  is now a ruled shape they could build (`pinned_at`, `cid`, `{width=…}`). Record the
+  item id in the devlog and in `docs/blyg-published.json` if the publisher writes there.
 - **d. Studio docs and strings that cite 0.3 section numbers that moved**: `grep -rn
   "§16.3\|§16.6e\|16\.6e\|0\.3" src docs README.md CHANGELOG.md` — §16.3 is now §5.7
   rules 8–9 and §15.4; §16.6e is §4/§6.1/§12/§15.4 step 2. Comments only; no behaviour

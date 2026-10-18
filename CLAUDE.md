@@ -232,7 +232,7 @@ Details and acceptance in [`docs/opus-brief.md`](docs/opus-brief.md), section "N
 
 - [ ] **a.** Build the label `[[id | text]]` / `![[id | text]]` (#70, ROADMAP row 66); reply on blygger-spec#16 when shipped.
 - [ ] **b.** TK grammar strip (ROADMAP row 67).
-- [ ] **c.** Announce spec 0.4 on `blyg.blygger.org` (record the id).
+- [ ] **c.** Publish the day's roundup thread on `blyg.blygger.org` — Venkat's paragraph and the link list are in `docs/opus-brief.md` item c (the 0.4 announcement fragment `3jz4v4nrbxhpatwk7c6g0616w9` is already up; quote it).
 - [ ] **d.** Studio comments/docs citing moved 0.3 section numbers (§16.3, §16.6e).
 - [ ] **e.** blygger-com vendored resolver handles a templated (Soapbox-shaped) submission; `sync-vendor` if behind.
 - [ ] **f.** Conformance toolkit clause analysis against `protocol-v0.4.md` once #11 merges.
