@@ -92,7 +92,21 @@ deployed), reasoning in `v0.4-plan.md` §14. Letters continue CLAUDE.md's TODO l
   the snapshot and opens the stub composer; `{url}` stub with `cited` for the plain web;
   a Web Share Target in the manifest; a bookmarklet in Settings. Protocol §10.2 step 2
   already permits it. Do **not** add a "stub this" link to public pages — that half is an
-  RFC (row 81) and waits on Venkat.
+  RFC (row 81), item t.
+- **t. Draft RFC-4 — responding from anywhere** (#82, row 81; Venkat reassigned it from
+  Fable, session 50). Source: spec §16.11, plan §14.4, the session-50 devlog. What it has
+  to settle: how a "stub this" link on any blyg page reaches the reader's own studio with
+  no shared server — the received pattern is a registered `web+blyg:` handler
+  (`navigator.registerProtocolHandler`, which permits `web+` schemes) that the studio
+  registers on login, carrying the item's page URL; a Mastodon-style remote-interaction
+  dialog ("enter your studio address") as the fallback where no handler is registered;
+  what the deep link's query carries (the URL only — the studio resolves it; never an id,
+  never content); and what a page shows when it offers the affordance (not "respond",
+  per #27/#50 — `stub ↗` is the one word). Survey what Mastodon, Bluesky and the IndieWeb
+  web-actions effort did and why web actions failed. Write it in `docs/rfcs/` as RFC-1 and
+  RFC-2 are written, with reference constants where there are any. Hand to Fable to edit
+  and rule before it publishes on blyg.blygger.org with a comment period; do not add the
+  affordance to any page before then.
 
 ## New from the session-49 Fable round (2026-10-17) — do these before the queue below
 

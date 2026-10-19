@@ -23,7 +23,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 **Open threads:**
 - Deploy the fourth revision to blygger.org when Venkat says so (`blygger-org/deploy.sh`; snapshot date is UTC).
-- Item 23's RFC draft waits on Venkat's go; item 22 on his thinking.
+- Item 23's RFC (RFC-4, responding from anywhere) **reassigned to Opus to draft** at Venkat's word (Opus brief item t); Fable edits before it publishes. Item 22 waits on his thinking.
 - The four session-29 `plans/` explorations are still unreviewed (carry-over), as are pending-calls #10 and #13; RFC-1/RFC-2 close 2026-11-04.
 - Opus item s (stub from anywhere) needs a plan for the one-off snapshot store before any build.
 

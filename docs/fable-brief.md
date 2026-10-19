@@ -56,16 +56,13 @@ image size, L0 `stub_of` refusal, the *ignyr* queue) are implementation of ruled
 |---|---|---|
 | **G3** | Kyle's token auth has shipped under #52's four invariants (it has, 0.28) and **at least one third-party tool** authenticates with a scoped token | Review **`tn-4` — the write surface** (non-normative, #31), which Opus drafts from the build. |
 | **G5** | The reference agent (2.10) has run against a live node long enough to refresh a snapshot, answer a mention, and author under its own byline | Review `tn-5` for anything that wants a construct — the refresh scope on the re-bake identity (#38, backlog §1) is the candidate. |
+| **RFC-4 draft** | Opus has drafted RFC-4, responding from anywhere (#82; `opus-brief.md` item t) | Edit and rule it as RFC-3; publish on blyg.blygger.org with a comment period as RFC-1 and RFC-2 had |
 | **RFC-3 draft** | Opus has drafted RFC-3 (pace-layered order) from `blygger-studio/docs/pace-layered-feed.md` and the fixtures (`opus-brief.md` item i) | Edit and rule it as #67/#68 were; publish on blyg.blygger.org with a comment period. |
 
 If nothing is pending review and no gate is true when a Fable session opens, **say so in
 one line and stop** — or take item 22 if Venkat has decided to.
 
 ## Next round
-
-- **Item 23 — the RFC on responding from anywhere** (#82, session 50): draft only when
-  Venkat says go. `web+blyg:` handler, remote-interaction fallback, comment period on
-  blyg.blygger.org as RFC-1 and RFC-2 had. Queue file has the brief.
 
 0. **The four unreviewed session-29 explorations in `plans/`** (Venkat, session 49):
    `unicode-support-proposal.md` — including whether its §0 conformance-cost criterion
