@@ -88,3 +88,12 @@ stand as noted in session 38.
 
 - **Unicode on the wire** (blygger-spec#6), the standing question in the brief. Take it
   deliberately or when a cross-client hash disagreement appears.
+
+23. **An RFC on responding from anywhere** (session 50, 2026-10-19, decision #82). A
+    client-agnostic "stub this" affordance on blyg pages has to find a stranger's studio,
+    so it is a convention across clients and goes through an RFC with a comment period on
+    blyg.blygger.org, as RFC-1 and RFC-2 did. Received pattern to draft from: a registered
+    `web+blyg:` protocol handler (`navigator.registerProtocolHandler`), with a
+    Mastodon-style remote-interaction dialog as the fallback for a browser with no handler.
+    **Draft only when Venkat says go.** Spec §16.11; plan §14.4; ROADMAP row 81.
+

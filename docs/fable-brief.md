@@ -63,6 +63,10 @@ one line and stop** — or take item 22 if Venkat has decided to.
 
 ## Next round
 
+- **Item 23 — the RFC on responding from anywhere** (#82, session 50): draft only when
+  Venkat says go. `web+blyg:` handler, remote-interaction fallback, comment period on
+  blyg.blygger.org as RFC-1 and RFC-2 had. Queue file has the brief.
+
 0. **The four unreviewed session-29 explorations in `plans/`** (Venkat, session 49):
    `unicode-support-proposal.md` — including whether its §0 conformance-cost criterion
    ("a normative rule must be satisfiable from a standard library") belongs in spec §3;

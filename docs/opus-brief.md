@@ -49,6 +49,51 @@ verb, no refresh-only scope; MCP = same operations and scopes, provenance record
 when it passes; flag to Venkat if it wants something outside them. `tn-4` is yours to
 draft from his build once gate G3 opens.
 
+## New from the session-50 Fable round (2026-10-19) — do these before the queue below
+
+Decisions #79–#83, text in `protocol-v0.4.md` at its fourth revision (committed, not
+deployed), reasoning in `v0.4-plan.md` §14. Letters continue CLAUDE.md's TODO list.
+
+- **n. Drop the `ignyr` token rigging** (#83). No word in a changelog note has wire
+  meaning, and the studio must neither write one at readers nor parse one. If Venkat wants
+  the author-side lever now, build **held revisions**: an edit to a published item that the
+  author marks as not worth an event stays a visible pending draft until the next publish.
+  Zero protocol bytes.
+- **o. Disclosed links** (#79, row 77). At publish, each resolved `[[id]]` produces a
+  `links[]` entry `{id, origin?}` (origin only when remote; no version). Outbound: remote
+  entries join `remoteReferences()` in `mentions/send.ts` with `targetVersion: null`.
+  Inbound: `mentions/receive.ts` derives `link` after `source`, and stores the class.
+  Signals UI: notices (links, reposts) never appear in the responses list; a separate
+  "linked from / reposted by" section or filter, low priority. The markdown link
+  `[text](url)` stays silent and must not be scanned. *Acceptance:* a fragment with one
+  remote `[[id]]` publishes with `links[0].origin` set, the far node records a verified
+  `link` held apart from responses, and a markdown link to the same page produces nothing.
+- **p. Repost classification** (#80, row 78). After the relation is found, strip
+  directive lines, attached `>` selections, labels and whitespace from the fetched
+  `content_md`; empty means repost, class notice, relation unchanged. The repost action's
+  help text says the target sees a repost, not a response. *Acceptance:* a lone
+  `![[id]]` stub verifies as `stub` on the far side and lands with notices; add one
+  sentence and republish, and it moves to responses.
+- **q. `data-blyg-label`** (#81, row 79). Bake the directive's label as an attribute on
+  the `blyg-transclusion` blockquote (HTML-escaped, verbatim); the page renderer, the
+  imported-item renderer and `fork-flatten.ts` use it as the attribution anchor text when
+  present, host · v{n} otherwise. Never as the target's title anywhere. *Acceptance:* a
+  labelled directive bakes the attribute, the far node's reading view shows the label in
+  its attribution line, a fork of the thread flattens to `— quoted from [label](page)`.
+- **r. Near-sameness** (#83, row 82). In the importer, before overwriting a row, measure
+  the change between the held `content_md` and the new one; under the studio's threshold,
+  route to ignyr exactly as same-hash does. Threshold in the studio docs, small, never on
+  the wire or in the API. *Acceptance:* a one-character typo fix on the far node arrives
+  in ignyr; a rewritten paragraph arrives as new.
+- **s. Stub from anywhere** (#82, row 80). Plan first, build after Venkat sees the plan:
+  a one-off snapshot store (`imported_items` is keyed on `subscription_id`; nothing polls
+  one-offs, so retention is yours to design), a deep link that takes a URL, resolves it
+  (`importer/resolve.ts` for the origin, the page's JSON alternate for the item), stores
+  the snapshot and opens the stub composer; `{url}` stub with `cited` for the plain web;
+  a Web Share Target in the manifest; a bookmarklet in Settings. Protocol §10.2 step 2
+  already permits it. Do **not** add a "stub this" link to public pages — that half is an
+  RFC (row 81) and waits on Venkat.
+
 ## New from the session-49 Fable round (2026-10-17) — do these before the queue below
 
 Decisions #70–#72 (`CLAUDE.md`), reasoning `v0.4-plan.md` §11, text in `protocol-v0.4.md`
