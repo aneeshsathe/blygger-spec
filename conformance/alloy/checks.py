@@ -376,8 +376,9 @@ CHECKS = [
         fable=("§15.4 step 2 compares the document's origin with the source URL's (scheme, host, port), but identity origins are full base URLs "
                "with paths (§4, #14) and §12.2 identity is \"the URL the manifest was fetched from, minus blyg.json\". Co-hosted path-mounted "
                "blygs (#36's group shape) can impersonate each other's mentions (7). Fix that the model confirms (7c): the source URL must lie "
-               "inside the claimed origin — a path-prefix match on the full origin, not a host match. §15.3's target check has the same "
-               "scheme/host/port shape and should be read the same way."),
+               "inside the claimed origin — a path-prefix match on the full origin, not a host match. §15.3's target check had the same "
+               "scheme/host/port shape, but the target side was ruled membership, not location, in decision #84 (2026-10-20): "
+               "the target must resolve, by the receiver's own published data, to one of its items."),
     ),
     dict(
         model="mentions", cmd="ImpostorFails_OneOriginPerHost",
