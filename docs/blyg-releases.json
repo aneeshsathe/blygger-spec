@@ -85,6 +85,11 @@
       "id": "05z7c3reaqy8er5512zdaxdrtv",
       "version": 1,
       "source_sha256": "5ac7a964eadf6550360f8b0161138443c2719da5d41afaa6087c1f7647c0cb13"
+    },
+    "0.48.0": {
+      "id": "4cgay6a77zfyzdbqjbktsbqpq8",
+      "version": 1,
+      "source_sha256": "4aa6bebcad628f7c6d0708be4c7a4133ce2e75b52573e856c32964243a78bb8c"
     }
   }
 }
