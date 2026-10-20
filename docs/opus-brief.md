@@ -49,6 +49,33 @@ verb, no refresh-only scope; MCP = same operations and scopes, provenance record
 when it passes; flag to Venkat if it wants something outside them. `tn-4` is yours to
 draft from his build once gate G3 opens.
 
+## New from session 52 (2026-10-20) — one small item, do it with the next studio release
+
+Decision #84 on [blygger-spec#17](https://github.com/blygger/blygger-spec/issues/17)
+(Robert Peake): §15.3 step 1 now says a mention target MUST resolve, by the receiver's own
+published data, to one of its items — its `page`, its item document or a pinned version's
+document or page — and that location is not the test. Text in `protocol-v0.4.md` at its
+fifth revision (committed; deploy when Venkat says), reasoning in `v0.4-plan.md` §15.
+
+- **u. Mention targets by membership** (#84, ROADMAP row 88). In
+  `src/mentions/receive.ts`, `targetItemId` accepts `f/{id}/`, `t/{id}/` and
+  `items/{id}.json` under the mount; add the pinned-version document
+  (`items/{id}/v{n}.json`) and, if the studio serves §8.4 pinned pages, that page shape
+  (`f/{id}/v{n}/`, `t/{id}/v{n}/`), each resolving to the item id — the mention is
+  recorded against the item, never a version. Rewrite the comment above the prefix check:
+  it cites §15.3 step 1 as "the target lies within our full origin", which is no longer
+  what the clause says; the prefix check is this client's membership test only because the
+  studio never relocates its surface or emits an absolute `page`, and a client that does
+  either must resolve against its own `page`, `item` and `pin` values instead. In
+  `blygger-spec/conformance/alloy/checks.py`, the `fable` text of check 7 says §15.3's
+  target check "has the same scheme/host/port shape and should be read the same way" —
+  amend it to say the target side was ruled membership, not location (#84). C-15.3-01
+  re-extracts at the next clause build (item f). *Acceptance:* a Webmention naming
+  `{origin}items/{id}/v1.json` for a pinned own item is 202 and verifies against the item;
+  one naming an unpinned `v3` or an unknown id is 400; one naming another blyg's page is
+  400; `test/mentions.test.ts` pins all three. Reply on #17 when the revision is live
+  (version, commit, behaviour change) and close it.
+
 ## New from the session-50 Fable round (2026-10-19) — do these before the queue below
 
 Decisions #79–#83, text in `protocol-v0.4.md` at its fourth revision (committed, not

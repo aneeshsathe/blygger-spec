@@ -7,6 +7,20 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 52 — 2026-10-20 — Fable ruling: a mention target is known by membership, not location (#84, blygger-spec#17)
+**Model:** Opus 5.5 for startup, Fable 5.1 from the ruling · **Time:** 13:22 CDT– · **Committed:** pending · **Deployed:** no — the 0.4 text is at its fifth revision locally; blygger.org serves the fourth.
+
+**What & why:**
+- **Startup found one new item:** blygger-spec#17 by Robert Peake (cyberscribe, Soapbox), opened this morning. §15.3 step 1 said a Webmention target "MUST lie within this blyg's own origin — the full base URL, not merely its host"; on his templated blyg the pages are WordPress permalinks at the site root and the item documents are under `/wp-json/`, so a literal reading rejects every target the clause itself names. Venkat switched to Fable and said "rule on Robert Peake's issue".
+- **#84, accepted with his wording as the basis.** The "full base URL" language came from the session-38 conformance round: Alloy check 7 fixed §15.4 step 2's *source* check (#61) and its note said the target check "should be read the same way". The analogy was wrong because the two checks answer different questions — a stranger's document is known only by where it was served (location is the only authority; #61 stands), while the receiver's own items are its own data (membership is the authority; location was a proxy that §5.8's absolute `page` and §6.1's relocated surface broke). Ruled: the target MUST resolve, by the receiver's own published data, to one of its items — `page`, item document, or a pinned version's document or page — and location is not the test. Two calls inside it: **no host test** (a CMS may put permalinks on another host; a host test adds nothing membership does not give) and **pinned-version addresses are valid targets** (a third-party sender may name the pin it forked; the mention is recorded against the item). The second is the revision's one receiver change: the studio's `targetItemId` accepts only `f/`, `t/`, `items/{id}.json` under its mount today, and its comment cites the old clause. Grade: a revision by #43, no wire change, fifth revision of 0.4, not snapshotted.
+- **Recorded in:** spec (§15.3 step 1, §17 entry), plan §15, CLAUDE.md #84 with a back-note on #61, doc map, TODO item u, `opus-brief.md` session-52 section with acceptance, ROADMAP row 88, `fable-brief.md`.
+
+**State after:** `protocol-v0.4.md` at its fifth revision, committed, not deployed. #17 open, reply drafted for Venkat's go. Studio pin branch and the Alloy note are Opus item u.
+
+**Open threads:**
+- Deploy the fifth revision to blygger.org when Venkat says so; the ROADMAP row rides the same deploy. Reply on #17 (draft shown in chat) and add the `roadmap` label; close it once the revision is live.
+- Startup findings not yet acted on: two uncurated repos in the census (`ananthsridhar281/blygger-reference-client`, `ksurya/blyggerpress`); the census marks Blynger 0.12.0, blyg-publisher 0.3.2 and hugo-blyg 0.3.2 as "behind" releases they are newer than — either those projects stopped cutting GitHub releases or the comparison is wrong; the session-51 paper draft awaits Venkat's review; `blygger-org/ecosystem/cache.json` is dirty from the census.
+
 ## Session 51 — 2026-10-19 — Paper draft: "Blygger: A New Publishing Medium"
 **Model:** Opus 5.5 · **Time:** ~19:55–20:20 PT · **Committed:** yes (org, spec) · **Deployed:** no
 

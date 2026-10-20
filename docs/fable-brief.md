@@ -22,6 +22,11 @@ input to the same queue.
 > [`fable-round-queue.md`](fable-round-queue.md) (**item 22 only**) →
 > [`backlog.md`](backlog.md) → [`opus-brief.md`](opus-brief.md) § session 49.
 
+**Session 52 (2026-10-20), one ruling outside a round:** #84 on blygger-spec#17 — a
+mention target is known by **membership** (resolves, by the receiver's own data, to its
+`page`, item document or a pinned version's address), not by location; #61's source-side
+location test is unchanged. Plan §15; fifth revision of 0.4. Do not reopen.
+
 ## What session 49 settled, so it is not reopened
 
 **0.4 is the living text**: remote generation sources (§5.7, `source` in §15.4) and the
