@@ -74,7 +74,23 @@ fifth revision (committed; deploy when Venkat says), reasoning in `v0.4-plan.md`
   `{origin}items/{id}/v1.json` for a pinned own item is 202 and verifies against the item;
   one naming an unpinned `v3` or an unknown id is 400; one naming another blyg's page is
   400; `test/mentions.test.ts` pins all three. Reply on #17 when the revision is live
-  (version, commit, behaviour change) and close it.
+  (version, commit, behaviour change) and close it. *Built session 52: studio 0.48.1.*
+- **v. Sender fallback target is the item document** (#85, ROADMAP row 88; Robert Peake's
+  follow-up on #17). `remotePermalink` in `src/mentions/send.ts` builds `f/{id}/` or
+  `t/{id}/` via `blygItemUrl` when it lacks `page`, assuming "fragment" when the kind is
+  unknown — which a 0.48.1 receiver now refuses for a thread, and which Soapbox refuses
+  always. Spec §15.2 (sixth revision): `page` when held, else the target's item document
+  through the target origin's `item` template (default `items/{id}.json`); never the
+  convention. The studio holds a subscription's manifest (check where `item` templates are
+  stored for the importer — `resolve.ts`/`subscriptions`); for a target with no stored
+  manifest, fetch `{origin}blyg.json` once (endpoint discovery does this anyway) and
+  default when absent. Receiver unchanged. *Acceptance:* a mention to an imported item with
+  `page` still targets the page; one to an item whose import has no `page` targets
+  `{origin}items/{id}.json` (or the templated address when the origin's manifest has
+  `item`); no code path emits `f/`/`t/` for a target without `page`;
+  `test/mention-delivery.oracle.test.ts` or `mentions.test.ts` pins both. Release as
+  0.48.2 (no migration) and deploy with 0.48.1 in one `deploy:all`; then close #17 naming
+  both versions.
 
 ## New from the session-50 Fable round (2026-10-19) — do these before the queue below
 

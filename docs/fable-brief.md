@@ -25,7 +25,11 @@ input to the same queue.
 **Session 52 (2026-10-20), one ruling outside a round:** #84 on blygger-spec#17 — a
 mention target is known by **membership** (resolves, by the receiver's own data, to its
 `page`, item document or a pinned version's address), not by location; #61's source-side
-location test is unchanged. Plan §15; fifth revision of 0.4. Do not reopen.
+location test is unchanged. Plan §15; fifth revision of 0.4. **#85**, the same afternoon
+on Robert's follow-up: a sender without the target's `page` names the item document
+through the target's `item` template, never the permalink convention (§4 called those
+paths presentation all along; a page-less blyg has nothing to guess). Plan §15.1; sixth
+revision. Do not reopen either.
 
 ## What session 49 settled, so it is not reopened
 
