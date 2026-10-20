@@ -7,6 +7,18 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 51 — 2026-10-19 — Paper draft: "Blygger: A New Publishing Medium"
+**Model:** Opus 5.5 · **Time:** ~19:55–20:20 PT · **Committed:** yes (org, spec) · **Deployed:** no
+
+**What & why:**
+- **Venkat asked for a quick-and-dirty draft paper** for a general scholarly audience, in his voice, ~3000–4000 words, Google-Docs-uploadable. Synthesized from the 2026-09-24 symposium talk (`blygger-org/talks/2026-09-24-blygger/talk.md`, cues included) and the front page's For Publishers / For Developers tabs (`content/home.md`), with a little from `content/start/`.
+- **Output:** `blygger-org/drafts/paper/blygger-paper-draft.md` (source) and `.docx` (pandoc). Eight sections: two kinds of time, how it feels (pins, transclusion, stubs, pace layers, thicket), AI at the block level, the wire, the refusals, method and status, conclusion. First pass ran ~5150 words; trimmed to ~4100 including headings, table and references. `drafts/` is not built, so nothing publishes.
+
+**State after:** draft committed alongside `drafts/front-page/`. Not reviewed by Venkat yet.
+
+**Open threads:**
+- Section 7's ecosystem claims come from site copy, not a live census; the reference list is a stub (Aneesh Sathe's "thicket" source and the Protocolized essay need citations); "Saussure" for synchronic/diachronic is an addition, not from the sources.
+
 ## Session 50 (parallel, Opus) — 2026-10-19 — Studio 0.48.0: nine contributor PRs merged; own items stubbable from the feed; local mentions on public pages; spec 0.4 fourth revision deployed; the day's roundup
 **Model:** Opus 5.5 · **Time:** ~10:28–19:55 PT (a long pause mid-afternoon for a wifi and location change) · **Committed:** yes (studio, spec, org) · **Deployed:** blygger-studio 0.48.0 to all three nodes, migrations 0028/0030/0031/0032 applied to each first; blygger.org (the fourth revision of 0.4, roadmap, census). Released v0.48.0 (Latest), after one rerun of `main`'s Check for a flaky mobile e2e. Published on blyg.blygger.org: the 0.48.0 release thread `4cgay6a77zfyzdbqjbktsbqpq8` and the day's roundup `65a9077fxh201phgbgeevdckv0` (quotes the release thread; covers #79–#83 and 0.48.0). Ran beside the Fable round below.
 
