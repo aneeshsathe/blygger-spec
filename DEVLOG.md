@@ -8,7 +8,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > `ygg` because that was the name at the time.
 
 ## Session 52 — 2026-10-20 — Fable ruling: a mention target is known by membership, not location (#84, blygger-spec#17)
-**Model:** Opus 5.5 for startup, Fable 5.1 for the ruling, Opus 5.5 for the release · **Time:** 13:22–17:48, 21:43–22:00 CDT · **Committed:** yes (spec, studio) · **Deployed:** blygger.org (fifth and sixth revisions, ROADMAP); studio 0.48.2 to all three nodes after the wifi move (`deploy:vgr`, `deploy:pi`, blyggerOrg; no migration).
+**Model:** Opus 5.5 for startup, Fable 5.1 for the ruling, Opus 5.5 for the release · **Time:** 13:22–17:48, 21:43–22:36 CDT · **Committed:** yes (spec, studio) · **Deployed:** blygger.org (fifth and sixth revisions, ROADMAP); studio 0.48.2 to all three nodes after the wifi move (`deploy:vgr`, `deploy:pi`, blyggerOrg; no migration).
 
 **What & why:**
 - **Startup found one new item:** blygger-spec#17 by Robert Peake (cyberscribe, Soapbox), opened this morning. §15.3 step 1 said a Webmention target "MUST lie within this blyg's own origin — the full base URL, not merely its host"; on his templated blyg the pages are WordPress permalinks at the site root and the item documents are under `/wp-json/`, so a literal reading rejects every target the clause itself names. Venkat switched to Fable and said "rule on Robert Peake's issue".
