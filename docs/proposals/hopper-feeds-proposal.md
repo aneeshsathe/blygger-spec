@@ -8,6 +8,12 @@ adds per-hopper feeds next to it.
 **Reference build:** a draft PR on blygger/blygger-studio (from the blygger-studio-61
 session) implements the shapes below so the ruling can be checked against running code.
 If the ruling changes a shape, the build changes to match.
+**Spec text:** this PR also carries the proposed normative text in
+`protocol-v0.4.md`, marked PROPOSED in §17 and not in force: *hopper* in §2, a §4 row,
+the `hoppers` key in §6.1, §12.1 step 7 (hopper match), hopper-subscription identity in
+§12.2, the §13.5 exception and a new §13.5a (hopper feeds). It takes the recommended
+answer to every question below. Fable may rule a different answer and edit the text,
+or refuse it, before merge.
 **Touches:** #12 (curation display, never re-emitted), #13 (discovery), #17
 (resolution), #43 (version boundary), #85 (no permalink construction); spec §6.1, §7,
 §12.1, §13.5, §13.6.
@@ -47,9 +53,14 @@ Today a public hopper is HTML only (#12, §13.5), so the bridge has nothing to p
    frozen, because the studio's `slug_frozen` latch is set once a hopper goes public.
    Entries are ordered newest-added first, and `pubDate` is the time the item was
    added to the hopper, not the item's own publication time.
-5. **Subscribing:** a reader that subscribes to a hopper feed gets an L0 subscription
-   (§13.6). Each entry's `<link>` points at the origin, so a blyg-aware reader can
-   resolve the origin item itself.
+5. **Subscribing: a public hopper's feed can be subscribed to.** Resolution
+   recognises it through the manifest (question (b), option 1). The subscription
+   imports entries as L0 rows (§13.6). Each entry's `<link>` points at the origin, so
+   a blyg-aware reader can resolve the origin item itself.
+6. **The feed is the whole list, not a window**, and a subscriber drops entries that
+   disappear. Plain L0 feeds have no withdrawal, so without this a subscriber would
+   keep excerpts of items the source has withdrawn, which §13.4 forbids for displayed
+   copies.
 
 ## 3. Questions for Fable
 
@@ -136,10 +147,11 @@ origin.
 
 ## 4. What the reference build will do meanwhile
 
-The studio draft PR builds items 1–4 as above (with own items in curation shape, per
-(a)), plus the manifest key, behind a setting that is off by default until the ruling.
-It does **not** special-case resolution for the bridge. Bypassing §12 for one feed URL
-would be a non-conforming subscribe, so the bridge's subscribe path waits for (b).
+The studio draft PR builds the publish side (items 1–4 and 6, with own items in
+curation shape per (a)) plus the manifest key, behind a setting that is off by default
+until the ruling. The subscribe side (§12.1 step 7, §13.5a rules 5–7) may be built
+against the proposed text in the same draft. It must not bypass §12 for a single URL,
+because that would be a non-conforming subscribe.
 
 ## 5. If refused
 

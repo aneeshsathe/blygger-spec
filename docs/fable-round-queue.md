@@ -53,7 +53,10 @@ Items 6–8, 10–11, 13, 15–21 are ruled; numbers kept so references resolve.
     reading of #12 and of §13.5's "no manifest vocabulary" (3), and resolution (§12.1)
     cannot reach a hopper feed today, because step 5 finds the blyg's own manifest first,
     so subscribing to one is a reader change (1). A draft studio PR builds the proposed
-    shapes, off by default, so the ruling can be checked against code.
+    shapes, off by default, so the ruling can be checked against code. The proposal PR
+    also carries proposed text in `protocol-v0.4.md` (§2, §4, §6.1, §12.1 step 7,
+    §12.2, §13.5, new §13.5a), marked PROPOSED in §17. Rule, edit or refuse before
+    merging.
 15. *Ruled session 49 (#73): RFC-3 with reference constants; `pinned_at` a ruled shape in §16.9.*
 16. *Ruled session 49 (#73): a pin MAY re-send its mentions (§15.2).*
 17. *Ruled session 49 (#70).*
